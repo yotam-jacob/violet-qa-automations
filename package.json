@@ -1,0 +1,17 @@
+{
+  "name": "exactius-cypress-tests",
+  "version": "1.0.0",
+  "main": "index.js",
+  "scripts": {
+    "test": "cypress run"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "description": "",
+  "devDependencies": {
+    "browserstack-cypress-cli": "^1.32.7",
+    "cypress": "^14.2.1",
+    "cypress-real-events": "^1.14.0"
+  }
+}

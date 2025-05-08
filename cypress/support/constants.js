@@ -1,0 +1,1 @@
+export const AUTOMATION_VIEW_NAME = "Automation Test View";
