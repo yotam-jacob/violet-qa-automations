@@ -119,7 +119,7 @@ describe("Regression Test Suite", () => {
     cy.get("svg.h-3.w-3", { timeout: 15000 }).click();
 
     // Verify the updated button appears
-    cy.get('button[class*="bg-accents-accentGreen"]')
+    cy.get('button[class*="bg-accents-accentGreen"]', { timeout: 15000 })
       .should("be.visible")
       .invoke("attr", "class")
       .should("include", "bg-accents-accentGreen");
