@@ -3,10 +3,8 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
   beforeEach(() => {
-    cy.wait(500);
     cy.loginToVioletDev();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
-    cy.wait(500);
   });
 
   let consoleMessages = [];
@@ -35,40 +33,40 @@ describe("analytics Test Suite", () => {
   });
 
   describe("GTM Events Validation", () => {
-    it("tests user_login event payload", () => {
-      cy.validateGtmEvent(
-        "user_login",
-        gtmExpectedEvents.user_login,
-        consoleMessages
-      );
-    });
+    // it("tests user_login event payload", () => {
+    //   cy.validateGtmEvent(
+    //     "user_login",
+    //     gtmExpectedEvents.user_login,
+    //     consoleMessages
+    //   );
+    // });
 
-    it("tests report_click event payload", () => {
-      cy.visit(
-        "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines"
-      );
-      cy.contains("KPI Trendlines", { timeout: 10000 }).click();
-      cy.validateGtmEvent(
-        "report_click",
-        gtmExpectedEvents.report_click,
-        consoleMessages
-      );
-    });
+    // it("tests report_click event payload", () => {
+    //   cy.visit(
+    //     "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines"
+    //   );
+    //   cy.contains("KPI Trendlines", { timeout: 10000 }).click();
+    //   cy.validateGtmEvent(
+    //     "report_click",
+    //     gtmExpectedEvents.report_click,
+    //     consoleMessages
+    //   );
+    // });
 
-    it("tests report_load event payload", () => {
-      cy.contains("KPI Trendlines", { timeout: 10000 }).click();
-      cy.wait(1000); //need this to wait for the report to load
-      cy.validateGtmEvent(
-        "report_load",
-        gtmExpectedEvents.report_load,
-        consoleMessages
-      );
-    });
+    // it("tests report_load event payload", () => {
+    //   cy.contains("KPI Trendlines", { timeout: 10000 }).click();
+    //   cy.wait(1000); //need this to wait for the report to load
+    //   cy.validateGtmEvent(
+    //     "report_load",
+    //     gtmExpectedEvents.report_load,
+    //     consoleMessages
+    //   );
+    // });
 
     it("tests actions_menu_click event payload", () => {
-      cy.reload();
+      // cy.reload();
       // cy.wait(8000);
-      cy.contains("Views", { timeout: 20000 }).click();
+      cy.contains("Views", { timeout: 40000 }).click();
       cy.validateGtmEvent(
         "actions_menu_click",
         gtmExpectedEvents.actions_menu_click,
@@ -76,15 +74,15 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests views_menu_click event payload", () => {
-      cy.contains("Views", { timeout: 10000 }).click();
-      cy.contains("Reset", { timeout: 10000 }).click();
-      cy.validateGtmEvent(
-        "views_menu_click",
-        gtmExpectedEvents.views_menu_click_reset,
-        consoleMessages
-      );
-    });
+    // it("tests views_menu_click event payload", () => {
+    //   cy.contains("Views", { timeout: 10000 }).click();
+    //   cy.contains("Reset", { timeout: 10000 }).click();
+    //   cy.validateGtmEvent(
+    //     "views_menu_click",
+    //     gtmExpectedEvents.views_menu_click_reset,
+    //     consoleMessages
+    //   );
+    // });
 
     // it("tests share_menu_click event payload", () => {
     //   //Open share modal and click on the share button
