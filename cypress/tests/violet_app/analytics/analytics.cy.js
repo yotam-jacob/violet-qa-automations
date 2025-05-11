@@ -3,8 +3,10 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
   beforeEach(() => {
+    cy.wait(500);
     cy.loginToVioletDev();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
+    cy.wait(500);
   });
 
   let consoleMessages = [];
