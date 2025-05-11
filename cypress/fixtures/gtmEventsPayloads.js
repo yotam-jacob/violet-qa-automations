@@ -220,7 +220,6 @@ export const gtmExpectedEvents = {
     report: "Insights",
     title_1:
       "the Midwest region -> the East operations_region -> the Illinois state -> the Non Paid-Digital channel",
-    thumb_state: "UP",
     tag_1: "Channel:Non Paid-Digital",
     tag_2: "State:Illinois",
     thumb_edited: "TRUE",
