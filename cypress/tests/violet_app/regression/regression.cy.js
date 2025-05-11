@@ -116,7 +116,9 @@ describe("Regression Test Suite", () => {
         });
       });
 
-    cy.get("svg.h-3.w-3", { timeout: 15000 }).click();
+    // cy.get("svg.h-3.w-3", { timeout: 15000 }).click();
+
+    cy.get("button").first().should("have.class", "bg-purple-500").click();
 
     // Verify the updated button appears
     cy.get('button[class*="bg-accents-accentGreen"]', { timeout: 15000 })
