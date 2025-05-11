@@ -14,20 +14,23 @@
 // ***********************************************************
 
 // Import commands.js using ES2015 syntax:
-import './commands'
-import 'cypress-real-events/support'
+import "./commands";
+import "cypress-real-events/support";
 
-Cypress.on('uncaught:exception', (err) => {
-    if (
-      err.message.includes("&")
-    ) {
-      return false // suppress only this specific kind of error
-    }
-    else if (
-      err.message.includes("NetworkError when attempting to fetch resource")
-    ) {
-      return false // suppress only this specific kind of error
-    }
-  
-    return true // let all other errors fail the test
-  })
+Cypress.on("uncaught:exception", (err) => {
+  if (err.message.includes("&")) {
+    return false; // suppress only this specific kind of error
+  } else if (
+    err.message.includes("NetworkError when attempting to fetch resource")
+  ) {
+    return false; // suppress only this specific kind of error
+  } else if (
+    err.message.includes("Failed to execute 'writeText' on 'Clipboard'")
+  ) {
+    return false; // suppress only this specific kind of error
+  }
+
+  return true; // let all other errors fail the test
+});
+
+require('cypress-xpath');

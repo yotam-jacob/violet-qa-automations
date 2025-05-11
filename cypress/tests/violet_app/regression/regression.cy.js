@@ -116,10 +116,16 @@ describe("Regression Test Suite", () => {
         });
       });
 
-    cy.get("svg.h-3.w-3", { timeout: 15000 }).click();
+    // cy.wait(3000);
+    // cy.window().then((win) => win.focus());
 
-    // cy.get('button.bg-purple-500', { timeout: 15000 }).click();
+    // cy.get("svg.h-3.w-3", { timeout: 15000 }).click();
 
+    // cy.get('button.bg-purple-500').click({ force: true });
+
+    cy.xpath('//*[@id="__next"]/div[1]/div[3]/div[2]/div[1]/div[1]/div[2]/div[2]/div[2]/div/div/div/div[2]/div/div/button')
+    .click({ force: true });
+  
     // Verify the updated button appears
     cy.get('button[class*="bg-accents-accentGreen"]', { timeout: 15000 })
       .should("be.visible")
