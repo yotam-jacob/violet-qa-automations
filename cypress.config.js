@@ -23,7 +23,8 @@ module.exports = defineConfig({
     },
     baseUrl: 'https://dev.violetgrowth.com',
     specPattern: 'cypress/tests/violet_app/**/*.js',
-    viewportWidth: 1920,
-    viewportHeight: 1080,  
+    screenshotOnRunFailure: true,
+    viewportWidth: 1280,
+    viewportHeight: 800
   },
 });
