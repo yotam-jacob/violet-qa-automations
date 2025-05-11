@@ -259,11 +259,14 @@ describe("analytics Test Suite", () => {
 
       //Verify the view is renamed
       cy.contains("Views", { timeout: 10000 }).click();
-
+      Cypress.wait(1000);
       //Hover over the view and click the 3-dots menu
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      Cypress.wait(1000);
 
       cy.clickVisibleThreeDots();
+      Cypress.wait(1000);
+
       cy.clickOnDeleteViewAndVerify();
 
       cy.validateGtmEvent(
