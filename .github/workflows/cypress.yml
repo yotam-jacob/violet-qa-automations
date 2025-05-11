@@ -22,9 +22,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress tests
-        # run: npx cypress run --browser chrome
+      - name: Run Cypress analytics tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
+
+      - name: Run Cypress features tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/features/features.cy.js"
 
       - name: Upload videos
         if: failure()
