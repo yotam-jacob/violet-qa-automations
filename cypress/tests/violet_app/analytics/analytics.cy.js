@@ -34,6 +34,7 @@ describe("analytics Test Suite", () => {
 
   describe("GTM Events Validation", () => {
     it("tests user_login event payload", () => {
+      cy.wait(1000);
       cy.validateGtmEvent(
         "user_login",
         gtmExpectedEvents.user_login,
