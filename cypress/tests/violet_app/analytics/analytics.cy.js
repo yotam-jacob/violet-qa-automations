@@ -260,11 +260,14 @@ describe("analytics Test Suite", () => {
       //Verify the view is renamed
       cy.contains("Views", { timeout: 10000 }).click();
 
-      //Delete the view
-      cy.contains(
-        "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
-        AUTOMATION_VIEW_NAME
-      ).realHover();
+      // //Delete the view
+      // cy.contains(
+      //   "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
+      //   AUTOMATION_VIEW_NAME
+      // ).realHover();
+
+      //Hover over the view and click the 3-dots menu
+      cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
       cy.clickVisibleThreeDots();
       cy.clickOnDeleteViewAndVerify();
