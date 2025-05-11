@@ -8,7 +8,7 @@ module.exports = defineConfig({
     },
   },
 
-  video: false,
+  video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   
