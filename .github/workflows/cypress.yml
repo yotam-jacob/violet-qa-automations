@@ -24,3 +24,17 @@ jobs:
 
       - name: Run Cypress tests
         run: npx cypress run --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
+
+      - name: Upload videos
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-videos
+          path: cypress/videos
+
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v3
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
