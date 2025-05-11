@@ -22,30 +22,22 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-        #pass
       - name: Run Cypress analytics tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
-        #pass
       - name: Run Cypress features tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/features/features.cy.js"
-        #pass
       - name: Run Cypress errors tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/errors.cy.js"
-        #pass
       - name: Run Cypress regression tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression.cy.js"
-
-      # - name: Run Cypress regression-windows tests
-      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression-windows.cy.js"
-
-      # - name: Run Cypress security tests
-      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/security.cy.js"
-
-      # - name: Run Cypress sanity tests
-      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-
-      # - name: Run Cypress sanity-windows tests
-      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity-windows.cy.js"
+      - name: Run Cypress regression-windows tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression-windows.cy.js"
+      - name: Run Cypress security tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/security.cy.js"
+      - name: Run Cypress sanity tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
+      - name: Run Cypress sanity-windows tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity-windows.cy.js"
 
       - name: Upload videos
         if: failure()
