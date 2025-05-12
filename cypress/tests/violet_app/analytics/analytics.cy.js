@@ -187,8 +187,10 @@ describe("analytics Test Suite", () => {
       //Verify the view is renamed
       cy.contains("Views", { timeout: 10000 }).click();
 
+      cy.wait(1000);
       //Delete the view
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(1000);
 
       cy.clickVisibleThreeDots();
       cy.clickOnDeleteViewAndVerify();
