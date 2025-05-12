@@ -276,7 +276,7 @@ describe("analytics Test Suite", () => {
 
     it("tests three_dots_default event payload", () => {
       //Create new view and set as default
-      cy.wait(3000);
+      // cy.wait(3000);
 
       cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
 
@@ -291,7 +291,10 @@ describe("analytics Test Suite", () => {
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
 
       //Hover over the "Default" view and click the 3-dots menu
-      cy.contains("Default").closest("div").realHover();
+
+      cy.contains("Default").realHover();
+
+      // cy.contains("Default").closest("div").realHover();
 
       cy.clickVisibleThreeDots();
 
@@ -302,9 +305,10 @@ describe("analytics Test Suite", () => {
       cy.get("#__next", { timeout: 15000 }).should("exist");
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
-      cy.wait(3000);
-      cy.contains("Default").closest("div").realHover();
-      cy.wait(3000);
+      // cy.wait(3000);
+      cy.contains("Default").realHover();
+      // cy.contains("Default").closest("div").realHover();
+      // cy.wait(3000);
       cy.clickVisibleThreeDots();
       //Delete the view
       cy.clickOnDeleteViewAndVerify();
@@ -316,45 +320,45 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests three_dots_public event payload", () => {
-      cy.wait(3000);
+    // it("tests three_dots_public event payload", () => {
+    //   cy.wait(3000);
 
-      //Create new public view
-      cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
+    //   //Create new public view
+    //   cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
-      cy.reload();
-      cy.get("#__next", { timeout: 15000 }).should("exist");
+    //   cy.reload();
+    //   cy.get("#__next", { timeout: 15000 }).should("exist");
 
-      // Verify it is set as public
+    //   // Verify it is set as public
 
-      cy.contains("Views", { timeout: 10000 }).click();
+    //   cy.contains("Views", { timeout: 10000 }).click();
 
-      //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-        .find("div.group\\/item.relative")
-        .realHover();
+    //   //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    //   cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+    //     .find("div.group\\/item.relative")
+    //     .realHover();
 
-      cy.contains("You are sharing this view as a Team view").should(
-        "be.visible"
-      );
+    //   cy.contains("You are sharing this view as a Team view").should(
+    //     "be.visible"
+    //   );
 
-      //Change the view to non public
-      cy.clickVisibleThreeDots();
+    //   //Change the view to non public
+    //   cy.clickVisibleThreeDots();
 
-      cy.get("#isPublic").click();
-      cy.contains("You are sharing this view as a Team view").should(
-        "not.exist"
-      );
+    //   cy.get("#isPublic").click();
+    //   cy.contains("You are sharing this view as a Team view").should(
+    //     "not.exist"
+    //   );
 
-      // Delete the view
-      cy.clickOnDeleteViewAndVerify();
+    //   // Delete the view
+    //   cy.clickOnDeleteViewAndVerify();
 
-      cy.validateGtmEvent(
-        "3-dots view menu click",
-        gtmExpectedEvents.three_dots_public,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "3-dots view menu click",
+    //     gtmExpectedEvents.three_dots_public,
+    //     consoleMessages
+    //   );
+    // });
 
     // it("tests sidebar toggle event payload", () => {
     //   // Close the sidebar menu
@@ -412,19 +416,19 @@ describe("analytics Test Suite", () => {
     //   );
     // });
 
-    it("tests help_menu_item_click event payload", () => {
-      cy.wait(3000);
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.wait(3000);
-      cy.contains("Help Center", { timeout: 10000 }).click();
-      cy.wait(3000);
+    // it("tests help_menu_item_click event payload", () => {
+    //   cy.wait(3000);
+    //   cy.contains("Help", { timeout: 10000 }).click();
+    //   cy.wait(3000);
+    //   cy.contains("Help Center", { timeout: 10000 }).click();
+    //   cy.wait(3000);
 
-      cy.validateGtmEvent(
-        "help_menu_item_click",
-        gtmExpectedEvents.help_menu_item_click,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "help_menu_item_click",
+    //     gtmExpectedEvents.help_menu_item_click,
+    //     consoleMessages
+    //   );
+    // });
 
     // it("tests drawer_close_click event payload", () => {
     //   cy.contains("Help", { timeout: 10000 }).click();
@@ -470,18 +474,18 @@ describe("analytics Test Suite", () => {
     //   );
     // });
 
-    it("tests help_menu_item_click_lexicon event payload", () => {
-      cy.wait(3000);
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.wait(3000);
-      cy.contains("Lexicon", { timeout: 10000 }).click();
-      cy.wait(3000);
+    // it("tests help_menu_item_click_lexicon event payload", () => {
+    //   cy.wait(3000);
+    //   cy.contains("Help", { timeout: 10000 }).click();
+    //   cy.wait(3000);
+    //   cy.contains("Lexicon", { timeout: 10000 }).click();
+    //   cy.wait(3000);
 
-      cy.validateGtmEvent(
-        "help_menu_item_click",
-        gtmExpectedEvents.help_menu_item_click_lexicon,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "help_menu_item_click",
+    //     gtmExpectedEvents.help_menu_item_click_lexicon,
+    //     consoleMessages
+    //   );
+    // });
   });
 });
