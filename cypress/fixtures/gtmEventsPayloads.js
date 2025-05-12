@@ -271,9 +271,6 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "help_menu_item_click",
     button_text: "help",
-    category: "",
-    report: "KPI Trendlines",
-    "view name": "",
   },
   drawer_close_click: {
     user_id: "f24ea592-f316-4c7e-8887-000d84446773",
@@ -315,7 +312,5 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "help_menu_item_click",
     button_text: "lexicon",
-    category: "",
-    "view name": "",
   },
 };
