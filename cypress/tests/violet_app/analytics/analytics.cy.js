@@ -191,7 +191,6 @@ describe("analytics Test Suite", () => {
       cy.contains("Views", { timeout: 10000 }).click();
 
       //Delete the view
-      //Hover over the view and click the 3-dots menu
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
       cy.clickVisibleThreeDots();
@@ -212,10 +211,13 @@ describe("analytics Test Suite", () => {
       //Rename the view
       cy.contains("Views", { timeout: 10000 }).click();
 
+      cy.wait(3000);
       //Hover over the view and click the 3-dots menu
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000);
 
       cy.clickVisibleThreeDots();
+      cy.wait(3000);
 
       cy.contains("Rename view", { timeout: 10000 }).click();
 
