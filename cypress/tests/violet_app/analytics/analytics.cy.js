@@ -294,7 +294,9 @@ describe("analytics Test Suite", () => {
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
 
       //Hover over the "Default" view and click the 3-dots menu
-      cy.contains("Default").closest("div").realHover();
+      // cy.contains("Default").closest("div").realHover();
+            cy.contains(AUTOMATION_VIEW_NAME).realHover();
+
 
       cy.clickVisibleThreeDots();
 
@@ -416,44 +418,68 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    // it("tests help_menu_item_click event payload", () => {
-    //   cy.validateGtmEvent(
-    //     "help_menu_item_click",
-    //     gtmExpectedEvents.help_menu_item_click,
-    //     consoleMessages
-    //   );
-    // });
+    it("tests help_menu_item_click event payload", () => {
+      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help Center", { timeout: 10000 }).click();
 
-    // it("tests drawer_close_click event payload", () => {
-    //   cy.validateGtmEvent(
-    //     "drawer_close_click",
-    //     gtmExpectedEvents.drawer_close_click,
-    //     consoleMessages
-    //   );
-    // });
+      cy.validateGtmEvent(
+        "help_menu_item_click",
+        gtmExpectedEvents.help_menu_item_click,
+        consoleMessages
+      );
+    });
 
-    // it("tests internal_link_click event payload", () => {
-    //   cy.validateGtmEvent(
-    //     "internal_link_click",
-    //     gtmExpectedEvents.internal_link_click,
-    //     consoleMessages
-    //   );
-    // });
+    it("tests drawer_close_click event payload", () => {
+      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help Center", { timeout: 10000 }).click();
+      cy.get("h-4 w-4").click();
 
-    // it("tests external_link_click event payload", () => {
-    //   cy.validateGtmEvent(
-    //     "external_link_click",
-    //     gtmExpectedEvents.external_link_click,
-    //     consoleMessages
-    //   );
-    // });
+      cy.validateGtmEvent(
+        "drawer_close_click",
+        gtmExpectedEvents.drawer_close_click,
+        consoleMessages
+      );
+    });
 
-    // it("tests lexicon_click event payload", () => {
-    //   cy.validateGtmEvent(
-    //     "lexicon_click",
-    //     gtmExpectedEvents.lexicon_click,
-    //     consoleMessages
-    //   );
-    // });
+    it("tests internal_link_click event payload", () => {
+      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help Center", { timeout: 10000 }).click();
+      cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
+      cy.contains("internal links to other articles", {
+        timeout: 10000,
+      }).click();
+
+      cy.validateGtmEvent(
+        "internal_link_click",
+        gtmExpectedEvents.internal_link_click,
+        consoleMessages
+      );
+    });
+
+    it("tests external_link_click event payload", () => {
+      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help Center", { timeout: 10000 }).click();
+      cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
+      cy.contains("contextual links to external sites", {
+        timeout: 10000,
+      }).click();
+
+      cy.validateGtmEvent(
+        "external_link_click",
+        gtmExpectedEvents.external_link_click,
+        consoleMessages
+      );
+    });
+
+    it("tests lexicon_click event payload", () => {
+      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Lexicon", { timeout: 10000 }).click();
+
+      cy.validateGtmEvent(
+        "lexicon_click",
+        gtmExpectedEvents.lexicon_click,
+        consoleMessages
+      );
+    });
   });
 });
