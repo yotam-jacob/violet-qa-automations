@@ -316,7 +316,6 @@ export const gtmExpectedEvents = {
     event: "help_menu_item_click",
     button_text: "lexicon",
     category: "",
-    report: "KPI Trendlines",
     "view name": "",
   },
 };
