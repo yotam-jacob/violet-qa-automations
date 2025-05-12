@@ -258,8 +258,8 @@ export const gtmExpectedEvents = {
     internal_user: false,
     env: "development",
     event: "open_help_menu_click",
-    category: "Hourly Monitoring",
-    report: "Table Viewer",
+    category: "",
+    report: "KPI Trendlines",
     "view name": "",
   },
   help_menu_item_click: {
@@ -271,8 +271,8 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "help_menu_item_click",
     button_text: "help",
-    category: "Hourly Monitoring",
-    report: "Table Viewer",
+    category: "",
+    report: "KPI Trendlines",
     "view name": "",
   },
   drawer_close_click: {
@@ -306,7 +306,7 @@ export const gtmExpectedEvents = {
     event: "external_link_click",
     target_url: "https://google.com",
   },
-  lexicon_click: {
+  help_menu_item_click_lexicon: {
     user_id: "f24ea592-f316-4c7e-8887-000d84446773",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
@@ -315,8 +315,8 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "help_menu_item_click",
     button_text: "lexicon",
-    category: "Hourly Monitoring",
-    report: "Table Viewer",
+    category: "",
+    report: "KPI Trendlines",
     "view name": "",
   },
 };

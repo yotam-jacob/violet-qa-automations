@@ -295,8 +295,7 @@ describe("analytics Test Suite", () => {
 
       //Hover over the "Default" view and click the 3-dots menu
       // cy.contains("Default").closest("div").realHover();
-            cy.contains(AUTOMATION_VIEW_NAME).realHover();
-
+      cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
       cy.clickVisibleThreeDots();
 
@@ -432,7 +431,9 @@ describe("analytics Test Suite", () => {
     it("tests drawer_close_click event payload", () => {
       cy.contains("Help", { timeout: 10000 }).click();
       cy.contains("Help Center", { timeout: 10000 }).click();
-      cy.get("h-4 w-4").click();
+      cy.get("button.bg-gray-150.w-7.h-7.rounded-full")
+        .should("be.visible")
+        .click({ force: true });
 
       cy.validateGtmEvent(
         "drawer_close_click",
@@ -471,13 +472,13 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests lexicon_click event payload", () => {
+    it("tests help_menu_item_click_lexicon event payload", () => {
       cy.contains("Help", { timeout: 10000 }).click();
       cy.contains("Lexicon", { timeout: 10000 }).click();
 
       cy.validateGtmEvent(
-        "lexicon_click",
-        gtmExpectedEvents.lexicon_click,
+        "help_menu_item_click",
+        gtmExpectedEvents.help_menu_item_click_lexicon,
         consoleMessages
       );
     });
