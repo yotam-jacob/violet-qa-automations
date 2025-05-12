@@ -181,13 +181,21 @@ describe("Regression Test Suite", () => {
         });
       });
 
-    cy.get("svg.h-3.w-3", { timeout: 15000 }).click();
+    cy.window().then((win) => {
+      if (win.navigator?.clipboard?.writeText) {
+        cy.stub(win.navigator.clipboard, "writeText").as("clipboardWrite");
+      }
+    });
 
-    // Verify the updated button appears
-    cy.get('button[class*="bg-accents-accentGreen"]')
-      .should("be.visible")
-      .invoke("attr", "class")
-      .should("include", "bg-accents-accentGreen");
+    cy.get(
+      "div.flex.relative.flex-col.w-full.gap-\\[5px\\].items-start"
+    ).within(() => {
+      cy.get("button").each(($btn) => {
+        cy.wrap($btn).click({ force: true });
+      });
+    });
+
+    cy.get("@clipboardWrite").should("have.been.called");
   });
 
   it("User can download a view as a PDF file", () => {

@@ -102,17 +102,25 @@ describe("Sanity Test Suite", () => {
   });
 
   it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
+    cy.wait(3000);
+
     cy.contains(
       "button.flex.gap-2.justify-between.w-full.items-center.text-left",
       "KPI Trendlines"
     ).realHover();
 
     cy.clickVisibleThreeDots();
-
     cy.contains("Set as Homepage").click();
-    cy.reload();
+    cy.wait(5000);
 
-    cy.url().should("include", "partners/qa/reports/");
+    cy.contains("Summary").click();
+    cy.wait(10000);
+
+    cy.get('button').filter(':has(img[alt="Logo"])').first().click({ force: true });
+
+    cy.wait(2000);
+
+    cy.url().should("include", "partners/qa/reports/kpi-trendlines");
 
     cy.get("#__next", { timeout: 15000 }).should("exist");
 
