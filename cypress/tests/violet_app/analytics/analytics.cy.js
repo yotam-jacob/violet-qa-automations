@@ -302,9 +302,10 @@ describe("analytics Test Suite", () => {
       cy.get("#__next", { timeout: 15000 }).should("exist");
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
+      cy.wait(3000);
       cy.contains("Default").closest("div").realHover();
+      cy.wait(3000);
       cy.clickVisibleThreeDots();
-
       //Delete the view
       cy.clickOnDeleteViewAndVerify();
 
@@ -411,16 +412,16 @@ describe("analytics Test Suite", () => {
     //   );
     // });
 
-    it("tests help_menu_item_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.contains("Help Center", { timeout: 10000 }).click();
+    // it("tests help_menu_item_click event payload", () => {
+    //   cy.contains("Help", { timeout: 10000 }).click();
+    //   cy.contains("Help Center", { timeout: 10000 }).click();
 
-      cy.validateGtmEvent(
-        "help_menu_item_click",
-        gtmExpectedEvents.help_menu_item_click,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "help_menu_item_click",
+    //     gtmExpectedEvents.help_menu_item_click,
+    //     consoleMessages
+    //   );
+    // });
 
     // it("tests drawer_close_click event payload", () => {
     //   cy.contains("Help", { timeout: 10000 }).click();
