@@ -405,5 +405,55 @@ describe("analytics Test Suite", () => {
         consoleMessages
       );
     });
+
+    it("tests open_help_menu_click event payload", () => {
+      cy.contains("Help", { timeout: 10000 }).click();
+
+      cy.validateGtmEvent(
+        "open_help_menu_click",
+        gtmExpectedEvents.open_help_menu_click,
+        consoleMessages
+      );
+    });
+
+    // it("tests help_menu_item_click event payload", () => {
+    //   cy.validateGtmEvent(
+    //     "help_menu_item_click",
+    //     gtmExpectedEvents.help_menu_item_click,
+    //     consoleMessages
+    //   );
+    // });
+
+    // it("tests drawer_close_click event payload", () => {
+    //   cy.validateGtmEvent(
+    //     "drawer_close_click",
+    //     gtmExpectedEvents.drawer_close_click,
+    //     consoleMessages
+    //   );
+    // });
+
+    // it("tests internal_link_click event payload", () => {
+    //   cy.validateGtmEvent(
+    //     "internal_link_click",
+    //     gtmExpectedEvents.internal_link_click,
+    //     consoleMessages
+    //   );
+    // });
+
+    // it("tests external_link_click event payload", () => {
+    //   cy.validateGtmEvent(
+    //     "external_link_click",
+    //     gtmExpectedEvents.external_link_click,
+    //     consoleMessages
+    //   );
+    // });
+
+    // it("tests lexicon_click event payload", () => {
+    //   cy.validateGtmEvent(
+    //     "lexicon_click",
+    //     gtmExpectedEvents.lexicon_click,
+    //     consoleMessages
+    //   );
+    // });
   });
 });

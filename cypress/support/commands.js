@@ -7,6 +7,8 @@
 // commands please read more here:
 // https://on.cypress.io/custom-commands
 // ***********************************************
+import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
+
 Cypress.Commands.add("loginToVioletDev", () => {
   cy.visit("https://dev.violetgrowth.com/");
 
@@ -100,10 +102,12 @@ Cypress.Commands.add("createView", (name, options = {}) => {
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
   cy.contains("Delete view", { timeout: 10000 }).click();
-  cy.wait(3000);
+  cy.wait(6000);
   cy.contains("button", "Remove", { timeout: 15000 }).click();
-  cy.wait(3000);
+  cy.wait(6000);
   cy.contains("Views", { timeout: 10000 }).should("be.visible");
+  cy.contains("Views", { timeout: 15000 }).click();
+  cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).should("not.exist");
 });
 
 Cypress.Commands.add(
