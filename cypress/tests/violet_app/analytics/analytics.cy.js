@@ -279,6 +279,8 @@ describe("analytics Test Suite", () => {
 
     it("tests three_dots_default event payload", () => {
       //Create new view and set as default
+      cy.wait(3000);
+
       cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).should(
@@ -319,6 +321,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests three_dots_public event payload", () => {
+      cy.wait(3000);
+
       //Create new public view
       cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
