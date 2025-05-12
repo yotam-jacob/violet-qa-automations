@@ -258,9 +258,6 @@ export const gtmExpectedEvents = {
     internal_user: false,
     env: "development",
     event: "open_help_menu_click",
-    category: "",
-    report: "KPI Trendlines",
-    "view name": "",
   },
   help_menu_item_click: {
     user_id: "f24ea592-f316-4c7e-8887-000d84446773",
