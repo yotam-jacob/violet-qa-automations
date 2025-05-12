@@ -5,9 +5,6 @@ export const gtmExpectedEvents = {
     user_id: "f24ea592-f316-4c7e-8887-000d84446773",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
-    EXpartner: "dev",
-    internal_user: false,
-    env: "development",
     event: "user_login",
   },
   report_click: {
