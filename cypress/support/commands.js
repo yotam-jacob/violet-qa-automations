@@ -38,7 +38,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
     .click({ force: true });
   cy.contains("QA", { timeout: 10000 }).click();
   cy.get("#__next", { timeout: 15000 }).should("exist");
-  cy.url().should("include", "/qa");
+  cy.url({ timeout: 15000 }).should("include", "/qa");
   cy.get("svg.h-6.w-6", { timeout: 15000 })
     .eq(0)
     .should("be.visible")
