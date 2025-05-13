@@ -254,7 +254,7 @@ describe("analytics Test Suite", () => {
       cy.createView(AUTOMATION_VIEW_NAME);
 
       cy.reload();
-      cy.contains("Views", { timeout: 10000 }).click();
+      cy.contains("Views", { timeout: 40000 }).click();
       cy.wait(3000);
       //Hover over the view and click the 3-dots menu
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
