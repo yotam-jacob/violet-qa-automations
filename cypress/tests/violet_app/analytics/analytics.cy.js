@@ -3,8 +3,11 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
   beforeEach(() => {
+    cy.wait(1000);
     cy.loginToVioletDev();
+    cy.wait(1000);
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
+    cy.wait(1000);
   });
 
   let consoleMessages = [];
@@ -131,10 +134,11 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests filter_picked event payload", () => {
+      cy.wait(3000);
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.wait(1000);
+      cy.wait(3000);
       cy.contains("button", "ERC").click();
-      cy.wait(1000);
+      cy.wait(3000);
       cy.contains("Pathlight", { timeout: 10000 }).click();
 
       cy.validateGtmEvent(
