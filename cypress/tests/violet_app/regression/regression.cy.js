@@ -6,45 +6,45 @@ describe("Regression Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
-  // it("User can rename a view", () => {
-  //   //Create new view
-  //   cy.createView(AUTOMATION_VIEW_NAME);
+  it("User can rename a view", () => {
+    //Create new view
+    cy.createView(AUTOMATION_VIEW_NAME);
 
-  //   cy.reload();
-  //   //Rename the view
-  //   cy.contains("Views", { timeout: 40000 }).click();
+    cy.reload();
+    //Rename the view
+    cy.contains("Views", { timeout: 40000 }).click();
 
-  //   //Hover over the view and click the 3-dots menu
-  //   cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    //Hover over the view and click the 3-dots menu
+    cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
-  //   cy.clickVisibleThreeDots();
+    cy.clickVisibleThreeDots();
 
-  //   cy.contains("Rename view", { timeout: 40000 }).click();
+    cy.contains("Rename view", { timeout: 40000 }).click();
 
-  //   cy.get("input[value='Automation Test View']").clear();
+    cy.get("input[value='Automation Test View']").clear();
 
-  //   cy.get("input[type='text']").type("Automation Test View Renamed");
+    cy.get("input[type='text']").type("Automation Test View Renamed");
 
-  //   cy.get("button.bg-main-primaryPurple").eq(0).click();
+    cy.get("button.bg-main-primaryPurple").eq(0).click();
 
-  //   cy.reload();
+    cy.reload();
 
-  //   //Verify the view is renamed
-  //   cy.contains("Views", { timeout: 40000 }).click();
+    //Verify the view is renamed
+    cy.contains("Views", { timeout: 40000 }).click();
 
-  //   cy.contains("Automation Test View Renamed", {
-  //     timeout: 40000,
-  //   }).should("be.visible");
+    cy.contains("Automation Test View Renamed", {
+      timeout: 40000,
+    }).should("be.visible");
 
-  //   //Delete the view
-  //   cy.contains(
-  //     "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
-  //     AUTOMATION_VIEW_NAME
-  //   ).realHover();
+    //Delete the view
+    cy.contains(
+      "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
+      AUTOMATION_VIEW_NAME
+    ).realHover();
 
-  //   cy.clickVisibleThreeDots();
-  //   cy.clickOnDeleteViewAndVerify();
-  // });
+    cy.clickVisibleThreeDots();
+    cy.clickOnDeleteViewAndVerify();
+  });
 
   it("User can create a public view", () => {
     //Create new public view

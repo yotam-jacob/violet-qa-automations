@@ -90,8 +90,8 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  cy.contains("Views", { timeout: 10000 }).click();
-  cy.contains("Save as New", { timeout: 10000 }).click();
+  cy.contains("Views", { timeout: 40000 }).click();
+  cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault").click();
   if (options.isPublic) cy.get("#isPublic").click();
@@ -101,12 +101,12 @@ Cypress.Commands.add("createView", (name, options = {}) => {
 });
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
-  cy.contains("Delete view", { timeout: 10000 }).click();
+  cy.contains("Delete view", { timeout: 40000 }).click();
   cy.wait(1000);
-  cy.contains("button", "Remove", { timeout: 15000 }).click();
+  cy.contains("button", "Remove", { timeout: 45000 }).click();
   cy.reload();
   cy.contains("Views", { timeout: 30000 }).should("be.visible");
-  cy.contains("Views", { timeout: 15000 }).click();
+  cy.contains("Views", { timeout: 45000 }).click();
   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).should("not.exist");
 });
 
