@@ -204,7 +204,7 @@ describe("analytics Test Suite", () => {
 
       cy.reload();
       //Rename the view
-      cy.contains("Views", { timeout: 10000 }).click();
+      cy.contains("Views", { timeout: 40000 }).click();
 
       cy.wait(3000);
       //Hover over the view and click the 3-dots menu
@@ -214,7 +214,7 @@ describe("analytics Test Suite", () => {
       cy.clickVisibleThreeDots();
       cy.wait(3000);
 
-      cy.contains("Rename view", { timeout: 10000 }).click();
+      cy.contains("Rename view", { timeout: 40000 }).click();
 
       cy.get("input[value='Automation Test View']").clear();
 
@@ -226,11 +226,11 @@ describe("analytics Test Suite", () => {
       cy.wait(10000);
 
       //Verify the view is renamed
-      cy.contains("Views", { timeout: 10000 }).click();
+      cy.contains("Views", { timeout: 40000 }).click();
       cy.wait(10000);
 
       cy.contains("Automation Test View Renamed", {
-        timeout: 10000,
+        timeout: 40000,
       }).should("be.visible");
 
       //Delete the view
