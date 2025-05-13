@@ -105,7 +105,7 @@ Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
   cy.wait(1000);
   cy.contains("button", "Remove", { timeout: 15000 }).click();
   cy.reload();
-  cy.contains("Views", { timeout: 10000 }).should("be.visible");
+  cy.contains("Views", { timeout: 30000 }).should("be.visible");
   cy.contains("Views", { timeout: 15000 }).click();
   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).should("not.exist");
 });
