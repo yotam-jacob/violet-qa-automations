@@ -60,17 +60,30 @@ describe("Regression Test Suite", () => {
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
-    cy.contains("You are sharing this view as a Team view", { timeout: 40000 }).should(
-      "be.visible"
-    );
+    cy.contains("You are sharing this view as a Team view", {
+      timeout: 40000,
+    }).should("be.visible");
 
     //Change the view to non public
     cy.clickVisibleThreeDots();
 
     cy.get("#isPublic", { timeout: 40000 }).click();
-    cy.contains("You are sharing this view as a Team view", { timeout: 40000 }).should("not.exist");
+    cy.contains("You are sharing this view as a Team view", {
+      timeout: 40000,
+    }).should("not.exist");
 
-    // Delete the view
+    cy.reload();
+
+    //Verify the view is renamed
+    cy.contains("Views", { timeout: 40000 }).click();
+
+    //Delete the view
+    cy.contains(
+      "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
+      AUTOMATION_VIEW_NAME
+    ).realHover();
+
+    cy.clickVisibleThreeDots();
     cy.clickOnDeleteViewAndVerify();
   });
 
