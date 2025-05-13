@@ -153,11 +153,6 @@ describe("Regression Test Suite", () => {
     //Delete the view
     cy.contains("Views", { timeout: 10000 }).click();
 
-    // cy.contains(
-    //   "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
-    //   AUTOMATION_VIEW_NAME
-    // ).realHover();
-
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
     cy.clickVisibleThreeDots();
