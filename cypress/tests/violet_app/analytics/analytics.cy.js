@@ -223,9 +223,11 @@ describe("analytics Test Suite", () => {
       cy.get("button.bg-main-primaryPurple").eq(0).click();
 
       cy.reload();
+      cy.wait(10000);
 
       //Verify the view is renamed
       cy.contains("Views", { timeout: 10000 }).click();
+      cy.wait(10000);
 
       cy.contains("Automation Test View Renamed", {
         timeout: 10000,
