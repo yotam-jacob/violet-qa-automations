@@ -84,9 +84,10 @@ describe("Regression Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
 
     cy.contains("Reset").click();
-
+    cy.wait(3000);
     //Delete the view
     cy.contains("Views", { timeout: 10000 }).click();
+    cy.wait(3000);
 
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
