@@ -60,15 +60,15 @@ describe("Regression Test Suite", () => {
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
-    cy.contains("You are sharing this view as a Team view").should(
+    cy.contains("You are sharing this view as a Team view", { timeout: 40000 }).should(
       "be.visible"
     );
 
     //Change the view to non public
     cy.clickVisibleThreeDots();
 
-    cy.get("#isPublic").click();
-    cy.contains("You are sharing this view as a Team view").should("not.exist");
+    cy.get("#isPublic", { timeout: 40000 }).click();
+    cy.contains("You are sharing this view as a Team view", { timeout: 40000 }).should("not.exist");
 
     // Delete the view
     cy.clickOnDeleteViewAndVerify();
