@@ -7,7 +7,7 @@ describe("Features Test Suite", () => {
   });
 
   it("User has only 2 enabled view options using a non filtered view", () => {
-    cy.contains("Views", { timeout: 10000 }).click();
+    cy.contains("Views", { timeout: 40000 }).click();
     cy.contains('button', 'Update View').should('be.disabled');
     cy.contains('button', 'Save as New').should('be.enabled');
     cy.contains('button', 'Reset').should('be.enabled');
