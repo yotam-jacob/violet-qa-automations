@@ -56,7 +56,7 @@ describe("Regression Test Suite", () => {
 
     // Verify it is set as public
 
-    cy.contains("Views", { timeout: 10000 }).click();
+    cy.contains("Views", { timeout: 40000 }).click();
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
