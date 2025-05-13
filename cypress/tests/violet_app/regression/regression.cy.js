@@ -15,7 +15,7 @@ describe("Regression Test Suite", () => {
     cy.contains("Views", { timeout: 40000 }).click();
 
     //Hover over the view and click the 3-dots menu
-    cy.contains(AUTOMATION_VIEW_NAME).closest("div").realHover();
+    cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
     cy.clickVisibleThreeDots();
 
