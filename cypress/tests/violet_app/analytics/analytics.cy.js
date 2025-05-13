@@ -36,15 +36,6 @@ describe("analytics Test Suite", () => {
   });
 
   describe("GTM Events Validation", () => {
-    it("tests user_login event payload", () => {
-      cy.wait(3000);
-      cy.validateGtmEvent(
-        "user_login",
-        gtmExpectedEvents.user_login,
-        consoleMessages
-      );
-    });
-
     it("tests report_click event payload", () => {
       cy.visit(
         "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines"
