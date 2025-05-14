@@ -154,4 +154,41 @@ describe("Extras Test Suite", () => {
 
     cy.url().should("include", "/partners/qa/reports/");
   });
+
+    it("Save current view, set as default and then remove it", () => {
+    //Create new view and set as default
+    cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
+
+    //Verify that the new view is set as default
+    cy.reload();
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+
+    cy.contains("Default").should("be.visible");
+
+    //Hover over the "Default" view and click the 3-dots menu
+    // cy.contains("Default").closest("div").realHover();
+    cy.contains("Default").realHover();
+
+    cy.clickVisibleThreeDots();
+
+    //uncheck the default view
+    cy.get("#isDefault", { timeout: 45000 }).click();
+
+    cy.reload({ timeout: 45000 });
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+    // cy.contains("Views", { timeout: 10000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
+
+    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    cy.contains("Default", { timeout: 10000 }).realHover();
+
+    cy.clickVisibleThreeDots();
+
+    //Delete the view
+    cy.clickOnDeleteViewAndVerify();
+  });
 });
