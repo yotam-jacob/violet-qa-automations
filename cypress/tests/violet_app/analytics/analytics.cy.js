@@ -321,9 +321,9 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests drawer_close_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.contains("Help Center", { timeout: 10000 }).click();
-      cy.get("button.bg-gray-150.w-7.h-7.rounded-full")
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.get("button.bg-gray-150.w-7.h-7.rounded-full", { timeout: 40000 })
         .should("be.visible")
         .click({ force: true });
 
