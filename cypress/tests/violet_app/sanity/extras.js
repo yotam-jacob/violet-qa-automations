@@ -138,4 +138,20 @@ describe("Extras Test Suite", () => {
       consoleMessages
     );
   });
+
+  it("should open Table Viewer in new tab via 3-dots menu", () => {
+    cy.wait(3000);
+    cy.contains("Table Viewer")
+      .scrollIntoView()
+      .should("be.visible")
+      .click({ force: true });
+
+    cy.contains("Table Viewer").closest("li").realHover();
+
+    cy.clickVisibleThreeDots();
+
+    cy.contains("Open in New Tab").invoke("removeAttr", "target").click();
+
+    cy.url().should("include", "/partners/qa/reports/");
+  });
 });
