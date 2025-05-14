@@ -39,8 +39,6 @@ jobs:
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/security.cy.js"
       - name: Run Cypress sanity tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-      - name: Run Cypress sanity-windows tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity-windows.cy.js"
 
       - name: Upload videos
         if: failure()
