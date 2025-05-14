@@ -1,10 +1,11 @@
-name: Run Cypress Tests
+name: Run All Cypress Tests
 
 on:
   push:
     branches: [main]
   pull_request:
     branches: [main]
+  workflow_dispatch:
 
 jobs:
   cypress-run:
