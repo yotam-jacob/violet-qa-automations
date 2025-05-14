@@ -110,6 +110,7 @@ describe("Sanity Test Suite", () => {
     cy.clickOnDeleteViewAndVerify();
   });
 
+  
   it("User can open and close the sidebar menu", () => {
     // Verify that the sidebar menu is open
     cy.contains("Exactius LLC. © All rights reserved, 2025.").should(
