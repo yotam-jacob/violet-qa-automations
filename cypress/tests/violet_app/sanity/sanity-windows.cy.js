@@ -214,47 +214,4 @@ describe("Sanity Test Suite", () => {
 
     cy.get("#__next", { timeout: 15000 }).should("exist");
   });
-
-  // it("User can use the lexicon without errors", () => {
-  //   // Open on the lexicon icon
-  //   cy.contains("button", "Lexicon").click({ force: true });
-
-  //   // Verify that the lexicon is open
-  //   cy.contains("📚 Lexicon").should("be.visible");
-
-  //   // Close on the lexicon
-  //   cy.contains("button", "Lexicon").click();
-
-  //   // Verify that the lexicon is closed
-  //   cy.contains("📚 Lexicon").should("not.be.visible");
-
-  //   // Open on the lexicon icon
-  //   cy.contains("button", "Lexicon").click();
-
-  //   // Verify that the lexicon is open
-  //   cy.contains("📚 Lexicon").should("be.visible");
-
-  //   // Close on the lexicon using the 'x' button
-  //   cy.get(
-  //     "button.bg-gray-150.w-7.h-7.flex.justify-center.items-center.rounded-full"
-  //   ).click();
-
-  //   // Verify that the lexicon is closed
-  //   cy.contains("📚 Lexicon").should("not.be.visible");
-
-  //   // Open on the lexicon icon
-  //   cy.contains("button", "Lexicon").click();
-
-  //   // Verify that the lexicon is open
-  //   cy.contains("📚 Lexicon").should("be.visible");
-
-  //   // Open the lexicon in a new tab
-  //   cy.get('a[href="/partners/qa/lexicon"]').then(($a) => {
-  //     const href = $a.prop("href");
-  //     cy.visit(href); // navigates to the lexicon page in same tab
-  //   });
-
-  //   // Verify url
-  //   cy.url().should("include", "/partners/qa/lexicon");
-  // });
 });

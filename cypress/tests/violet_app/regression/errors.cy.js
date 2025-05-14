@@ -13,7 +13,7 @@ describe("Errors Handling Test Suite", () => {
     });
 
     // Assert that the 404 page appears
-    cy.contains(/Page Not Found/i).should("be.visible"); // adjust text based on actual 404 page
+    cy.contains(/Page Not Found/i).should("be.visible");
     cy.url().should("include", "/page-not-found");
 
     cy.contains("Violet Homepage").should("be.visible").click();

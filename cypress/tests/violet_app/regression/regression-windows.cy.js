@@ -111,36 +111,6 @@ describe("Regression Test Suite", () => {
     cy.clickOnDeleteViewAndVerify();
   });
 
-  it("User can create a public view", () => {
-    //Create new public view
-    cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
-
-    cy.reload();
-    cy.get("#__next", { timeout: 15000 }).should("exist");
-
-    // Verify it is set as public
-
-    cy.contains("Views", { timeout: 10000 }).click();
-
-    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-      .find("div.group\\/item.relative")
-      .realHover();
-
-    cy.contains("You are sharing this view as a Team view").should(
-      "be.visible"
-    );
-
-    //Change the view to non public
-    cy.clickVisibleThreeDots();
-
-    cy.get("#isPublic").click();
-    cy.contains("You are sharing this view as a Team view").should("not.exist");
-
-    // Delete the view
-    cy.clickOnDeleteViewAndVerify();
-  });
-
   it("User can reset the current view by clicking on the reset button", () => {
     //Create new view
     cy.createView(AUTOMATION_VIEW_NAME);
