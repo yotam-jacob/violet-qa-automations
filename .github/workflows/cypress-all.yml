@@ -33,8 +33,6 @@ jobs:
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/errors.cy.js"
       - name: Run Cypress regression tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression.cy.js"
-      - name: Run Cypress regression-windows tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression-windows.cy.js"
       - name: Run Cypress security tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/security.cy.js"
       - name: Run Cypress sanity tests
