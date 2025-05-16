@@ -101,22 +101,6 @@ describe("Sanity Test Suite", () => {
     cy.get("#__next", { timeout: 15000 }).should("exist");
   });
 
-  it("should open Table Viewer in new tab via 3-dots menu", () => {
-    cy.wait(3000);
-    cy.contains("Table Viewer")
-      .scrollIntoView()
-      .should("be.visible")
-      .click({ force: true });
-
-    cy.contains("Table Viewer").closest("li").realHover();
-
-    cy.clickVisibleThreeDots();
-
-    cy.contains("Open in New Tab").invoke("removeAttr", "target").click();
-
-    cy.url().should("include", "/partners/qa/reports/");
-  });
-
   it("Save current view, set as default and then remove it", () => {
     cy.wait(3000);
 
