@@ -183,36 +183,55 @@ describe("Extras Test Suite", () => {
   });
 
   it("Save current view, set as default and then remove it", () => {
+    cy.wait(3000);
+
     //Create new view and set as default
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+    cy.wait(3000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
+    cy.wait(3000);
 
     //Verify that the new view is set as default
     cy.reload();
+    cy.wait(3000);
+
     cy.get("#__next", { timeout: 45000 }).should("exist");
+    cy.wait(3000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    cy.wait(3000);
 
     cy.contains("Default").should("be.visible");
+    cy.wait(3000);
 
     //Hover over the "Default" view and click the 3-dots menu
     cy.contains("Default").closest("div").realHover();
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
+    cy.wait(3000);
 
     //uncheck the default view
     cy.get("#isDefault", { timeout: 45000 }).click();
+    cy.wait(3000);
 
     cy.reload({ timeout: 45000 });
+    cy.wait(3000);
+
     cy.get("#__next", { timeout: 45000 }).should("exist");
+    cy.wait(3000);
+
     // cy.contains("Views", { timeout: 10000 }).click();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    cy.wait(3000);
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("Default", { timeout: 40000 }).realHover();
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
+    cy.wait(3000);
 
     //Delete the view
     cy.clickOnDeleteViewAndVerify();
