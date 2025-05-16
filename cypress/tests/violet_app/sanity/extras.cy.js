@@ -1,4 +1,5 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
+import { gtmExpectedEvents } from "/cypress/fixtures/gtmEventsPayloads.js";
 
 describe("Extras Test Suite", () => {
   beforeEach(() => {
