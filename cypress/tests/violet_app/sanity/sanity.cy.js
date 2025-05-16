@@ -56,7 +56,7 @@ describe("Sanity Test Suite", () => {
 
     cy.url().should("include", "partners/qa/reports/");
   });
-  
+
   it("User can open and close the sidebar menu", () => {
     // Verify that the sidebar menu is open
     cy.contains("Exactius LLC. © All rights reserved, 2025.").should(
@@ -99,5 +99,21 @@ describe("Sanity Test Suite", () => {
     cy.loginToVioletDev();
 
     cy.get("#__next", { timeout: 15000 }).should("exist");
+  });
+
+  it("should open Table Viewer in new tab via 3-dots menu", () => {
+    cy.wait(3000);
+    cy.contains("Table Viewer")
+      .scrollIntoView()
+      .should("be.visible")
+      .click({ force: true });
+
+    cy.contains("Table Viewer").closest("li").realHover();
+
+    cy.clickVisibleThreeDots();
+
+    cy.contains("Open in New Tab").invoke("removeAttr", "target").click();
+
+    cy.url().should("include", "/partners/qa/reports/");
   });
 });

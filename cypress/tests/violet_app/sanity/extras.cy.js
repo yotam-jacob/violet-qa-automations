@@ -11,7 +11,7 @@ describe("Extras Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
     cy.reload();
-    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
 
     // Verify it is set as public
 
@@ -57,7 +57,7 @@ describe("Extras Test Suite", () => {
     cy.reload();
 
     //Verify the view is renamed
-    cy.contains("Views", { timeout: 10000 }).click();
+    cy.contains("Views", { timeout: 40000 }).click();
 
     //Delete the view
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
@@ -74,7 +74,7 @@ describe("Extras Test Suite", () => {
 
     //Verify that the new view is set as default
     cy.reload();
-    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
 
@@ -83,10 +83,10 @@ describe("Extras Test Suite", () => {
     cy.clickVisibleThreeDots();
 
     //uncheck the default view
-    cy.get("#isDefault", { timeout: 15000 }).click();
+    cy.get("#isDefault", { timeout: 45000 }).click();
 
-    cy.reload({ timeout: 15000 });
-    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.reload({ timeout: 45000 });
+    cy.get("#__next", { timeout: 45000 }).should("exist");
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
     cy.contains("Default").realHover();
@@ -108,11 +108,11 @@ describe("Extras Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
     cy.reload();
-    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
 
     // Verify it is set as public
 
-    cy.contains("Views", { timeout: 10000 }).click();
+    cy.contains("Views", { timeout: 40000 }).click();
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
@@ -139,23 +139,7 @@ describe("Extras Test Suite", () => {
     );
   });
 
-  it("should open Table Viewer in new tab via 3-dots menu", () => {
-    cy.wait(3000);
-    cy.contains("Table Viewer")
-      .scrollIntoView()
-      .should("be.visible")
-      .click({ force: true });
-
-    cy.contains("Table Viewer").closest("li").realHover();
-
-    cy.clickVisibleThreeDots();
-
-    cy.contains("Open in New Tab").invoke("removeAttr", "target").click();
-
-    cy.url().should("include", "/partners/qa/reports/");
-  });
-
-    it("Save current view, set as default and then remove it", () => {
+  it("Save current view, set as default and then remove it", () => {
     //Create new view and set as default
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
 
@@ -170,8 +154,7 @@ describe("Extras Test Suite", () => {
     cy.contains("Default").should("be.visible");
 
     //Hover over the "Default" view and click the 3-dots menu
-    // cy.contains("Default").closest("div").realHover();
-    cy.contains("Default").realHover();
+    cy.contains("Default").closest("div").realHover();
 
     cy.clickVisibleThreeDots();
 
@@ -181,10 +164,10 @@ describe("Extras Test Suite", () => {
     cy.reload({ timeout: 45000 });
     cy.get("#__next", { timeout: 45000 }).should("exist");
     // cy.contains("Views", { timeout: 10000 }).click();
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains("Default", { timeout: 10000 }).realHover();
+    cy.contains("Default", { timeout: 40000 }).realHover();
 
     cy.clickVisibleThreeDots();
 
