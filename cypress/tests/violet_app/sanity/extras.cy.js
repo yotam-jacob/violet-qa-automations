@@ -7,39 +7,81 @@ describe("Extras Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
+  let consoleMessages = [];
+
+  Cypress.on("window:before:load", (win) => {
+    const originalLog = win.console.log;
+    win.console.log = function (...args) {
+      args.forEach((arg, index) => {
+        if (typeof arg === "string" && arg.startsWith("[GTM Event]:")) {
+          const nextArg = args[index + 1];
+          if (typeof nextArg === "object" && nextArg !== null) {
+            consoleMessages.push({
+              label: arg,
+              data: nextArg,
+            });
+          } else {
+            consoleMessages.push({
+              label: arg,
+              data: null,
+            });
+          }
+        }
+      });
+      originalLog.apply(win.console, args);
+    };
+  });
+
   it("User can create a public view", () => {
     //Create new public view
+    cy.wait(5000);
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
+    cy.wait(5000);
 
     cy.reload();
+    cy.wait(5000);
+
     cy.get("#__next", { timeout: 45000 }).should("exist");
+    cy.wait(5000);
 
     // Verify it is set as public
+    cy.wait(5000);
 
     cy.contains("Views", { timeout: 40000 }).click();
+    cy.wait(5000);
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    cy.wait(5000);
 
     cy.contains("You are sharing this view as a Team view", {
       timeout: 40000,
     }).should("be.visible");
+    cy.wait(5000);
 
     //Change the view to non public
     cy.clickVisibleThreeDots();
+    cy.wait(5000);
 
     cy.get("#isPublic", { timeout: 40000 }).click();
+    cy.wait(5000);
+
     cy.contains("You are sharing this view as a Team view", {
       timeout: 40000,
     }).should("not.exist");
+    cy.wait(5000);
 
     cy.reload();
+    cy.wait(5000);
 
     //Verify the view is renamed
     cy.contains("Views", { timeout: 40000 }).click();
+    cy.wait(5000);
 
     //Delete the view
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    cy.wait(5000);
 
     cy.clickVisibleThreeDots();
     cy.clickOnDeleteViewAndVerify();
