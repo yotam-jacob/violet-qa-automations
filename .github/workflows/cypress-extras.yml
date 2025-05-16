@@ -19,7 +19,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress analytics tests
+      - name: Run Cypress extras tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/extras.cy.js"
 
       - name: Upload videos
