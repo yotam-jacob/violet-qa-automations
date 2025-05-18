@@ -11,7 +11,8 @@ module.exports = defineConfig({
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
-  
+  experimentalSessionAndOrigin: true,
+
   e2e: {
     setupNodeEvents(on, config) {
       on('task', {
