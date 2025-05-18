@@ -29,8 +29,6 @@ jobs:
 
       - name: Run Cypress chrome tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
-      - name: Run Cypress chromium tests
-        run: npx cypress run --browser chromium --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
       - name: Run Cypress firefox tests
         run: npx cypress run --browser firefox --spec "cypress/tests/violet_app/analytics/analytics-firefox.cy.js"
       - name: Run Cypress edge tests
