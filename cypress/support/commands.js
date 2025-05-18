@@ -30,7 +30,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.contains("Sign In").click();
 
   // 5. Verify login success (adjust selector as needed)
-  cy.url().should("not.include", "/login");
+  cy.url().should("not.include", "/login", { timeout: 10000 });
   cy.get("#__next", { timeout: 15000 }).should("exist");
   //switch to QA partner
   cy.get("svg.h-6.w-6", { timeout: 10000 })
