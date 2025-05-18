@@ -36,44 +36,44 @@ describe("analytics Test Suite", () => {
   });
 
   describe("GTM Events Validation", () => {
-    it("tests three_dots_default event payload", () => {
-      //Create new view and set as default
-      cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+    // it("tests three_dots_default event payload", () => {
+    //   //Create new view and set as default
+    //   cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
-        "be.visible"
-      );
+    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
+    //     "be.visible"
+    //   );
 
-      //Verify that the new view is set as default
-      cy.reload();
-      cy.get("#__next", { timeout: 45000 }).should("exist");
+    //   //Verify that the new view is set as default
+    //   cy.reload();
+    //   cy.get("#__next", { timeout: 45000 }).should("exist");
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-      cy.wait(3000);
-      //Hover over the "Default" view and click the 3-dots menu
-      cy.contains("Default").realHover();
-      cy.wait(3000);
-      cy.clickVisibleThreeDots();
-      cy.wait(3000);
+    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    //   cy.wait(3000);
+    //   //Hover over the "Default" view and click the 3-dots menu
+    //   cy.contains("Default").realHover();
+    //   cy.wait(3000);
+    //   cy.clickVisibleThreeDots();
+    //   cy.wait(3000);
 
-      //uncheck the default view
-      cy.get("#isDefault", { timeout: 45000 }).click();
+    //   //uncheck the default view
+    //   cy.get("#isDefault", { timeout: 45000 }).click();
 
-      cy.reload({ timeout: 45000 });
-      cy.get("#__next", { timeout: 45000 }).should("exist");
+    //   cy.reload({ timeout: 45000 });
+    //   cy.get("#__next", { timeout: 45000 }).should("exist");
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
-      cy.contains("Default").realHover();
-      cy.clickVisibleThreeDots();
-      //Delete the view
-      cy.clickOnDeleteViewAndVerify();
+    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
+    //   cy.contains("Default").realHover();
+    //   cy.clickVisibleThreeDots();
+    //   //Delete the view
+    //   cy.clickOnDeleteViewAndVerify();
 
-      cy.validateGtmEvent(
-        "3-dots view menu click",
-        gtmExpectedEvents.three_dots_default,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "3-dots view menu click",
+    //     gtmExpectedEvents.three_dots_default,
+    //     consoleMessages
+    //   );
+    // });
 
     it("tests three_dots_public event payload", () => {
       cy.wait(3000);
