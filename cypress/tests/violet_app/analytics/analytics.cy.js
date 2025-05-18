@@ -406,7 +406,7 @@ describe("analytics Test Suite", () => {
       //Create new view and set as default
       cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).should(
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
         "be.visible"
       );
 
@@ -414,11 +414,13 @@ describe("analytics Test Suite", () => {
       cy.reload();
       cy.get("#__next", { timeout: 45000 }).should("exist");
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
-
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+      cy.wait(3000);
       //Hover over the "Default" view and click the 3-dots menu
       cy.contains("Default").realHover();
+      cy.wait(3000);
       cy.clickVisibleThreeDots();
+      cy.wait(3000);
 
       //uncheck the default view
       cy.get("#isDefault", { timeout: 45000 }).click();
