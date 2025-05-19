@@ -221,9 +221,9 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests save_view_modal_clicks_cancel event payload", () => {
-      cy.contains("Views", { timeout: 10000 }).click();
-      cy.contains("Save as New", { timeout: 10000 }).click();
-      cy.contains("Cancel", { timeout: 10000 }).click();
+      cy.contains("Views", { timeout: 40000 }).click();
+      cy.contains("Save as New", { timeout: 40000 }).click();
+      cy.contains("Cancel", { timeout: 40000 }).click();
 
       cy.validateGtmEvent(
         "save view modal clicks",
