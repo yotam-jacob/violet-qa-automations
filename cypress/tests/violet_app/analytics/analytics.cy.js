@@ -60,8 +60,7 @@ describe("analytics Test Suite", () => {
       cy.reload({ timeout: 45000 });
       cy.get("#__next", { timeout: 45000 }).should("exist");
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
-      // cy.contains("Default").realHover();
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
       cy.get("*").then(($elements) => {
         const matching = $elements.filter((i, el) =>

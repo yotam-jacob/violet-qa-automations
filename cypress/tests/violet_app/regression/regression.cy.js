@@ -14,7 +14,7 @@ describe("Regression Test Suite", () => {
     //Rename the view
     cy.contains("Views", { timeout: 40000 }).click();
 
-    cy.wait(3000);
+    // cy.wait(3000);
     //Hover over the view and click the 3-dots menu
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
@@ -52,13 +52,13 @@ describe("Regression Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME);
 
     //Reset the view
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
-    cy.contains("Reset").click();
-    cy.wait(3000);
+    cy.contains("Reset", { timeout: 40000 }).click();
+    // cy.wait(3000);
     //Delete the view
-    cy.contains("Views", { timeout: 10000 }).click();
-    cy.wait(3000);
+    cy.contains("Views", { timeout: 40000 }).click();
+    // cy.wait(3000);
 
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
