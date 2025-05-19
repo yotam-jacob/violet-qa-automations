@@ -3,11 +3,11 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
   beforeEach(() => {
-    cy.wait(1000);
+    // cy.wait(1000);
     cy.loginToVioletDev();
-    cy.wait(1000);
+    // cy.wait(1000);
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
-    cy.wait(1000);
+    // cy.wait(1000);
   });
 
   let consoleMessages = [];
@@ -49,7 +49,7 @@ describe("analytics Test Suite", () => {
       cy.get("#__next", { timeout: 45000 }).should("exist");
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-      cy.wait(3000);
+      // cy.wait(3000);
       //Hover over the "Default" view and click the 3-dots menu
       cy.get("*").then(($elements) => {
         const matching = $elements.filter((i, el) =>
@@ -58,9 +58,9 @@ describe("analytics Test Suite", () => {
         cy.wrap(matching.eq(1)).contains("Default").realHover();
       });
 
-      cy.wait(3000);
+      // cy.wait(3000);
       cy.clickVisibleThreeDots();
-      cy.wait(3000);
+      // cy.wait(3000);
 
       //uncheck the default view
       cy.get("#isDefault", { timeout: 45000 }).click();
@@ -90,7 +90,7 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests three_dots_public event payload", () => {
-      cy.wait(3000);
+      // cy.wait(3000);
 
       //Create new public view
       cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
@@ -172,7 +172,7 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests share_menu_click event payload", () => {
-      cy.wait(3000);
+      // cy.wait(3000);
       //Open share modal and click on the share button
       cy.get(
         "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -220,12 +220,12 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests filter_picked event payload", () => {
-      cy.wait(3000);
+      // cy.wait(3000);
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.wait(3000);
+      // cy.wait(3000);
       cy.contains("button", "ERC").click();
-      cy.wait(3000);
-      cy.contains("Pathlight", { timeout: 10000 }).click();
+      // cy.wait(3000);
+      cy.contains("Pathlight", { timeout: 40000 }).click();
 
       cy.validateGtmEvent(
         "filter_picked",
@@ -255,11 +255,11 @@ describe("analytics Test Suite", () => {
       //Verify the view is renamed
       cy.contains("Views", { timeout: 20000 }).click();
 
-      cy.wait(1000);
+      // cy.wait(1000);
       //Delete the view
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
-      cy.wait(1000);
+      // cy.wait(1000);
 
       cy.clickVisibleThreeDots();
       cy.clickOnDeleteViewAndVerify();
@@ -279,13 +279,13 @@ describe("analytics Test Suite", () => {
       //Rename the view
       cy.contains("Views", { timeout: 40000 }).click();
 
-      cy.wait(3000);
+      // cy.wait(3000);
       //Hover over the view and click the 3-dots menu
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
-      cy.wait(3000);
+      // cy.wait(3000);
 
       cy.clickVisibleThreeDots();
-      cy.wait(3000);
+      // cy.wait(3000);
 
       cy.contains("Rename view", { timeout: 40000 }).click();
 
@@ -296,11 +296,11 @@ describe("analytics Test Suite", () => {
       cy.get("button.bg-main-primaryPurple").eq(0).click();
 
       cy.reload();
-      cy.wait(10000);
+      // cy.wait(10000);
 
       //Verify the view is renamed
       cy.contains("Views", { timeout: 40000 }).click();
-      cy.wait(10000);
+      // cy.wait(10000);
 
       cy.contains("Automation Test View Renamed", {
         timeout: 40000,
@@ -328,13 +328,13 @@ describe("analytics Test Suite", () => {
 
       cy.reload();
       cy.contains("Views", { timeout: 40000 }).click();
-      cy.wait(3000);
+      // cy.wait(3000);
       //Hover over the view and click the 3-dots menu
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
-      cy.wait(3000);
+      // cy.wait(3000);
 
       cy.clickVisibleThreeDots();
-      cy.wait(3000);
+      // cy.wait(3000);
 
       cy.clickOnDeleteViewAndVerify();
 
@@ -402,11 +402,11 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click event payload", () => {
-      cy.wait(3000);
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.wait(3000);
-      cy.contains("Help Center", { timeout: 10000 }).click();
-      cy.wait(3000);
+      // cy.wait(3000);
+      cy.contains("Help", { timeout: 40000 }).click();
+      // cy.wait(3000);
+      cy.contains("Help Center", { timeout: 40000 }).click();
+      // cy.wait(3000);
 
       cy.validateGtmEvent(
         "help_menu_item_click",
@@ -460,11 +460,11 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click_lexicon event payload", () => {
-      cy.wait(3000);
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.wait(3000);
-      cy.contains("Lexicon", { timeout: 10000 }).click();
-      cy.wait(3000);
+      // cy.wait(3000);
+      cy.contains("Help", { timeout: 40000 }).click();
+      // cy.wait(3000);
+      cy.contains("Lexicon", { timeout: 40000 }).click();
+      // cy.wait(3000);
 
       cy.validateGtmEvent(
         "help_menu_item_click",
