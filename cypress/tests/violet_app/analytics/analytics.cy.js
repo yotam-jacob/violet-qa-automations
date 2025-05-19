@@ -51,7 +51,6 @@ describe("analytics Test Suite", () => {
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       cy.wait(3000);
       //Hover over the "Default" view and click the 3-dots menu
-      // cy.contains("Default").realHover();
       cy.get("*").then(($elements) => {
         const matching = $elements.filter((i, el) =>
           el.textContent.includes(AUTOMATION_VIEW_NAME)
@@ -70,7 +69,15 @@ describe("analytics Test Suite", () => {
       cy.get("#__next", { timeout: 45000 }).should("exist");
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).click();
-      cy.contains("Default").realHover();
+      // cy.contains("Default").realHover();
+
+      cy.get("*").then(($elements) => {
+        const matching = $elements.filter((i, el) =>
+          el.textContent.includes(AUTOMATION_VIEW_NAME)
+        );
+        cy.wrap(matching.eq(1)).contains("Default").realHover();
+      });
+
       cy.clickVisibleThreeDots();
       //Delete the view
       cy.clickOnDeleteViewAndVerify();
