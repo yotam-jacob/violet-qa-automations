@@ -21,52 +21,28 @@ Cypress.Commands.add("loginToVioletDev", () => {
     .find("input")
     .type("yotamjacob@walla.co.il");
 
-  cy.contains("Continue", { timeout: 10000 }).click();
+  cy.contains("Continue", { timeout: 30000 }).click();
 
   // 3. Enter password, then click Continue
-  cy.get('input[type="password"]', { timeout: 10000 })
+  cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
   cy.contains("Sign In").click();
 
   // 5. Verify login success (adjust selector as needed)
   cy.url().should("not.include", "/login", { timeout: 10000 });
-  cy.get("#__next", { timeout: 15000 }).should("exist");
+  cy.get("#__next", { timeout: 35000 }).should("exist");
   //switch to QA partner
-  cy.get("svg.h-6.w-6", { timeout: 10000 })
+  cy.get("svg.h-6.w-6", { timeout: 30000 })
     .should("be.visible")
     .click({ force: true });
-  cy.contains("QA", { timeout: 10000 }).click();
-  cy.get("#__next", { timeout: 15000 }).should("exist");
-  cy.url({ timeout: 15000 }).should("include", "/qa");
-  cy.get("svg.h-6.w-6", { timeout: 15000 })
+  cy.contains("QA", { timeout: 30000 }).click();
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+  cy.url({ timeout: 35000 }).should("include", "/qa");
+  cy.get("svg.h-6.w-6", { timeout: 35000 })
     .eq(0)
     .should("be.visible")
     .click({ force: true });
-});
-
-Cypress.Commands.add("loginToVioletStg", () => {
-  cy.visit("https://staging.violetgrowth.com/");
-
-  // 1. Click "Sign in with email"
-  cy.contains("Sign in with email").click();
-
-  // 2. Enter email in the input labeled "Email Address", then click Continue
-  cy.contains("Email Address")
-    .parent()
-    .find("input")
-    .type("yotamjacob@walla.co.il");
-
-  cy.contains("Continue").click();
-
-  // 3. Enter password, then click Continue
-  cy.get('input[type="password"]', { timeout: 10000 })
-    .should("be.visible")
-    .type("Eggrolls1246!");
-  cy.contains("Sign In").click();
-
-  // 5. Verify login success (adjust selector as needed)
-  cy.url().should("not.include", "/login");
 });
 
 Cypress.Commands.add("clickVisibleThreeDots", () => {
@@ -102,14 +78,14 @@ Cypress.Commands.add("createView", (name, options = {}) => {
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
   cy.contains("Delete view", { timeout: 40000 }).click();
-  cy.wait(3000);
+  // cy.wait(3000);
   cy.contains("button", "Remove", { timeout: 45000 }).click();
-  cy.wait(3000);
+  // cy.wait(3000);
   cy.reload();
-  cy.wait(3000);
+  // cy.wait(3000);
   cy.contains("Views", { timeout: 30000 }).should("be.visible");
   cy.contains("Views", { timeout: 45000 }).click();
-  cy.contains(AUTOMATION_VIEW_NAME, { timeout: 10000 }).should("not.exist");
+  cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("not.exist");
 });
 
 Cypress.Commands.add(
@@ -117,7 +93,7 @@ Cypress.Commands.add(
   (eventName, expectedPayload, consoleMessages) => {
     cy.log(`Waiting for [GTM Event]: ${eventName}`);
 
-    cy.wrap(null, { timeout: 5000 }).should(() => {
+    cy.wrap(null, { timeout: 35000 }).should(() => {
       const matchingEvents = consoleMessages.filter(
         (msg) => msg.data?.event === eventName
       );

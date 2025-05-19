@@ -3,11 +3,8 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
   beforeEach(() => {
-    // cy.wait(1000);
     cy.loginToVioletDev();
-    // cy.wait(1000);
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
-    // cy.wait(1000);
   });
 
   let consoleMessages = [];
@@ -79,7 +76,6 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests share_menu_click event payload", () => {
-      //cy.wait(3000);
       //Open share modal and click on the share button
       cy.get(
         "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -127,11 +123,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests filter_picked event payload", () => {
-      //cy.wait(3000);
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      //cy.wait(3000);
       cy.contains("button", "ERC").click();
-      //cy.wait(3000);
       cy.contains("Pathlight", { timeout: 10000 }).click();
 
       cy.validateGtmEvent(
@@ -210,12 +203,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click event payload", () => {
-      //cy.wait(3000);
       cy.contains("Help", { timeout: 10000 }).click();
-      //cy.wait(3000);
       cy.contains("Help Center", { timeout: 10000 }).click();
-      //cy.wait(3000);
-
       cy.validateGtmEvent(
         "help_menu_item_click",
         gtmExpectedEvents.help_menu_item_click,
@@ -268,11 +257,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click_lexicon event payload", () => {
-      //cy.wait(3000);
       cy.contains("Help", { timeout: 10000 }).click();
-      //cy.wait(3000);
       cy.contains("Lexicon", { timeout: 10000 }).click();
-      //cy.wait(3000);
 
       cy.validateGtmEvent(
         "help_menu_item_click",
