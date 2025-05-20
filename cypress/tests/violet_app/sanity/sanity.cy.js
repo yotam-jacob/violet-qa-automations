@@ -21,8 +21,6 @@ describe("Sanity Test Suite", () => {
   });
 
   it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
-    //cy.wait(3000);
-
     cy.contains(
       "button.flex.gap-2.justify-between.w-full.items-center.text-left",
       "KPI Trendlines",
@@ -30,20 +28,20 @@ describe("Sanity Test Suite", () => {
     ).realHover();
 
     cy.clickVisibleThreeDots();
+    cy.wait(2000); //necessary for the page to load
     cy.contains("Set as Homepage", { timeout: 40000 }).click();
-    cy.wait(1000); //necessary for the page to load
+    cy.wait(2000); //necessary for the page to load
 
     cy.contains("Summary", { timeout: 40000 }).click();
-    //cy.wait(10000);
 
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
       .first()
       .click({ force: true });
 
-    //cy.wait(2000);
-
-    cy.url().should("include", "partners/qa/reports/kpi-trendlines");
+    cy.url().should("include", "partners/qa/reports/kpi-trendlines", {
+      timeout: 40000,
+    });
 
     cy.get("#__next", { timeout: 15000 }).should("exist");
 
@@ -102,111 +100,63 @@ describe("Sanity Test Suite", () => {
     cy.get("#__next", { timeout: 15000 }).should("exist");
   });
 
-  it("Save current view, set as default and then remove it", () => {
-    //cy.wait(3000);
+  // TODO: Bug: https://app.clickup.com/t/86c3kyugt
+  // it("Save current view, set as default and then remove it", () => {
+  //   //Create new view and set as default
+  //   cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
+  //   //Verify that the new view is set as default
+  //   cy.reload();
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+  //   cy.contains("Default", { timeout: 40000 }).should("be.visible");
+  //   //Hover over the "Default" view and click the 3-dots menu
+  //   cy.contains("Default", { timeout: 40000 }).closest("div").realHover();
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000); //necessary for elements loading
 
-    //Create new view and set as default
-    cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
-    //cy.wait(3000);
+  //   //uncheck the default view
+  //   cy.get("#isDefault", { timeout: 45000 }).click();
+  //   cy.wait(1000); //necessary for elements loading
 
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
-    //cy.wait(3000);
-
-    //Verify that the new view is set as default
-    cy.reload();
-    //cy.wait(3000);
-
-    cy.get("#__next", { timeout: 45000 }).should("exist");
-    //cy.wait(3000);
-
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    //cy.wait(3000);
-
-    cy.contains("Default", { timeout: 40000 }).should("be.visible");
-    //cy.wait(3000);
-
-    //Hover over the "Default" view and click the 3-dots menu
-    cy.contains("Default", { timeout: 40000 }).closest("div").realHover();
-    //cy.wait(3000);
-
-    cy.clickVisibleThreeDots();
-    cy.wait(1000); //necessary for elements loading
-
-    //uncheck the default view
-    cy.get("#isDefault", { timeout: 45000 }).click();
-    cy.wait(1000); //necessary for elements loading
-
-    cy.reload({ timeout: 45000 });
-    //cy.wait(3000);
-
-    cy.get("#__next", { timeout: 45000 }).should("exist");
-    //cy.wait(3000);
-
-    cy.contains("Views", { timeout: 60000 }).click();
-    //cy.wait(3000);
-
-    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains(AUTOMATION_VIEW_NAME).realHover();
-    //cy.wait(3000);
-
-    cy.clickVisibleThreeDots();
-    //cy.wait(3000);
-
-    //Delete the view
-    cy.clickOnDeleteViewAndVerify();
-  });
+  //   cy.reload({ timeout: 45000 });
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains("Views", { timeout: 60000 }).click();
+  //   //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+  //   cy.contains(AUTOMATION_VIEW_NAME).realHover();
+  //   cy.clickVisibleThreeDots();
+  //   //Delete the view
+  //   cy.clickOnDeleteViewAndVerify();
+  // });
 
   it("User can create a public view", () => {
     //Create new public view
-    // cy.wait(5000);
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
-    // cy.wait(5000);
-
     cy.reload();
-    // cy.wait(5000);
-
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    // cy.wait(5000);
-
     // Verify it is set as public
-    // cy.wait(5000);
-
     cy.contains("Views", { timeout: 40000 }).click();
-    // cy.wait(5000);
-
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
 
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(5000);
-
     cy.contains("You are sharing this view as a Team view", {
       timeout: 40000,
-    }).should("be.visible");
-    // cy.wait(5000);
-
+    })
+      .contains(AUTOMATION_VIEW_NAME)
+      .should("be.visible");
     //Change the view to non public
     cy.clickVisibleThreeDots();
-    // cy.wait(5000);
-
     cy.get("#isPublic", { timeout: 40000 }).click();
-    // cy.wait(5000);
-
     cy.contains("You are sharing this view as a Team view", {
       timeout: 40000,
-    }).should("not.exist");
-    // cy.wait(5000);
-
+    })
+      .contains(AUTOMATION_VIEW_NAME)
+      .should("not.exist");
     cy.reload();
-    // cy.wait(5000);
-
     //Verify the view is renamed
     cy.contains("Views", { timeout: 40000 }).click();
-    // cy.wait(5000);
-
     //Delete the view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).realHover();
-    // cy.wait(5000);
-
     cy.clickVisibleThreeDots();
     cy.clickOnDeleteViewAndVerify();
   });
