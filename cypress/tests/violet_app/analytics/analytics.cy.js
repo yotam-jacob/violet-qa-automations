@@ -35,11 +35,14 @@ describe("analytics Test Suite", () => {
   describe("GTM Events Validation", () => {
     it("tests three_dots_default event payload", () => {
       //Create new view and set as default
+      cy.wait(1000);
       cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+      cy.wait(1000);
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
         "be.visible"
       );
+      cy.wait(1000);
 
       //Verify that the new view is set as default
       cy.reload();
