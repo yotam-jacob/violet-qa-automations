@@ -70,9 +70,9 @@ export const gtmExpectedEvents = {
     action: "copy",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    view_name: "unsaved_view",
+    view_name: "Automation Test View",
     view_group: "unsaved_view",
-    view_status: "unsaved_view",
+    view_status: "public",
   },
   download_menu_click: {
     user_id: "f24ea592-f316-4c7e-8887-000d84446773",
@@ -166,7 +166,7 @@ export const gtmExpectedEvents = {
     label: "rename",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": "Automation Test View",
+    "view name": AUTOMATION_VIEW_NAME,
   },
   three_dots_default: {
     user_id: "f24ea592-f316-4c7e-8887-000d84446773",
@@ -179,7 +179,7 @@ export const gtmExpectedEvents = {
     label: "set as default",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": "Automation Test View",
+    "view name": AUTOMATION_VIEW_NAME,
     value: false,
   },
   three_dots_public: {

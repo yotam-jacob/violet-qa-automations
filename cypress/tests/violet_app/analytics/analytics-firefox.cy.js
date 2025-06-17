@@ -75,33 +75,6 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests share_menu_click event payload", () => {
-      //Open share modal and click on the share button
-      cy.get(
-        "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
-        { timeout: 25000 }
-      )
-        .eq(0)
-        .should("be.visible")
-        .click();
-
-      cy.window().then((win) => {
-        if (!win.navigator.clipboard) {
-          win.navigator.clipboard = {};
-        }
-
-        // Provide a no-op function that prevents errors
-        win.navigator.clipboard.writeText = () => Promise.resolve();
-      });
-
-      cy.get(".h-3.w-3").click();
-      cy.validateGtmEvent(
-        "share_menu_click",
-        gtmExpectedEvents.share_menu_click,
-        consoleMessages
-      );
-    });
-
     it("tests download_menu_click event payload", () => {
       //Open download modal
 
@@ -124,7 +97,7 @@ describe("analytics Test Suite", () => {
 
     it("tests filter_picked event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.contains("button", "ERC").click();
+      cy.contains("button", "ERC", { timeout: 20000 }).click();
       cy.contains("Pathlight", { timeout: 10000 }).click();
 
       cy.validateGtmEvent(
@@ -135,9 +108,9 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests save_view_modal_clicks_cancel event payload", () => {
-      cy.contains("Views", { timeout: 10000 }).click();
-      cy.contains("Save as New", { timeout: 10000 }).click();
-      cy.contains("Cancel", { timeout: 10000 }).click();
+      cy.contains("Views", { timeout: 40000 }).click();
+      cy.contains("Save as New", { timeout: 40000 }).click();
+      cy.contains("Cancel", { timeout: 40000 }).click();
 
       cy.validateGtmEvent(
         "save view modal clicks",

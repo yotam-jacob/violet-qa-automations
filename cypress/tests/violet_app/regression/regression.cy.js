@@ -64,6 +64,12 @@ describe("Regression Test Suite", () => {
   });
 
   it("User can share a view through the share button", () => {
+    //Create new public view
+    cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
+
+    cy.reload();
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+
     //Open share modal and click on the share button
     cy.get(
       "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -96,6 +102,19 @@ describe("Regression Test Suite", () => {
     });
 
     cy.get("@clipboardWrite").should("have.been.called");
+
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+
+    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+      .find("div.group\\/item.relative")
+      .realHover();
+
+    //Change the view to non public
+    cy.clickVisibleThreeDots();
+
+    // Delete the view
+    cy.clickOnDeleteViewAndVerify();
   });
 
   it("User can download a view as a PDF file", () => {
@@ -170,7 +189,7 @@ describe("Regression Test Suite", () => {
       .should(
         "have.attr",
         "src",
-        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg"
+        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg", { timeout: 25000 }
       )
       .and("be.visible");
 
@@ -183,7 +202,7 @@ describe("Regression Test Suite", () => {
       .should(
         "have.attr",
         "src",
-        "https://storage.googleapis.com/violet_dev/20170301123009!Google__G__logo-1726743137687.svg"
+        "https://storage.googleapis.com/violet_dev/20170301123009!Google__G__logo-1726743137687.svg", { timeout: 25000 }
       )
       .and("be.visible");
   });

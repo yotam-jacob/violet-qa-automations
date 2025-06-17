@@ -33,53 +33,53 @@ describe("analytics Test Suite", () => {
   });
 
   describe("GTM Events Validation", () => {
-    // TODO: Bug: https://app.clickup.com/t/86c3kyugt
-    // it("tests three_dots_default event payload", () => {
-    //   //Create new view and set as default
-    //   cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+    it("tests three_dots_default event payload", () => {
+      //Create new view and set as default
+      cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
 
-    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
-    //     "be.visible"
-    //   );
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
+        "be.visible"
+      );
 
-    //   //Verify that the new view is set as default
-    //   cy.reload();
-    //   cy.get("#__next", { timeout: 45000 }).should("exist");
+      //Verify that the new view is set as default
+      cy.reload();
+      cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    //   //Hover over the "Default" view and click the 3-dots menu
-    //   cy.get("*").then(($elements) => {
-    //     const matching = $elements.filter((i, el) =>
-    //       el.textContent.includes(AUTOMATION_VIEW_NAME)
-    //     );
-    //     cy.wrap(matching.eq(1)).contains("Default").realHover();
-    //   });
-    //   cy.clickVisibleThreeDots();
-    //   //uncheck the default view
-    //   cy.get("#isDefault", { timeout: 45000 }).click();
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+      //Hover over the "Default" view and click the 3-dots menu
+      cy.get("*").then(($elements) => {
+        const matching = $elements.filter((i, el) =>
+          el.textContent.includes(AUTOMATION_VIEW_NAME)
+        );
+        cy.wrap(matching.eq(1)).contains("Default").realHover();
+      });
 
-    //   cy.reload({ timeout: 45000 });
-    //   cy.get("#__next", { timeout: 45000 }).should("exist");
+      cy.clickVisibleThreeDots();
+      //uncheck the default view
+      cy.get("#isDefault", { timeout: 45000 }).click();
 
-    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+      cy.reload({ timeout: 45000 });
+      cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    //   cy.get("*").then(($elements) => {
-    //     const matching = $elements.filter((i, el) =>
-    //       el.textContent.includes(AUTOMATION_VIEW_NAME)
-    //     );
-    //     cy.wrap(matching.eq(1)).contains("Default").realHover();
-    //   });
+      cy.contains("Views", { timeout: 40000 }).click();
 
-    //   cy.clickVisibleThreeDots();
-    //   //Delete the view
-    //   cy.clickOnDeleteViewAndVerify();
+      cy.get("*").then(($elements) => {
+        const matching = $elements.filter((i, el) =>
+          el.textContent.includes(AUTOMATION_VIEW_NAME)
+        );
+        cy.wrap(matching.eq(0)).contains(AUTOMATION_VIEW_NAME).realHover();
+      });
 
-    //   cy.validateGtmEvent(
-    //     "3-dots view menu click",
-    //     gtmExpectedEvents.three_dots_default,
-    //     consoleMessages
-    //   );
-    // });
+      cy.clickVisibleThreeDots();
+      //Delete the view
+      cy.clickOnDeleteViewAndVerify();
+
+      cy.validateGtmEvent(
+        "3-dots view menu click",
+        gtmExpectedEvents.three_dots_default,
+        consoleMessages
+      );
+    });
 
     it("tests three_dots_public event payload", () => {
       //Create new public view
@@ -162,6 +162,12 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests share_menu_click event payload", () => {
+      //Create new public view
+      cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
+
+      cy.reload();
+      cy.get("#__next", { timeout: 45000 }).should("exist");
+
       //Open share modal and click on the share button
       cy.get(
         "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -186,6 +192,19 @@ describe("analytics Test Suite", () => {
         gtmExpectedEvents.share_menu_click,
         consoleMessages
       );
+
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+
+      //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+        .find("div.group\\/item.relative")
+        .realHover();
+
+      //Change the view to non public
+      cy.clickVisibleThreeDots();
+
+      // Delete the view
+      cy.clickOnDeleteViewAndVerify();
     });
 
     it("tests download_menu_click event payload", () => {

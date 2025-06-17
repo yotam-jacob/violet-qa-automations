@@ -11,21 +11,20 @@ module.exports = defineConfig({
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
-  experimentalSessionAndOrigin: true,
 
   e2e: {
     setupNodeEvents(on, config) {
-      on('task', {
+      on("task", {
         logToTerminal(msg) {
-          console.log(msg)
-          return null
-        }
-      })
+          console.log(msg);
+          return null;
+        },
+      });
     },
-    baseUrl: 'https://dev.violetgrowth.com',
+    baseUrl: "https://dev.violetgrowth.com",
     specPattern: 'cypress/tests/violet_app/**/*.js',
     viewportWidth: 1920,
     screenshotOnRunFailure: false,
-    viewportHeight: 1080,  
+    viewportHeight: 1080,
   },
 });
