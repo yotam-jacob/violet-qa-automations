@@ -34,5 +34,3 @@ Cypress.on("uncaught:exception", (err) => {
 });
 
 require('cypress-xpath');
-
-require('cypress-fail-fast');

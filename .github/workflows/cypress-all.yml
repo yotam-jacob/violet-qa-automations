@@ -24,8 +24,7 @@ jobs:
         run: npm ci
 
       - name: Run All Cypress tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/**/*.cy.js" --env failFast=true
-
+        run: npx cypress run --browser chrome --spec "cypress/tests/**/*.cy.js"
       - name: Upload videos
         if: failure()
         uses: actions/upload-artifact@v4
