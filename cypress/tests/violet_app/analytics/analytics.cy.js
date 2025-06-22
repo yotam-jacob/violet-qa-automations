@@ -70,6 +70,7 @@ describe("analytics Test Suite", () => {
         cy.wrap(matching.eq(0)).contains(AUTOMATION_VIEW_NAME).realHover();
       });
 
+      cy.wait(3000); //necessary for elements loading
       cy.clickVisibleThreeDots();
       //Delete the view
       cy.clickOnDeleteViewAndVerify();
