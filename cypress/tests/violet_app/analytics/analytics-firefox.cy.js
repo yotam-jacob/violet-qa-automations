@@ -34,10 +34,16 @@ describe("analytics Test Suite", () => {
 
   describe("GTM Events Validation", () => {
     it("tests report_click event payload", () => {
+      cy.wait(3000); // Wait for the GTM script to load
+
       cy.visit(
         "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines"
       );
+      cy.wait(3000); // Wait for the GTM script to load
+
       cy.contains("KPI Trendlines", { timeout: 10000 }).click();
+      cy.wait(3000); // Wait for the GTM script to load
+
       cy.validateGtmEvent(
         "report_click",
         gtmExpectedEvents.report_click,
