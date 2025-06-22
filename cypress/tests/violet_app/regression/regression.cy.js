@@ -55,8 +55,11 @@ describe("Regression Test Suite", () => {
 
     cy.contains("Reset", { timeout: 40000 }).click();
     //Delete the view
+    cy.wait(2000);
     cy.contains("Views", { timeout: 40000 }).click();
+    cy.wait(2000);
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    cy.wait(2000);
 
     cy.clickVisibleThreeDots();
 
@@ -189,7 +192,8 @@ describe("Regression Test Suite", () => {
       .should(
         "have.attr",
         "src",
-        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg", { timeout: 25000 }
+        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg",
+        { timeout: 25000 }
       )
       .and("be.visible");
 
@@ -202,7 +206,8 @@ describe("Regression Test Suite", () => {
       .should(
         "have.attr",
         "src",
-        "https://storage.googleapis.com/violet_dev/20170301123009!Google__G__logo-1726743137687.svg", { timeout: 25000 }
+        "https://storage.googleapis.com/violet_dev/20170301123009!Google__G__logo-1726743137687.svg",
+        { timeout: 25000 }
       )
       .and("be.visible");
   });
