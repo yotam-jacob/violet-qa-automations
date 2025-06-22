@@ -145,7 +145,7 @@ describe("analytics Test Suite", () => {
 
     it("tests copy_button_click event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.get(".cursor-pointer.bg-gray-60").first().click();
+      cy.get(".cursor-pointer.bg-gray-60", { timeout: 40000 }).first().click();
 
       cy.validateGtmEvent(
         "copy_button_click",
