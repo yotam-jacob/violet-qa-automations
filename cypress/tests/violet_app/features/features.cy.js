@@ -1,4 +1,5 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
+import { AUTOMATION_PUBLIC_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Features Test Suite", () => {
   beforeEach(() => {
@@ -47,13 +48,78 @@ describe("Features Test Suite", () => {
     cy.reload();
   });
 
+  // // needs fix: https://app.clickup.com/t/86c42c6c0
   // it("User can use other users public view as its default view with consistency to reload, and return to previous state", () => {
+  //   // Open views menu
+  //   cy.contains("Views", { timeout: 40000 }).click();
 
+  //   // Selected the automation public view as default
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).realHover();
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000); //necessary for elements loading
+
+  //   cy.get("#isDefault", { timeout: 40000 }).click();
+  //   cy.contains("Default", { timeout: 40000 }).should("be.visible");
+
+  //   //reload
+  //   cy.reload();
+
+  //   // public automation view is still default
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
+  //   cy.contains("Default", { timeout: 40000 }).should("be.visible");
+
+  //   // uncheck it
+  //   cy.contains("Default", { timeout: 40000 }).closest("div").realHover();
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000); //necessary for elements loading
+  //   cy.get("#isDefault", { timeout: 40000 }).click();
+  //   cy.wait(3000); //necessary for elements loading
+  //   // reload
+  //   cy.reload();
+  //   //unfiltered report is loaded
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains("Views", { timeout: 60000 }).should("be.visible");
   // });
 
+  // // needs fix: https://app.clickup.com/t/86c42c6c0
   // it("User can alternate default between public view and private view", () => {
-
+  //   // Create a private default view
+  //   cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+  //   // refresh the page
+  //   cy.reload();
+  //   // private default view is created properly
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   // open views menu
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+  //   // Select the automation public view as default
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).realHover();
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000); //necessary for elements loading
+  //   cy.get("#isDefault", { timeout: 40000 }).click();
+  //   // reload
+  //   cy.reload();
+  //   // public automation view is still default
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
+  //   // select the private view as default
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).realHover();
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000); //necessary for elements loading
+  //   cy.get("#isDefault", { timeout: 40000 }).click();
+  //   // reload
+  //   cy.reload();
+  //   // private view is still default
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+  //   // delete private view
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).realHover();
+  //   cy.clickVisibleThreeDots();
+  //   cy.clickOnDeleteViewAndVerify();
+  //   // reload
+  //   cy.reload();
+  //   // unfiltered report is loaded
+  //   cy.get("#__next", { timeout: 45000 }).should("exist");
+  //   cy.contains("Views", { timeout: 60000 }).should("be.visible");
   // });
-
-  //todo: add analytics for using other users public view as default view
 });

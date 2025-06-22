@@ -279,8 +279,13 @@ describe("analytics Test Suite", () => {
       //Rename the view
       cy.contains("Views", { timeout: 40000 }).click();
       //Hover over the view and click the 3-dots menu
+      cy.wait(3000); //necessary for elements loading
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000); //necessary for elements loading
+
       cy.clickVisibleThreeDots();
+      cy.wait(3000); //necessary for elements loading
+
       cy.contains("Rename view", { timeout: 40000 }).click();
       cy.get("input[value='Automation Test View']").clear();
       cy.get("input[type='text']").type("Automation Test View Renamed");

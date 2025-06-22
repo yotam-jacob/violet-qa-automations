@@ -33,7 +33,6 @@ jobs:
         run: npx cypress run --browser firefox --spec "cypress/tests/violet_app/analytics/analytics-firefox.cy.js"
       - name: Run Cypress edge tests
         run: npx cypress run --browser edge --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
-
       - name: Upload videos
         if: failure()
         uses: actions/upload-artifact@v4

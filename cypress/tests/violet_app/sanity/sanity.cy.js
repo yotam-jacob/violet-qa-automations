@@ -6,19 +6,19 @@ describe("Sanity Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
-  // it("should log in successfully and redirect to the QA partners page", () => {
-  //   cy.url().should("include", "/partners/qa");
-  // });
+  it("should log in successfully and redirect to the QA partners page", () => {
+    cy.url().should("include", "/partners/qa");
+  });
 
-  // it("should navigate to Appointments Tracker via SOL Reports menu", () => {
-  //   cy.contains("h4", "SOL Reports").click({ force: true });
+  it("should navigate to Appointments Tracker via SOL Reports menu", () => {
+    cy.contains("h4", "SOL Reports").click({ force: true });
 
-  //   cy.contains("Appointments Tracker", { timeout: 10000 })
-  //     .should("be.visible")
-  //     .click();
+    cy.contains("Appointments Tracker", { timeout: 10000 })
+      .should("be.visible")
+      .click();
 
-  //   cy.url().should("include", "/reports/appointments-tracker");
-  // });
+    cy.url().should("include", "/reports/appointments-tracker");
+  });
 
   it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
     cy.wait(3000); //necessary for the page to load
