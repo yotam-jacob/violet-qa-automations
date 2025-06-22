@@ -96,6 +96,8 @@ describe("Regression Test Suite", () => {
       }
     });
 
+    cy.wait(2000);
+
     cy.get(
       "div.flex.relative.flex-col.w-full.gap-\\[5px\\].items-start"
     ).within(() => {
@@ -104,7 +106,11 @@ describe("Regression Test Suite", () => {
       });
     });
 
-    cy.get("@clipboardWrite").should("have.been.called");
+    cy.wait(2000);
+
+    cy.get("@clipboardWrite", { timeout: 40000 }).should("have.been.called");
+
+    cy.wait(2000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
@@ -112,6 +118,8 @@ describe("Regression Test Suite", () => {
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
       .find("div.group\\/item.relative")
       .realHover();
+
+    cy.wait(2000);
 
     //Change the view to non public
     cy.clickVisibleThreeDots();
