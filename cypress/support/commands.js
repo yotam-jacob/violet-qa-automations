@@ -35,6 +35,8 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
   //switch to QA partner
+  cy.wait(4000);
+
   cy.get("svg.h-6.w-6", { timeout: 30000 })
     .should("be.visible")
     .click({ force: true });
@@ -42,6 +44,8 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.wait(2000);
   cy.get("#__next", { timeout: 35000 }).should("exist");
   cy.url({ timeout: 35000 }).should("include", "/qa");
+  cy.wait(4000);
+
   cy.get("svg.h-6.w-6", { timeout: 35000 })
     .eq(0)
     .should("be.visible")
