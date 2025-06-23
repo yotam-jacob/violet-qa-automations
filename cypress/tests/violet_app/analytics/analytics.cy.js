@@ -169,6 +169,8 @@ describe("analytics Test Suite", () => {
       cy.reload();
       cy.get("#__next", { timeout: 45000 }).should("exist");
 
+      cy.wait(2000);
+
       //Open share modal and click on the share button
       cy.get(
         "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -177,6 +179,8 @@ describe("analytics Test Suite", () => {
         .eq(0)
         .should("be.visible")
         .click();
+
+      cy.wait(2000);
 
       cy.window().then((win) => {
         if (!win.navigator.clipboard) {
@@ -187,7 +191,11 @@ describe("analytics Test Suite", () => {
         win.navigator.clipboard.writeText = () => Promise.resolve();
       });
 
+      cy.wait(2000);
+
       cy.get(".h-3.w-3", { timeout: 25000 }).click();
+      cy.wait(2000);
+
       cy.validateGtmEvent(
         "share_menu_click",
         gtmExpectedEvents.share_menu_click,
