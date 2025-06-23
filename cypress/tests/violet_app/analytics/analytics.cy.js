@@ -577,6 +577,7 @@ describe("analytics Test Suite", () => {
       //Cancel the view
       cy.contains("Views", { timeout: 40000 }).click();
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000);
       cy.clickVisibleThreeDots();
       cy.contains("Delete view", { timeout: 40000 }).click();
       cy.contains("button", "Cancel", { timeout: 45000 }).click();
@@ -584,6 +585,8 @@ describe("analytics Test Suite", () => {
       //Delete the view
       cy.contains("Views", { timeout: 40000 }).click();
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000);
+
       cy.clickVisibleThreeDots();
       cy.clickOnDeleteViewAndVerify();
     });
