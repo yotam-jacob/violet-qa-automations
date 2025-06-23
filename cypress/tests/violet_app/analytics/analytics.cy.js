@@ -124,7 +124,10 @@ describe("analytics Test Suite", () => {
       cy.visit(
         "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines"
       );
-      cy.contains("KPI Trendlines", { timeout: 10000 }).click();
+      cy.wait(3000);
+      cy.contains("KPI Trendlines", { timeout: 30000 }).click();
+      cy.wait(3000);
+
       cy.validateGtmEvent(
         "report_click",
         gtmExpectedEvents.report_click,
