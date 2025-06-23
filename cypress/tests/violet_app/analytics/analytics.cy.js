@@ -146,7 +146,11 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests actions_menu_click event payload", () => {
+      cy.wait(3000);
+
       cy.contains("Views", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.validateGtmEvent(
         "actions_menu_click",
         gtmExpectedEvents.actions_menu_click,
