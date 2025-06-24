@@ -12,7 +12,6 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 Cypress.Commands.add("loginToVioletDev", () => {
   let retried = false;
 
-  // Suppress specific app error: "attempted to hard navigate to the same URL"
   Cypress.on("uncaught:exception", (err) => {
     if (
       err.message.includes(
@@ -23,7 +22,6 @@ Cypress.Commands.add("loginToVioletDev", () => {
     }
   });
 
-  // Retry visit once on failure
   Cypress.on("fail", (err) => {
     if (
       !retried &&
@@ -40,10 +38,8 @@ Cypress.Commands.add("loginToVioletDev", () => {
 
   cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false });
 
-  // Click "Sign in with email"
   cy.contains("Sign in with email").click();
 
-  // Enter email
   cy.contains("Email Address")
     .parent()
     .find("input")
@@ -51,24 +47,29 @@ Cypress.Commands.add("loginToVioletDev", () => {
 
   cy.contains("Continue", { timeout: 30000 }).click();
 
-  // Enter password
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
   cy.contains("Sign In").click();
 
-  // Verify login success
+  cy.wait(4000);
+
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
-  // Switch to QA partner
+  cy.wait(4000);
+
   cy.get("svg.h-6.w-6", { timeout: 30000 })
     .should("be.visible")
     .click({ force: true });
   cy.contains("QA", { timeout: 30000 }).click();
 
+  cy.wait(2000);
+
   cy.get("#__next", { timeout: 35000 }).should("exist");
   cy.url({ timeout: 35000 }).should("include", "/qa");
+
+  cy.wait(4000);
 
   cy.get("svg.h-6.w-6", { timeout: 35000 })
     .eq(0)
