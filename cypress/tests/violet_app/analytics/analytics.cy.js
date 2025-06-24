@@ -603,12 +603,18 @@ describe("analytics Test Suite", () => {
     it("tests remove_view_modal_click_remove event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME);
-
+      cy.wait(3000); //necessary for elements loading
       cy.reload();
       //Delete the view
+      cy.wait(3000); //necessary for elements loading
+
       cy.contains("Views", { timeout: 40000 }).click();
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000); //necessary for elements loading
+
       cy.clickVisibleThreeDots();
+      cy.wait(3000); //necessary for elements loading
+
       cy.clickOnDeleteViewAndVerify();
 
       cy.validateGtmEvent(
