@@ -18,7 +18,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
       err.message.includes("visit")
     ) {
       retried = true;
-      cy.wait(2000);
+      cy.wait(5000);
       return cy.visit("https://dev.violetgrowth.com/", {
         failOnStatusCode: false,
       });
