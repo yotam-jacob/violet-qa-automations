@@ -2,6 +2,7 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Security Test Suite", () => {
   beforeEach(() => {
+  cy.wait(5000);
     cy.loginToVioletDev();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
