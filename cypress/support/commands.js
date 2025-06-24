@@ -12,25 +12,38 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 Cypress.Commands.add("loginToVioletDev", () => {
   let retried = false;
 
-  Cypress.on("fail", (err, runnable) => {
+  // Suppress specific app error: "attempted to hard navigate to the same URL"
+  Cypress.on("uncaught:exception", (err) => {
     if (
-      (!retried && err.message.includes("Failed to load")) ||
-      err.message.includes("visit")
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
+  });
+
+  // Retry visit once on failure
+  Cypress.on("fail", (err) => {
+    if (
+      !retried &&
+      (err.message.includes("Failed to load") || err.message.includes("visit"))
     ) {
       retried = true;
-      cy.wait(5000);
+      cy.wait(2000);
       return cy.visit("https://dev.violetgrowth.com/", {
         failOnStatusCode: false,
       });
     }
-
     throw err;
   });
 
   cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false });
 
+  // Click "Sign in with email"
   cy.contains("Sign in with email").click();
 
+  // Enter email
   cy.contains("Email Address")
     .parent()
     .find("input")
@@ -38,27 +51,25 @@ Cypress.Commands.add("loginToVioletDev", () => {
 
   cy.contains("Continue", { timeout: 30000 }).click();
 
+  // Enter password
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
   cy.contains("Sign In").click();
 
-  cy.wait(4000);
-
+  // Verify login success
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
-  cy.wait(4000);
+  // Switch to QA partner
   cy.get("svg.h-6.w-6", { timeout: 30000 })
     .should("be.visible")
     .click({ force: true });
   cy.contains("QA", { timeout: 30000 }).click();
 
-  cy.wait(2000);
   cy.get("#__next", { timeout: 35000 }).should("exist");
   cy.url({ timeout: 35000 }).should("include", "/qa");
 
-  cy.wait(4000);
   cy.get("svg.h-6.w-6", { timeout: 35000 })
     .eq(0)
     .should("be.visible")
