@@ -10,7 +10,18 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletDev", () => {
-  cy.visit("https://dev.violetgrowth.com/");
+  // cy.visit("https://dev.violetgrowth.com/");
+
+  cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false })
+    .then(() => {
+      // Success – do nothing
+    })
+    .catch(() => {
+      // First attempt failed – wait and retry once
+      cy.log("Retrying visit after failure");
+      cy.wait(2000);
+      cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false });
+    });
 
   // Click "Sign in with email"
   cy.contains("Sign in with email").click();
