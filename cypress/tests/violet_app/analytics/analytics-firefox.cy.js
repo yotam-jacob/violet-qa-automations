@@ -130,9 +130,11 @@ describe("analytics Test Suite", () => {
 
     it("tests sidebar toggle event payload", () => {
       // Close the sidebar menu
+      cy.wait(3000);
       cy.get('button:has(svg[width="16"][height="16"][viewBox="0 0 16 16"])')
         .eq(1)
         .click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "toggle sidebar",
