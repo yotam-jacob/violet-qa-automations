@@ -63,12 +63,19 @@ describe("analytics Test Suite", () => {
       cy.wait(3000); //necessary for elements loading
       cy.clickVisibleThreeDots();
       //uncheck the default view
+      cy.wait(3000); //necessary for elements loading
+
       cy.get("#isDefault", { timeout: 45000 }).click();
+      cy.wait(3000); //necessary for elements loading
 
       cy.reload({ timeout: 45000 });
+      cy.wait(3000); //necessary for elements loading
+
       cy.get("#__next", { timeout: 45000 }).should("exist");
+      cy.wait(3000); //necessary for elements loading
 
       cy.contains("Views", { timeout: 40000 }).click();
+      cy.wait(3000); //necessary for elements loading
 
       cy.get("*").then(($elements) => {
         const matching = $elements.filter((i, el) =>
@@ -80,7 +87,10 @@ describe("analytics Test Suite", () => {
       cy.wait(3000); //necessary for elements loading
       cy.clickVisibleThreeDots();
       //Delete the view
+      cy.wait(3000); //necessary for elements loading
+
       cy.clickOnDeleteViewAndVerify();
+      cy.wait(3000); //necessary for elements loading
 
       cy.validateGtmEvent(
         "3-dots view menu click",
