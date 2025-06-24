@@ -10,18 +10,63 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletDev", () => {
-  // cy.visit("https://dev.violetgrowth.com/");
+  let retried = false;
 
-  cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false })
-    .then(() => {
-      // Success – do nothing
-    })
-    .catch(() => {
-      // First attempt failed – wait and retry once
-      cy.log("Retrying visit after failure");
+  Cypress.on("fail", (err, runnable) => {
+    if (
+      (!retried && err.message.includes("Failed to load")) ||
+      err.message.includes("visit")
+    ) {
+      retried = true;
       cy.wait(2000);
-      cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false });
-    });
+      return cy.visit("https://dev.violetgrowth.com/", {
+        failOnStatusCode: false,
+      });
+    }
+
+    throw err;
+  });
+
+  cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false });
+
+  cy.contains("Sign in with email").click();
+
+  cy.contains("Email Address")
+    .parent()
+    .find("input")
+    .type("yotamjacob@walla.co.il");
+
+  cy.contains("Continue", { timeout: 30000 }).click();
+
+  cy.get('input[type="password"]', { timeout: 30000 })
+    .should("be.visible")
+    .type("Eggrolls1246!");
+  cy.contains("Sign In").click();
+
+  cy.wait(4000);
+
+  cy.url().should("not.include", "/login", { timeout: 40000 });
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+
+  cy.wait(4000);
+  cy.get("svg.h-6.w-6", { timeout: 30000 })
+    .should("be.visible")
+    .click({ force: true });
+  cy.contains("QA", { timeout: 30000 }).click();
+
+  cy.wait(2000);
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+  cy.url({ timeout: 35000 }).should("include", "/qa");
+
+  cy.wait(4000);
+  cy.get("svg.h-6.w-6", { timeout: 35000 })
+    .eq(0)
+    .should("be.visible")
+    .click({ force: true });
+});
+
+Cypress.Commands.add("loginToVioletDev2", () => {
+  cy.visit("https://dev.violetgrowth.com/");
 
   // Click "Sign in with email"
   cy.contains("Sign in with email").click();
