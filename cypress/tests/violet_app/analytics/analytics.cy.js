@@ -400,8 +400,12 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests insight_thumb_rating event payload", () => {
+      cy.wait(3000);
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
+      cy.wait(3000);
+
       cy.get(".cursor-pointer.bg-white").first().click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "insight_thumb_rating",
