@@ -41,18 +41,18 @@ describe("analytics Test Suite", () => {
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
         "be.visible"
       );
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       //Verify that the new view is set as default
       cy.reload();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.get("#__next", { timeout: 45000 }).should("exist");
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       //Hover over the "Default" view and click the 3-dots menu
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.get("*").then(($elements) => {
         const matching = $elements.filter((i, el) =>
@@ -60,22 +60,28 @@ describe("analytics Test Suite", () => {
         );
         cy.wrap(matching.eq(1)).contains("Default").realHover();
       });
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
       cy.clickVisibleThreeDots();
       //uncheck the default view
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.get("#isDefault", { timeout: 45000 }).click();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.reload({ timeout: 45000 });
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.get("#__next", { timeout: 45000 }).should("exist");
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
+
+      cy.reload({ timeout: 45000 });
+      cy.wait(3000);
+
+      cy.get("#__next", { timeout: 45000 }).should("exist");
+      cy.wait(3000);
 
       cy.contains("Views", { timeout: 40000 }).click();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.get("*").then(($elements) => {
         const matching = $elements.filter((i, el) =>
