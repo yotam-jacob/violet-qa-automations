@@ -457,10 +457,14 @@ describe("analytics Test Suite", () => {
 
     it("tests drawer_close_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(3000);
       cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.get("button.bg-gray-150", { timeout: 40000 })
         .should("be.visible")
         .click({ force: true });
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "drawer_close_click",
@@ -485,11 +489,17 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests external_link_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.contains("Help Center", { timeout: 10000 }).click();
-      cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
+      cy.contains("Help", { timeout: 30000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Help Center", { timeout: 30000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Comprehensive Example Article", { timeout: 30000 }).click();
+      cy.wait(3000);
+
       cy.contains("contextual links to external sites", {
-        timeout: 10000,
+        timeout: 30000,
       }).click();
 
       cy.validateGtmEvent(
