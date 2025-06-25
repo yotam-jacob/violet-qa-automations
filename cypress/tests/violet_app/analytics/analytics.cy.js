@@ -310,8 +310,11 @@ describe("analytics Test Suite", () => {
     it("tests views_menu_click_rename event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME);
+      cy.wait(3000); //necessary for elements loading
 
       cy.reload();
+      cy.wait(3000); //necessary for elements loading
+
       //Rename the view
       cy.contains("Views", { timeout: 40000 }).click();
       //Hover over the view and click the 3-dots menu
@@ -323,26 +326,40 @@ describe("analytics Test Suite", () => {
       cy.wait(3000); //necessary for elements loading
 
       cy.contains("Rename view", { timeout: 40000 }).click();
+      cy.wait(3000); //necessary for elements loading
+
       cy.get("input[value='Automation Test View']").clear();
+      cy.wait(3000); //necessary for elements loading
+
       cy.get("input[type='text']").type("Automation Test View Renamed");
+      cy.wait(3000); //necessary for elements loading
+
       cy.get("button.bg-main-primaryPurple").eq(0).click();
+      cy.wait(3000); //necessary for elements loading
+
       cy.reload();
 
       //Verify the view is renamed
       cy.contains("Views", { timeout: 40000 }).click();
+      cy.wait(3000); //necessary for elements loading
 
       cy.contains("Automation Test View Renamed", {
         timeout: 40000,
       }).should("be.visible");
+      cy.wait(3000); //necessary for elements loading
 
       //Delete the view
       cy.contains(
         "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
         AUTOMATION_VIEW_NAME
       ).realHover();
+      cy.wait(3000); //necessary for elements loading
 
       cy.clickVisibleThreeDots();
+      cy.wait(3000); //necessary for elements loading
+
       cy.clickOnDeleteViewAndVerify();
+      cy.wait(3000); //necessary for elements loading
 
       cy.validateGtmEvent(
         "3-dots view menu click",
