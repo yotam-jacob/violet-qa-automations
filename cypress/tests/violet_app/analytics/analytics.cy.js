@@ -248,7 +248,7 @@ describe("analytics Test Suite", () => {
 
     it("tests download_menu_click event payload", () => {
       //Open download modal
-      cy.wait(2000);
+      cy.wait(3000);
 
       cy.get(
         "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -257,10 +257,10 @@ describe("analytics Test Suite", () => {
         .eq(1)
         .should("be.visible")
         .click();
-      cy.wait(2000);
+      cy.wait(3000);
 
       cy.contains("PDF").click();
-      cy.wait(2000);
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "download_menu_click",
