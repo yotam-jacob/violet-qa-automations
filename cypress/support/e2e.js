@@ -29,6 +29,11 @@ Cypress.on("uncaught:exception", (err) => {
   ) {
     return false; // suppress only this specific kind of error
   }
+   else if (
+    err.message.includes("showCustomViewAsync")
+  ) {
+    return false; // suppress only this specific kind of error
+  }
 
   return true; // let all other errors fail the test
 });

@@ -106,7 +106,7 @@ describe("Sanity Test Suite", () => {
 
   it("Save current view, set as default and then remove it", () => {
     //Create new view and set as default
-    cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+    cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
     //Verify that the new view is set as default
     cy.reload();
@@ -124,9 +124,11 @@ describe("Sanity Test Suite", () => {
 
     cy.reload({ timeout: 45000 });
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.contains("Views", { timeout: 60000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 60000 }).click();
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+      .find("div.group\\/item.relative")
+      .realHover();
     cy.clickVisibleThreeDots();
     //Delete the view
     cy.clickOnDeleteViewAndVerify();

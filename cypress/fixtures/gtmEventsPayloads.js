@@ -396,6 +396,6 @@ export const gtmExpectedEvents = {
     report: "Table Viewer",
     view_group: "My views",
     view_name: AUTOMATION_VIEW_NAME,
-    view_status: "private",
+    view_status: "public",
   },
 };

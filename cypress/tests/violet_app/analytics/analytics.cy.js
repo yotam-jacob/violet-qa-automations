@@ -33,77 +33,71 @@ describe("analytics Test Suite", () => {
   });
 
   describe("GTM Events Validation", () => {
-    // it("tests three_dots_default event payload", () => {
-    //   //Create new view and set as default
-    //   cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
-    //   cy.wait(3000); //necessary for elements loading
+    it("tests three_dots_default event payload", () => {
+      //Create new view and set as default
+      cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
+      cy.wait(3000); //necessary for elements loading
 
-    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
-    //     "be.visible"
-    //   );
-    //   cy.wait(3000);
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should(
+        "be.visible"
+      );
+      cy.wait(3000);
 
-    //   //Verify that the new view is set as default
-    //   cy.reload();
-    //   cy.wait(3000);
+      //Verify that the new view is set as default
+      cy.reload();
+      cy.wait(3000);
 
-    //   cy.get("#__next", { timeout: 45000 }).should("exist");
-    //   cy.wait(3000);
+      cy.get("#__next", { timeout: 45000 }).should("exist");
+      cy.wait(3000);
 
-    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    //   //Hover over the "Default" view and click the 3-dots menu
-    //   cy.wait(3000);
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+      //Hover over the "Default" view and click the 3-dots menu
 
-    //   cy.get("*").then(($elements) => {
-    //     const matching = $elements.filter((i, el) =>
-    //       el.textContent.includes(AUTOMATION_VIEW_NAME)
-    //     );
-    //     cy.wrap(matching.eq(1)).contains("Default").realHover();
-    //   });
-    //   cy.wait(3000);
-    //   cy.clickVisibleThreeDots();
-    //   //uncheck the default view
-    //   cy.wait(3000);
+      cy.get("*").then(($elements) => {
+        const matching = $elements.filter((i, el) =>
+          el.textContent.includes(AUTOMATION_VIEW_NAME)
+        );
+        cy.wrap(matching.eq(1)).contains("Default").realHover();
+      });
+      cy.clickVisibleThreeDots();
+      //uncheck the default view
+      cy.wait(3000);
 
-    //   cy.get("#isDefault", { timeout: 45000 }).click();
-    //   cy.wait(3000);
+      cy.get("#isDefault", { timeout: 45000 }).click();
+      cy.wait(3000);
 
-    //   cy.reload({ timeout: 45000 });
-    //   cy.wait(3000);
+      cy.reload({ timeout: 45000 });
+      cy.wait(3000);
 
-    //   cy.get("#__next", { timeout: 45000 }).should("exist");
-    //   cy.wait(3000);
+      cy.get("#__next", { timeout: 45000 }).should("exist");
+      cy.wait(3000);
 
-    //   cy.reload({ timeout: 45000 });
-    //   cy.wait(3000);
+      cy.reload({ timeout: 45000 });
+      cy.wait(3000);
 
-    //   cy.get("#__next", { timeout: 45000 }).should("exist");
-    //   cy.wait(3000);
+      cy.get("#__next", { timeout: 45000 }).should("exist");
+      cy.wait(3000);
 
-    //   cy.contains("Views", { timeout: 40000 }).click();
-    //   cy.wait(3000);
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
-    //   cy.get("*").then(($elements) => {
-    //     const matching = $elements.filter((i, el) =>
-    //       el.textContent.includes(AUTOMATION_VIEW_NAME)
-    //     );
-    //     cy.wrap(matching.eq(0)).contains(AUTOMATION_VIEW_NAME).realHover();
-    //   });
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+        .find("div.group\\/item.relative")
+        .realHover();
 
-    //   cy.wait(3000); //necessary for elements loading
-    //   cy.clickVisibleThreeDots();
-    //   //Delete the view
-    //   cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
+      cy.clickVisibleThreeDots();
+      //Delete the view
+      cy.wait(3000);
 
-    //   cy.clickOnDeleteViewAndVerify();
-    //   cy.wait(3000); //necessary for elements loading
+      cy.clickOnDeleteViewAndVerify();
+      cy.wait(3000);
 
-    //   cy.validateGtmEvent(
-    //     "3-dots view menu click",
-    //     gtmExpectedEvents.three_dots_default,
-    //     consoleMessages
-    //   );
-    // });
+      cy.validateGtmEvent(
+        "3-dots view menu click",
+        gtmExpectedEvents.three_dots_default,
+        consoleMessages
+      );
+    });
 
     it("tests three_dots_public event payload", () => {
       //Create new public view
@@ -320,17 +314,21 @@ describe("analytics Test Suite", () => {
 
     it("tests views_menu_click_rename event payload", () => {
       //Create new view
-      cy.createView(AUTOMATION_VIEW_NAME);
+      cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
       cy.wait(3000); //necessary for elements loading
 
       cy.reload();
       cy.wait(3000); //necessary for elements loading
 
       //Rename the view
-      cy.contains("Views", { timeout: 40000 }).click();
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       //Hover over the view and click the 3-dots menu
       cy.wait(3000); //necessary for elements loading
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
+
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+        .find("div.group\\/item.relative")
+        .realHover();
+
       cy.wait(3000); //necessary for elements loading
 
       cy.clickVisibleThreeDots();
@@ -351,19 +349,13 @@ describe("analytics Test Suite", () => {
       cy.reload();
 
       //Verify the view is renamed
-      cy.contains("Views", { timeout: 40000 }).click();
-      cy.wait(3000); //necessary for elements loading
-
-      cy.contains("Automation Test View Renamed", {
-        timeout: 40000,
-      }).should("be.visible");
+      cy.contains("Automation Test View Renamed", { timeout: 40000 }).click();
       cy.wait(3000); //necessary for elements loading
 
       //Delete the view
-      cy.contains(
-        "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
-        AUTOMATION_VIEW_NAME
-      ).realHover();
+      cy.contains("div.w-full", "Automation Test View Renamed")
+        .find("div.group\\/item.relative")
+        .realHover();
       cy.wait(3000); //necessary for elements loading
 
       cy.clickVisibleThreeDots();
@@ -654,14 +646,16 @@ describe("analytics Test Suite", () => {
 
     it("tests remove_view_modal_click_remove event payload", () => {
       //Create new view
-      cy.createView(AUTOMATION_VIEW_NAME);
+      cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
       cy.wait(3000); //necessary for elements loading
       cy.reload();
-      //Delete the view
-      cy.wait(3000); //necessary for elements loading
 
-      cy.contains("Views", { timeout: 40000 }).click();
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+        .find("div.group\\/item.relative")
+        .realHover();
+
       cy.wait(3000); //necessary for elements loading
 
       cy.clickVisibleThreeDots();
