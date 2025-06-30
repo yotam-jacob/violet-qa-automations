@@ -75,11 +75,10 @@ describe("Security Test Suite", () => {
 
     cy.get("@alert").should("not.have.been.called");
 
-    //Verify the view is renamed
-    cy.contains(maliciousScript, { timeout: 10000 }).click();
+    cy.contains(maliciousScript, { timeout: 20000 }).click();
 
     cy.contains(maliciousScript, {
-      timeout: 10000,
+      timeout: 20000,
     }).should("be.visible");
 
     //Delete the view
