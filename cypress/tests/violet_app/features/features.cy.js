@@ -7,50 +7,49 @@ describe("Features Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
-  // it("User has only 2 enabled view options using a non filtered view", () => {
-  //   cy.contains("Views", { timeout: 40000 }).click();
-  //   cy.contains("button", "Update View").should("be.disabled");
-  //   cy.contains("button", "Save as New").should("be.enabled");
-  //   cy.contains("button", "Reset").should("be.enabled");
-  // });
+  it("User has only 2 enabled view options using a non filtered view", () => {
+    cy.contains("Views", { timeout: 40000 }).click();
+    cy.contains("button", "Update View").should("be.disabled");
+    cy.contains("button", "Save as New").should("be.enabled");
+    cy.contains("button", "Reset").should("be.enabled");
+  });
 
-  // it("Delete public view message confirmation test", () => {
-  //   cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
+  it("Delete public view message confirmation test", () => {
+    cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
-  //   cy.reload();
+    cy.reload();
 
-  //   // Verify it is set as public
-  //   cy.contains("Views", { timeout: 40000 }).click();
+    // Verify it is set as public
+    cy.contains("Views", { timeout: 40000 }).click();
 
-  //   //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-  //   cy.contains("div.w-full", AUTOMATION_VIEW_NAME, { timeout: 40000 })
-  //     .find("div.group\\/item.relative")
-  //     .realHover();
+    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, { timeout: 40000 })
+      .find("div.group\\/item.relative")
+      .realHover();
 
-  //   cy.contains("You are sharing this view as a Team view", { timeout: 40000 })
-  //     .contains(AUTOMATION_VIEW_NAME)
-  //     .should("be.visible");
+    cy.contains("You are sharing this view as a Team view", { timeout: 40000 })
+      .contains(AUTOMATION_VIEW_NAME)
+      .should("be.visible");
 
-  //   //Change the view to non public
-  //   cy.clickVisibleThreeDots();
+    //Change the view to non public
+    cy.clickVisibleThreeDots();
 
-  //   cy.contains("Delete view", { timeout: 40000 }).click();
+    cy.contains("Delete view", { timeout: 40000 }).click();
 
-  //   cy.contains(
-  //     "Are you sure you want to delete “" +
-  //       AUTOMATION_VIEW_NAME +
-  //       "“ from your list of saved views?",
-  //     { timeout: 40000 }
-  //   ).should("be.visible");
+    cy.contains(
+      "Are you sure you want to delete “" +
+        AUTOMATION_VIEW_NAME +
+        "“ from your list of saved views?",
+      { timeout: 40000 }
+    ).should("be.visible");
 
-  //   cy.contains("button", "Remove", { timeout: 45000 }).click();
-  //   cy.wait(2000);
-  //   cy.reload();
-  // });
+    cy.contains("button", "Remove", { timeout: 45000 }).click();
+    cy.wait(2000);
+    cy.reload();
+  });
 
-  //todo: check this test
   it("User can use other users public view as its default view with consistency to reload, and return to previous state", () => {
-    // cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
+    cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
@@ -101,9 +100,9 @@ describe("Features Test Suite", () => {
       .realHover();
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000); //necessary for elements loading
+    cy.wait(1000);
     cy.get("#isDefault", { timeout: 40000 }).click();
-    cy.wait(3000); //necessary for elements loading
+    cy.wait(3000);
     // reload
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
@@ -121,5 +120,48 @@ describe("Features Test Suite", () => {
 
     cy.clickVisibleThreeDots();
     cy.clickOnDeleteViewAndVerify();
+  });
+
+  it("User can create a private view and the access a tooltip with correct time", () => {
+    //Create new view
+    cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    //Hover over the "Default" view and click the 3-dots menu
+    cy.contains("Default", { timeout: 40000 }).closest("div").realHover();
+    cy.clickVisibleThreeDots();
+    cy.wait(1000);
+
+    const now = new Date();
+
+    const options = { day: "2-digit", month: "short", year: "numeric" };
+    const datePart = now.toLocaleDateString("en-GB", options).replace(/,/g, ""); // "23 Jun 2025"
+
+    const hours = String(now.getHours()).padStart(2, "0");
+    const minutes = String(now.getMinutes()).padStart(2, "0");
+    const timePart = `${hours}:${minutes}`; // "09:34"
+
+    const fullText = `Modified: ${datePart} ${timePart}`; // "Modified: 23 Jun 2025 09:34"
+
+    cy.contains(fullText).should("be.visible");
+
+    //delete the view
+    cy.clickOnDeleteViewAndVerify();
+  });
+
+  it("User can review the tooltip metada of public views from other users", () => {
+    //open Views
+    cy.contains("Views", { timeout: 40000 }).click();
+    //Hover over the AUTOMATION_PUBLIC_VIEW_NAME view and click the 3-dots menu
+    cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
+      .find("div.group\\/item.relative")
+      .realHover();
+
+    //open 3-dots menu
+    cy.clickVisibleThreeDots();
+    cy.wait(1000);
+    // Verify the tooltip metadata
+    cy.contains("Owner: Yotam Jacob Walla \nModified: 24 Jun 2025 18:37").should(
+      "be.visible"
+    );
   });
 });

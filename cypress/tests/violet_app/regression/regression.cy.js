@@ -209,7 +209,7 @@ describe("Regression Test Suite", () => {
     cy.get("svg.h-6.w-6").should("be.visible").click({ force: true });
 
     cy.contains("dev").click();
-    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
 
     cy.get('img[alt="Partner logo"]')
       .should(
