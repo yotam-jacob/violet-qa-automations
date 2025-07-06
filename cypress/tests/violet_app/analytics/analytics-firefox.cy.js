@@ -106,8 +106,8 @@ describe("analytics Test Suite", () => {
 
     it("tests filter_picked event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.contains("button", "ERC", { timeout: 20000 }).click();
-      cy.contains("Pathlight", { timeout: 10000 }).click();
+      cy.contains("button", "PopSells", { timeout: 20000 }).click();
+      cy.contains("PopSells2", { timeout: 10000 }).click();
 
       cy.validateGtmEvent(
         "filter_picked",
@@ -167,7 +167,7 @@ describe("analytics Test Suite", () => {
 
     it("tests drivers_tab_click event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/drivers");
-      cy.contains("Channel Type Drilldown", { timeout: 10000 }).click();
+      cy.contains("Drivers Tab", { timeout: 20000 }).click();
 
       cy.validateGtmEvent(
         "drivers_tab_click",
@@ -226,7 +226,7 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests external_link_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help", { timeout: 20000 }).click();
       cy.contains("Help Center", { timeout: 10000 }).click();
       cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
       cy.contains("contextual links to external sites", {

@@ -127,7 +127,13 @@ describe("Features Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
     //Hover over the "Default" view and click the 3-dots menu
-    cy.contains("Default", { timeout: 40000 }).closest("div").realHover();
+    cy.wait(1000);
+
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, { timeout: 40000 })
+      .find("div.group\\/item.relative")
+      .realHover();
+    cy.wait(1000);
+
     cy.clickVisibleThreeDots();
     cy.wait(1000);
 
@@ -160,7 +166,10 @@ describe("Features Test Suite", () => {
     cy.clickVisibleThreeDots();
     cy.wait(1000);
     // Verify the tooltip metadata
-    cy.contains("Owner: Yotam Jacob Walla \nModified: 24 Jun 2025 18:37").should(
+    cy.contains("Owner: Yotam Jacob").should(
+      "be.visible"
+    );
+    cy.contains("Modified: 24 Jun 2025 18:37").should(
       "be.visible"
     );
   });

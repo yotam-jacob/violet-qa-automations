@@ -2,13 +2,13 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 export const gtmExpectedEvents = {
   user_login: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     event: "user_login",
   },
   report_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -19,7 +19,7 @@ export const gtmExpectedEvents = {
     category: "Hourly Monitoring",
   },
   report_load: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -30,7 +30,7 @@ export const gtmExpectedEvents = {
     category: "Hourly Monitoring",
   },
   actions_menu_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -45,7 +45,7 @@ export const gtmExpectedEvents = {
     view_status: "unsaved_view",
   },
   views_menu_click_reset: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -60,7 +60,7 @@ export const gtmExpectedEvents = {
     view_status: "unsaved_view",
   },
   share_menu_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -75,7 +75,7 @@ export const gtmExpectedEvents = {
     view_status: "public",
   },
   download_menu_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -90,7 +90,7 @@ export const gtmExpectedEvents = {
     view_status: "unsaved_view",
   },
   filter_picked: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -98,12 +98,12 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "filter_picked",
     report: "Insights",
-    time_period: "weekly",
-    label: "Unit",
-    value: "Pathlight",
+    time_period: "daily",
+    label: "Business Unit",
+    value: "PopSells2",
   },
   save_view_modal_clicks_cancel: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -113,7 +113,7 @@ export const gtmExpectedEvents = {
     action: "cancel",
   },
   save_view_modal_clicks_save: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -128,7 +128,7 @@ export const gtmExpectedEvents = {
     "is default": false,
   },
   views_menu_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -141,7 +141,7 @@ export const gtmExpectedEvents = {
     "view name": AUTOMATION_VIEW_NAME,
   },
   views_menu_click_delete: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -156,7 +156,7 @@ export const gtmExpectedEvents = {
     view_status: "private",
   },
   views_menu_click_rename: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -169,7 +169,7 @@ export const gtmExpectedEvents = {
     "view name": AUTOMATION_VIEW_NAME,
   },
   three_dots_default: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -183,7 +183,7 @@ export const gtmExpectedEvents = {
     value: false,
   },
   three_dots_public: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -197,7 +197,7 @@ export const gtmExpectedEvents = {
     value: false,
   },
   toggle_sidebar: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -207,7 +207,7 @@ export const gtmExpectedEvents = {
     value: "close",
   },
   insight_thumb_rating: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -216,13 +216,12 @@ export const gtmExpectedEvents = {
     event: "insight_thumb_rating",
     report: "Insights",
     title_1:
-      "the Midwest region -> the East operations_region -> the Illinois state -> the Non Paid-Digital channel",
-    tag_1: "Channel:Non Paid-Digital",
-    tag_2: "State:Illinois",
+      "the 3P Affiliates platform",
+    tag_1: "platform:3P Affiliates",
     thumb_edited: "TRUE",
   },
   copy_button_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -230,12 +229,12 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "copy_button_click",
     report: "Insights",
-    business_unit: "ERC",
-    time_period: "weekly",
+    business_unit: "PopSells",
+    time_period: "daily",
     section: "Insight 1",
   },
   drivers_tab_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -243,12 +242,12 @@ export const gtmExpectedEvents = {
     env: "development",
     event: "drivers_tab_click",
     report: "Drivers",
-    business_unit: "ERC",
-    time_period: "weekly",
-    label: "Channel Type Drilldown",
+    business_unit: "PopSells",
+    time_period: "daily",
+    label: "Drivers Tab",
   },
   open_help_menu_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -257,7 +256,7 @@ export const gtmExpectedEvents = {
     event: "open_help_menu_click",
   },
   help_menu_item_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -267,7 +266,7 @@ export const gtmExpectedEvents = {
     button_text: "help",
   },
   drawer_close_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -276,7 +275,7 @@ export const gtmExpectedEvents = {
     event: "drawer_close_click",
   },
   internal_link_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -287,7 +286,7 @@ export const gtmExpectedEvents = {
     target_page: "This is only a long long long long long long long test",
   },
   external_link_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -297,7 +296,7 @@ export const gtmExpectedEvents = {
     target_url: "https://google.com",
   },
   help_menu_item_click_lexicon: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -307,7 +306,7 @@ export const gtmExpectedEvents = {
     button_text: "lexicon",
   },
   contact_support_modal_close: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -316,7 +315,7 @@ export const gtmExpectedEvents = {
     event: "contact_support_modal_close",
   },
   article_list_lexicon_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -328,7 +327,7 @@ export const gtmExpectedEvents = {
     "view name": "",
   },
   expand_collection_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -338,7 +337,7 @@ export const gtmExpectedEvents = {
     collection: "Table of Raw Metrics",
   },
   expand_term_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -348,7 +347,7 @@ export const gtmExpectedEvents = {
     term: "Clicks",
   },
   drawer_back_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -359,7 +358,7 @@ export const gtmExpectedEvents = {
     back_to_page: "Help Center",
   },
   article_click: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -369,7 +368,7 @@ export const gtmExpectedEvents = {
     target_url: "Comprehensive Example Article",
   },
   remove_view_modal_click_cancel: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
@@ -384,7 +383,7 @@ export const gtmExpectedEvents = {
     view_status: "private",
   },
   remove_view_modal_click_remove: {
-    user_id: "f24ea592-f316-4c7e-8887-000d84446773",
+    user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",

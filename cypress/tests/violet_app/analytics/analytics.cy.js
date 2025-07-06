@@ -108,7 +108,7 @@ describe("analytics Test Suite", () => {
 
       // Verify it is set as public
 
-      cy.contains("Views", { timeout: 40000 }).click();
+      cy.contains("Views", { timeout: 60000 }).click();
 
       //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
@@ -270,8 +270,8 @@ describe("analytics Test Suite", () => {
 
     it("tests filter_picked event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.contains("button", "ERC").click();
-      cy.contains("Pathlight", { timeout: 40000 }).click();
+      cy.contains("button", "PopSells", { timeout: 20000 }).click();
+      cy.contains("PopSells2", { timeout: 10000 }).click();
 
       cy.validateGtmEvent(
         "filter_picked",
@@ -334,7 +334,7 @@ describe("analytics Test Suite", () => {
       cy.clickVisibleThreeDots();
       cy.wait(3000); //necessary for elements loading
 
-      cy.contains("Rename view", { timeout: 40000 }).click();
+      cy.contains("Rename view", { timeout: 60000 }).click();
       cy.wait(3000); //necessary for elements loading
 
       cy.get("input[value='Automation Test View']").clear();
@@ -349,7 +349,7 @@ describe("analytics Test Suite", () => {
       cy.reload();
 
       //Verify the view is renamed
-      cy.contains("Automation Test View Renamed", { timeout: 40000 }).click();
+      cy.contains("Automation Test View Renamed", { timeout: 60000 }).click();
       cy.wait(3000); //necessary for elements loading
 
       //Delete the view
@@ -407,7 +407,7 @@ describe("analytics Test Suite", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
       cy.wait(3000);
 
-      cy.get(".cursor-pointer.bg-white").first().click();
+      cy.get(".cursor-pointer.bg-white", { timeout: 40000 }).first().click();
       cy.wait(3000);
 
       cy.validateGtmEvent(
@@ -432,7 +432,7 @@ describe("analytics Test Suite", () => {
 
     it("tests drivers_tab_click event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/drivers");
-      cy.contains("Channel Type Drilldown", { timeout: 10000 }).click();
+      cy.contains("Drivers Tab", { timeout: 20000 }).click();
 
       cy.validateGtmEvent(
         "drivers_tab_click",

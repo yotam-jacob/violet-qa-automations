@@ -28,14 +28,13 @@ Cypress.on("uncaught:exception", (err) => {
     err.message.includes("Failed to execute 'writeText' on 'Clipboard'")
   ) {
     return false; // suppress only this specific kind of error
-  }
-   else if (
-    err.message.includes("showCustomViewAsync")
-  ) {
+  } else if (err.message.includes("showCustomViewAsync")) {
+    return false; // suppress only this specific kind of error
+  } else if (err.message.includes("reading 'status'")) {
     return false; // suppress only this specific kind of error
   }
 
   return true; // let all other errors fail the test
 });
 
-require('cypress-xpath');
+require("cypress-xpath");

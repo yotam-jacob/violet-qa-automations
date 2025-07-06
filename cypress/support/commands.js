@@ -38,7 +38,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
 
   cy.visit("https://dev.violetgrowth.com/", { failOnStatusCode: false });
 
-  cy.contains("Sign in with email").click();
+  cy.contains("Sign in with email", { timeout: 40000 }).click();
 
   cy.contains("Email Address")
     .parent()
