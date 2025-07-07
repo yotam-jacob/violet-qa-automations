@@ -11,6 +11,7 @@ module.exports = defineConfig({
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
+  videoCompression: false,
 
   e2e: {
     setupNodeEvents(on, config) {
@@ -22,7 +23,7 @@ module.exports = defineConfig({
       });
     },
     baseUrl: "https://dev.violetgrowth.com",
-    specPattern: 'cypress/tests/violet_app/**/*.js',
+    specPattern: "cypress/tests/violet_app/**/*.js",
     viewportWidth: 1920,
     screenshotOnRunFailure: false,
     viewportHeight: 1080,
