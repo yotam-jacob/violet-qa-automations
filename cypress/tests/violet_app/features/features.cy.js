@@ -158,14 +158,17 @@ describe("Features Test Suite", () => {
   it("User can review the tooltip metada of public views from other users", () => {
     //open Views
     cy.contains("Views", { timeout: 40000 }).click();
+    cy.wait(3000);
+
     //Hover over the AUTOMATION_PUBLIC_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
       .find("div.group\\/item.relative")
       .realHover();
+    cy.wait(3000);
 
     //open 3-dots menu
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
+    cy.wait(3000);
     // Verify the tooltip metadata
     cy.contains("Owner: Yotam Jacob").should("be.visible");
     cy.contains("Modified: 24 Jun 2025 18:37").should("be.visible");
