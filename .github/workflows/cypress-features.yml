@@ -1,4 +1,4 @@
-name: Run Analytics Cypress Tests
+name: Run Features Cypress Tests
 
 on:
   workflow_dispatch:
