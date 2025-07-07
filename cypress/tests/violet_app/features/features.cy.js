@@ -98,6 +98,7 @@ describe("Features Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
       .closest("div")
       .realHover();
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
     cy.wait(1000);
