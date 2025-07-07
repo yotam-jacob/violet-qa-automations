@@ -10,6 +10,87 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletDev", () => {
+  const url = "https://dev.violetgrowth.com/";
+  const maxAttempts = 2;
+
+  function visitWithRetry(attempt = 1) {
+    cy.log(`Visit attempt ${attempt}`);
+    return cy
+      .visit(url, { timeout: 60000, failOnStatusCode: false, onLoad: () => {} })
+      .then(
+        () => {
+          // success
+        },
+        (err) => {
+          const safeMessage =
+            (err && err.message) ||
+            (typeof err === "string" ? err : "Unknown error during visit");
+
+          if (attempt < maxAttempts) {
+            cy.log(`Visit failed: ${safeMessage}. Retrying...`);
+            cy.wait(2000);
+            return visitWithRetry(attempt + 1);
+          }
+
+          throw new Error(`Visit failed on attempt ${attempt}: ${safeMessage}`);
+        }
+      );
+  }
+
+  // Suppress specific known error from your app
+  Cypress.on("uncaught:exception", (err) => {
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
+  });
+
+  // Use the retrying visit
+  visitWithRetry().then(() => {
+    cy.contains("Sign in with email", { timeout: 40000 }).click();
+
+    cy.contains("Email Address")
+      .parent()
+      .find("input")
+      .type("yotamjacob@walla.co.il");
+
+    cy.contains("Continue", { timeout: 30000 }).click();
+
+    cy.get('input[type="password"]', { timeout: 30000 })
+      .should("be.visible")
+      .type("Eggrolls1246!");
+    cy.contains("Sign In").click();
+
+    cy.wait(4000);
+
+    cy.url().should("not.include", "/login", { timeout: 40000 });
+    cy.get("#__next", { timeout: 35000 }).should("exist");
+
+    cy.wait(4000);
+
+    cy.get("svg.h-6.w-6", { timeout: 30000 })
+      .should("be.visible")
+      .click({ force: true });
+    cy.contains("QA", { timeout: 30000 }).click();
+
+    cy.wait(2000);
+
+    cy.get("#__next", { timeout: 35000 }).should("exist");
+    cy.url({ timeout: 35000 }).should("include", "/qa");
+
+    cy.wait(4000);
+
+    cy.get("svg.h-6.w-6", { timeout: 35000 })
+      .eq(0)
+      .should("be.visible")
+      .click({ force: true });
+  });
+});
+
+Cypress.Commands.add("loginToVioletDev3", () => {
   let retried = false;
 
   Cypress.on("uncaught:exception", (err) => {
