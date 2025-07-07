@@ -128,15 +128,14 @@ describe("Features Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
     //Hover over the "Default" view and click the 3-dots menu
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, { timeout: 40000 })
-      .find("div.group\\/item.relative")
       .realHover();
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
+    cy.wait(3000);
 
     const now = new Date();
 
@@ -162,7 +161,6 @@ describe("Features Test Suite", () => {
 
     //Hover over the AUTOMATION_PUBLIC_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
-      .find("div.group\\/item.relative")
       .realHover();
     cy.wait(3000);
 
