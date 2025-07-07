@@ -166,11 +166,7 @@ describe("Features Test Suite", () => {
     cy.clickVisibleThreeDots();
     cy.wait(1000);
     // Verify the tooltip metadata
-    cy.contains("Owner: Yotam Jacob").should(
-      "be.visible"
-    );
-    cy.contains("Modified: 24 Jun 2025 18:37").should(
-      "be.visible"
-    );
+    cy.contains("Owner: Yotam Jacob").should("be.visible");
+    cy.contains("Modified: 24 Jun 2025 18:37").should("be.visible");
   });
 });
