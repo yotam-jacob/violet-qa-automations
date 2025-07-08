@@ -51,6 +51,12 @@ describe("Features Test Suite", () => {
   it("User can use other users public view as its default view with consistency to reload, and return to previous state", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
 
+    cy.wait(6000);
+
+    cy.reload();
+
+    cy.wait(6000);
+
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
     cy.get("*", { timeout: 40000 })
