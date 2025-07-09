@@ -298,14 +298,23 @@ describe("analytics Test Suite", () => {
     it("tests views_menu_click event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME);
-
+      cy.wait(3000);
       cy.reload();
+      cy.wait(3000);
 
       //Verify the view is renamed
+      cy.wait(3000);
+
       cy.contains("Views", { timeout: 20000 }).click();
+      cy.wait(3000);
+
       //Delete the view
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000);
+
       cy.clickVisibleThreeDots();
+      cy.wait(3000);
+
       cy.clickOnDeleteViewAndVerify();
 
       cy.validateGtmEvent(
