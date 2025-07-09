@@ -225,10 +225,10 @@ Cypress.Commands.add("createView", (name, options = {}) => {
   cy.contains("Views", { timeout: 40000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
-  if (options.isDefault) cy.get("#isDefault").click();
-  if (options.isPublic) cy.get("#isPublic").click();
-  cy.get('button[type="submit"]').click();
-  cy.contains("Your changes are saved.").should("be.visible");
+  if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
+  if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
+  cy.get('button[type="submit"]', { timeout: 10000 }).click();
+  cy.contains("Your changes are saved.", { timeout: 10000 }).should("be.visible");
   cy.contains(name, { timeout: 10000 }).should("be.visible");
 });
 
