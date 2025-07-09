@@ -153,7 +153,7 @@ export const gtmExpectedEvents = {
     report: "Table Viewer",
     view_name: AUTOMATION_VIEW_NAME,
     view_group: "My views",
-    view_status: "private",
+    view_status: "public",
   },
   views_menu_click_rename: {
     user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
