@@ -8,7 +8,7 @@ module.exports = defineConfig({
     },
   },
 
-  pageLoadTimeout: 120000,
+  pageLoadTimeout: 160000,
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",

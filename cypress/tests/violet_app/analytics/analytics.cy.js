@@ -318,27 +318,27 @@ describe("analytics Test Suite", () => {
     it("tests views_menu_click_rename event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.reload();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       //Rename the view
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       //Hover over the view and click the 3-dots menu
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
         .find("div.group\\/item.relative")
         .realHover();
 
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.clickVisibleThreeDots();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.contains("Rename view", { timeout: 60000 }).click();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.get("input[value='Automation Test View']").clear();
       cy.wait(3000); //necessary for elements loading
@@ -353,13 +353,13 @@ describe("analytics Test Suite", () => {
 
       //Verify the view is renamed
       cy.contains("Automation Test View Renamed", { timeout: 60000 }).click();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       //Delete the view
       cy.contains("div.w-full", "Automation Test View Renamed")
         .find("div.group\\/item.relative")
         .realHover();
-      cy.wait(3000); //necessary for elements loading
+      cy.wait(3000);
 
       cy.clickVisibleThreeDots();
       cy.wait(3000); //necessary for elements loading
