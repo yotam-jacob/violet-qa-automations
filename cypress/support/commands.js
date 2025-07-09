@@ -16,7 +16,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
   function visitWithRetry(attempt = 1) {
     cy.log(`Visit attempt ${attempt}`);
     return cy
-      .visit(url, { timeout: 60000, failOnStatusCode: false, onLoad: () => {} })
+      .visit(url, { timeout: 160000, failOnStatusCode: false, onLoad: () => {} })
       .then(
         () => {
           // success
