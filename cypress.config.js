@@ -13,6 +13,8 @@ module.exports = defineConfig({
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   videoCompression: false,
+  experimentalMemoryManagement: true,
+  numTestsKeptInMemory: 0,
 
   e2e: {
     setupNodeEvents(on, config) {
@@ -28,5 +30,8 @@ module.exports = defineConfig({
     viewportWidth: 1920,
     screenshotOnRunFailure: false,
     viewportHeight: 1080,
+    experimentalMemoryManagement: true,
+    videoCompression: false,
+    numTestsKeptInMemory: 0,
   },
 });
