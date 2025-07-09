@@ -309,7 +309,6 @@ describe("analytics Test Suite", () => {
       cy.wait(3000);
 
       //Delete the view
-      // cy.contains(AUTOMATION_VIEW_NAME).realHover();
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
         .find("div.group\\/item.relative")
         .realHover();
@@ -388,12 +387,18 @@ describe("analytics Test Suite", () => {
 
     it("tests views_menu_click_delete event payload", () => {
       //Create new view
-      cy.createView(AUTOMATION_VIEW_NAME);
+      cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
       cy.reload();
       cy.contains("Views", { timeout: 40000 }).click();
       //Hover over the view and click the 3-dots menu
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000);
+
+      //Delete the view
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+        .find("div.group\\/item.relative")
+        .realHover();
+      cy.wait(3000);
       cy.clickVisibleThreeDots();
       cy.clickOnDeleteViewAndVerify();
 
