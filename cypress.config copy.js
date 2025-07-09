@@ -1,23 +1,22 @@
 const { defineConfig } = require("cypress");
 
 module.exports = defineConfig({
-  // Global settings
-  baseUrl: "https://dev.violetgrowth.com",
+  component: {
+    devServer: {
+      framework: "react",
+      bundler: "vite",
+    },
+  },
+
   pageLoadTimeout: 160000,
   video: true,
-  videoCompression: false,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
+  videoCompression: false,
   experimentalMemoryManagement: true,
   numTestsKeptInMemory: 0,
 
-  // E2E test settings
   e2e: {
-    specPattern: "cypress/tests/violet_app/**/*.js",
-    viewportWidth: 1920,
-    viewportHeight: 1080,
-    screenshotOnRunFailure: false,
-
     setupNodeEvents(on, config) {
       on("task", {
         logToTerminal(msg) {
@@ -26,13 +25,14 @@ module.exports = defineConfig({
         },
       });
     },
-  },
-
-  // Component test settings
-  component: {
-    devServer: {
-      framework: "react",
-      bundler: "vite",
-    },
+    baseUrl: "https://dev.violetgrowth.com",
+    specPattern: "cypress/tests/violet_app/**/*.js",
+    viewportWidth: 1920,
+    screenshotOnRunFailure: false,
+    viewportHeight: 1080,
+    experimentalMemoryManagement: true,
+    videoCompression: false,
+    numTestsKeptInMemory: 0,
+    pageLoadTimeout: 160000,
   },
 });
