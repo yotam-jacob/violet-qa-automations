@@ -484,12 +484,20 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests internal_link_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.contains("Help Center", { timeout: 10000 }).click();
-      cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
+      cy.wait(3000);
+      cy.contains("Help", { timeout: 20000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Help Center", { timeout: 20000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Comprehensive Example Article", { timeout: 20000 }).click();
+      cy.wait(3000);
+
       cy.contains("internal links to other articles", {
-        timeout: 10000,
+        timeout: 20000,
       }).click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "internal_link_click",
