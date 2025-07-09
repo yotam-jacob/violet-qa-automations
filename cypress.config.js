@@ -33,5 +33,6 @@ module.exports = defineConfig({
     experimentalMemoryManagement: true,
     videoCompression: false,
     numTestsKeptInMemory: 0,
+    pageLoadTimeout: 160000,
   },
 });
