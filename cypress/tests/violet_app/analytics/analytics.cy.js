@@ -305,7 +305,7 @@ describe("analytics Test Suite", () => {
       //Verify the view is renamed
       cy.wait(3000);
 
-      cy.contains("Views", { timeout: 20000 }).click();
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 20000 }).click();
       cy.wait(3000);
 
       //Delete the view
