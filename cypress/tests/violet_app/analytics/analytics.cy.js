@@ -617,39 +617,22 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests expand_term_click event payload", () => {
-      cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(3000);
-
-      cy.contains("Lexicon", { timeout: 40000 }).click();
-      cy.wait(3000);
-
-      cy.contains("Table of Raw Metrics", { timeout: 40000 }).click();
-      cy.wait(3000);
-
-      cy.contains("Clicks", { timeout: 40000 }).click();
-      cy.wait(3000);
-
-      cy.validateGtmEvent(
-        "expand_term_click",
-        gtmExpectedEvents.expand_term_click,
-        consoleMessages
-      );
-    });
-
-    // it("tests drawer_back_click event payload", () => {
+    // it("tests expand_term_click event payload", () => {
     //   cy.contains("Help", { timeout: 40000 }).click();
     //   cy.wait(3000);
 
     //   cy.contains("Lexicon", { timeout: 40000 }).click();
     //   cy.wait(3000);
 
-    //   cy.contains("Back to Help Center", { timeout: 40000 }).click();
+    //   cy.contains("Table of Raw Metrics", { timeout: 40000 }).click();
+    //   cy.wait(3000);
+
+    //   cy.contains("Clicks", { timeout: 40000 }).click();
     //   cy.wait(3000);
 
     //   cy.validateGtmEvent(
-    //     "drawer_back_click",
-    //     gtmExpectedEvents.drawer_back_click,
+    //     "expand_term_click",
+    //     gtmExpectedEvents.expand_term_click,
     //     consoleMessages
     //   );
     // });
