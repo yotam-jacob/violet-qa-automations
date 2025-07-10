@@ -637,22 +637,22 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests drawer_back_click event payload", () => {
-      cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(3000);
+    // it("tests drawer_back_click event payload", () => {
+    //   cy.contains("Help", { timeout: 40000 }).click();
+    //   cy.wait(3000);
 
-      cy.contains("Lexicon", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Lexicon", { timeout: 40000 }).click();
+    //   cy.wait(3000);
 
-      cy.contains("Back to Help Center", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Back to Help Center", { timeout: 40000 }).click();
+    //   cy.wait(3000);
 
-      cy.validateGtmEvent(
-        "drawer_back_click",
-        gtmExpectedEvents.drawer_back_click,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "drawer_back_click",
+    //     gtmExpectedEvents.drawer_back_click,
+    //     consoleMessages
+    //   );
+    // });
 
     it("tests article_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();

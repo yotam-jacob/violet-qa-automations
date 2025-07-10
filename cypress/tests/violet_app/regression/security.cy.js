@@ -61,33 +61,40 @@ describe("Security Test Suite", () => {
 
   it("should not execute script when submitted into input fields", () => {
     const maliciousScript = "<script>alert(1)</script>";
-
+    cy.wait(3000);
     //Create new view
     cy.createView(maliciousScript);
+    cy.wait(3000);
 
-    // Option 1: Assert the script text appears harmlessly (escaped or plain text)
     cy.contains(maliciousScript).should("exist");
+    cy.wait(3000);
 
-    // Option 2: Assert no alert pops up (Cypress can't catch browser alerts easily but we can check DOM)
     cy.window().then((win) => {
       cy.stub(win, "alert").as("alert");
     });
+    cy.wait(3000);
 
     cy.get("@alert").should("not.have.been.called");
+    cy.wait(3000);
 
     cy.contains(maliciousScript, { timeout: 20000 }).click();
+    cy.wait(3000);
 
     cy.contains(maliciousScript, {
       timeout: 20000,
     }).should("be.visible");
+    cy.wait(3000);
 
     //Delete the view
     cy.contains(
       "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryPurple.bg-main-primaryPurple\\/\\[0\\.08\\]",
       maliciousScript
     ).realHover();
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
+    cy.wait(3000);
+
     cy.clickOnDeleteViewAndVerify();
   });
 });
