@@ -8,13 +8,14 @@ module.exports = defineConfig({
     },
   },
 
-  pageLoadTimeout: 260000,
+  pageLoadTimeout: 240000, // increase to 4 minutes
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   videoCompression: false,
   experimentalMemoryManagement: true,
   numTestsKeptInMemory: 0,
+  chromeWebSecurity: false,
 
   e2e: {
     setupNodeEvents(on, config) {
@@ -33,6 +34,7 @@ module.exports = defineConfig({
     experimentalMemoryManagement: true,
     videoCompression: false,
     numTestsKeptInMemory: 0,
-    pageLoadTimeout: 260000,
+    pageLoadTimeout: 240000, // increase to 4 minutes
+    chromeWebSecurity: false,
   },
 });
