@@ -8,14 +8,14 @@ module.exports = defineConfig({
     },
   },
 
-  pageLoadTimeout: 240000, // increase to 4 minutes
+  // pageLoadTimeout: 240000, // increase to 4 minutes
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   videoCompression: false,
-  experimentalMemoryManagement: true,
-  numTestsKeptInMemory: 0,
-  chromeWebSecurity: false,
+  // experimentalMemoryManagement: true,
+  // numTestsKeptInMemory: 0,
+  // chromeWebSecurity: false,
 
   e2e: {
     setupNodeEvents(on, config) {
@@ -31,10 +31,10 @@ module.exports = defineConfig({
     viewportWidth: 1920,
     screenshotOnRunFailure: false,
     viewportHeight: 1080,
-    experimentalMemoryManagement: true,
+    // experimentalMemoryManagement: true,
     videoCompression: false,
-    numTestsKeptInMemory: 0,
-    pageLoadTimeout: 240000, // increase to 4 minutes
-    chromeWebSecurity: false,
+    // numTestsKeptInMemory: 0,
+    // pageLoadTimeout: 240000, // increase to 4 minutes
+    // chromeWebSecurity: false,
   },
 });
