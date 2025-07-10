@@ -603,8 +603,12 @@ describe("analytics Test Suite", () => {
 
     it("tests expand_collection_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(3000);
       cy.contains("Lexicon", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Table of Raw Metrics", { timeout: 40000 }).click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "expand_collection_click",
@@ -615,9 +619,16 @@ describe("analytics Test Suite", () => {
 
     it("tests expand_term_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Lexicon", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Table of Raw Metrics", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Clicks", { timeout: 40000 }).click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "expand_term_click",

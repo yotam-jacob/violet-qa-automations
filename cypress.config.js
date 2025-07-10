@@ -8,7 +8,7 @@ module.exports = defineConfig({
     },
   },
 
-  // pageLoadTimeout: 240000, // increase to 4 minutes
+  pageLoadTimeout: 240000, // increase to 4 minutes
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
@@ -34,7 +34,7 @@ module.exports = defineConfig({
     // experimentalMemoryManagement: true,
     videoCompression: false,
     // numTestsKeptInMemory: 0,
-    // pageLoadTimeout: 240000, // increase to 4 minutes
+    pageLoadTimeout: 240000, // increase to 4 minutes
     // chromeWebSecurity: false,
   },
 });
