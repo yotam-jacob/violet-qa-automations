@@ -639,8 +639,13 @@ describe("analytics Test Suite", () => {
 
     it("tests drawer_back_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Lexicon", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Back to Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "drawer_back_click",
@@ -651,8 +656,13 @@ describe("analytics Test Suite", () => {
 
     it("tests article_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "article_click",
@@ -668,9 +678,13 @@ describe("analytics Test Suite", () => {
       cy.reload();
       //Cancel the view
       cy.contains("Views", { timeout: 40000 }).click();
+      cy.wait(3000);
+
       cy.contains(AUTOMATION_VIEW_NAME).realHover();
       cy.wait(3000);
       cy.clickVisibleThreeDots();
+      cy.wait(3000);
+
       cy.contains("Delete view", { timeout: 40000 }).click();
       cy.contains("button", "Cancel", { timeout: 45000 }).click();
 
@@ -688,8 +702,10 @@ describe("analytics Test Suite", () => {
       cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
       cy.wait(3000); //necessary for elements loading
       cy.reload();
+      cy.wait(3000);
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+      cy.wait(3000);
 
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
         .find("div.group\\/item.relative")
