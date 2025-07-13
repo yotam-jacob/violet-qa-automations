@@ -14,7 +14,13 @@ module.exports = defineConfig({
   videoCompression: false,
 
   e2e: {
-    pageLoadTimeout: 240000, // 4 minutes
+    baseUrl: "https://dev.violetgrowth.com",
+    specPattern: "cypress/tests/violet_app/**/*.js",
+    viewportWidth: 1920,
+    viewportHeight: 1080,
+    screenshotOnRunFailure: false,
+    videoCompression: false,
+    pageLoadTimeout: 240000,
 
     setupNodeEvents(on, config) {
       on("task", {
@@ -26,20 +32,13 @@ module.exports = defineConfig({
 
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.family === "chromium") {
-          launchOptions.args.push("--js-flags=--max_old_space_size=4096");
           launchOptions.args.push("--no-sandbox");
           launchOptions.args.push("--disable-gpu");
           launchOptions.args.push("--disable-dev-shm-usage");
+          launchOptions.args.push("--js-flags=--max_old_space_size=4096");
         }
         return launchOptions;
       });
     },
-
-    baseUrl: "https://dev.violetgrowth.com",
-    specPattern: "cypress/tests/violet_app/**/*.js",
-    viewportWidth: 1920,
-    viewportHeight: 1080,
-    screenshotOnRunFailure: false,
-    videoCompression: false,
   },
 });
