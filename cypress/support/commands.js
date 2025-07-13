@@ -11,38 +11,70 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletDev", () => {
   const url = "https://dev.violetgrowth.com/";
+
+  // Suppress specific known error from your app
+  Cypress.on("uncaught:exception", (err) => {
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
+  });
+
+  // Just visit with correct timeout
+  cy.visit(url, {
+    timeout: 240000, // 4 minutes to wait for all scripts to load
+    failOnStatusCode: false, // allows debugging error pages
+    // ❌ DO NOT USE onLoad — it disables Cypress's load detection
+  });
+
+  // Login steps
+  cy.contains("Sign in with email", { timeout: 40000 }).click();
+
+  cy.contains("Email Address")
+    .parent()
+    .find("input")
+    .type("yotamjacob@walla.co.il");
+
+  cy.contains("Continue", { timeout: 30000 }).click();
+
+  cy.get('input[type="password"]', { timeout: 30000 })
+    .should("be.visible")
+    .type("Eggrolls1246!");
+  cy.contains("Sign In").click();
+
+  cy.wait(4000);
+
+  cy.url().should("not.include", "/login", { timeout: 40000 });
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+
+  cy.wait(4000);
+
+  cy.get("svg.h-6.w-6", { timeout: 30000 })
+    .should("be.visible")
+    .click({ force: true });
+  cy.contains("QA", { timeout: 30000 }).click();
+
+  cy.wait(2000);
+
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+  cy.url({ timeout: 35000 }).should("include", "/qa");
+
+  cy.wait(4000);
+
+  cy.get("svg.h-6.w-6", { timeout: 35000 })
+    .eq(0)
+    .should("be.visible")
+    .click({ force: true });
+});
+
+Cypress.Commands.add("loginToVioletDevWorkingBackup", () => {
+  const url = "https://dev.violetgrowth.com/";
   const maxAttempts = 2;
 
-  function visitWithRetry(url, maxAttempts = 3, attempt = 1) {
-    cy.log(`Visit attempt ${attempt}`);
-
-    cy.visit(url, {
-      timeout: 240000,
-      failOnStatusCode: false, // allow us to inspect even 500s
-    })
-      .then(() => {
-        cy.log("Page loaded successfully");
-      })
-      .catch((err) => {
-        const safeMessage =
-          (err && err.message) ||
-          (typeof err === "string" ? err : "Unknown error during visit");
-
-        if (attempt < maxAttempts) {
-          cy.log(
-            `Visit failed on attempt ${attempt}: ${safeMessage}. Retrying...`
-          );
-          cy.wait(2000);
-          visitWithRetry(url, maxAttempts, attempt + 1);
-        } else {
-          throw new Error(
-            `Visit failed on final attempt ${attempt}: ${safeMessage}`
-          );
-        }
-      });
-  }
-
-  function visitWithRetry2(attempt = 1) {
+  function visitWithRetry(attempt = 1) {
     cy.log(`Visit attempt ${attempt}`);
     return cy
       .visit(url, {
@@ -123,7 +155,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
   });
 });
 
-Cypress.Commands.add("loginToVioletDev3", () => {
+Cypress.Commands.add("loginToVioletold2", () => {
   let retried = false;
 
   Cypress.on("uncaught:exception", (err) => {
@@ -191,7 +223,7 @@ Cypress.Commands.add("loginToVioletDev3", () => {
     .click({ force: true });
 });
 
-Cypress.Commands.add("loginToVioletDev2", () => {
+Cypress.Commands.add("loginToVioletDevold1", () => {
   cy.visit("https://dev.violetgrowth.com/");
 
   // Click "Sign in with email"
