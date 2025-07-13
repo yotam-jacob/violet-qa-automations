@@ -23,6 +23,84 @@ Cypress.Commands.add("loginToVioletDev", () => {
     }
   });
 
+  function visitWithRetry(retry = false) {
+    cy.visit(url, {
+      timeout: 120000,
+      failOnStatusCode: false,
+    }).then(
+      () => {
+        cy.log("Page loaded successfully");
+      },
+      (err) => {
+        cy.log("Initial visit failed:", err.message);
+        if (!retry) {
+          cy.wait(5000); // Wait before retry
+          cy.log("Retrying visit with reload...");
+          cy.reload({ timeout: 280000 });
+          visitWithRetry(true);
+        } else {
+          throw err;
+        }
+      }
+    );
+  }
+
+  visitWithRetry();
+
+  // Login steps
+  cy.contains("Sign in with email", { timeout: 60000 }).click();
+
+  cy.contains("Email Address")
+    .parent()
+    .find("input")
+    .type("yotamjacob@walla.co.il");
+
+  cy.contains("Continue", { timeout: 30000 }).click();
+
+  cy.get('input[type="password"]', { timeout: 30000 })
+    .should("be.visible")
+    .type("Eggrolls1246!");
+  cy.contains("Sign In").click();
+
+  cy.wait(4000);
+
+  cy.url().should("not.include", "/login", { timeout: 40000 });
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+
+  cy.wait(4000);
+
+  cy.get("svg.h-6.w-6", { timeout: 30000 })
+    .should("be.visible")
+    .click({ force: true });
+  cy.contains("QA", { timeout: 30000 }).click();
+
+  cy.wait(2000);
+
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+  cy.url({ timeout: 35000 }).should("include", "/qa");
+
+  cy.wait(4000);
+
+  cy.get("svg.h-6.w-6", { timeout: 35000 })
+    .eq(0)
+    .should("be.visible")
+    .click({ force: true });
+});
+
+Cypress.Commands.add("loginToVioletDev2", () => {
+  const url = "https://dev.violetgrowth.com/";
+
+  // Suppress specific known error from your app
+  Cypress.on("uncaught:exception", (err) => {
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
+  });
+
   // Just visit with correct timeout
   cy.visit(url, {
     timeout: 280000,

@@ -7,7 +7,7 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     container:
-      image: cypress/included:13.6.6
+      image: cypress/included:14.4.1
 
     steps:
       - name: Checkout repo
