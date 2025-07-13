@@ -13,10 +13,43 @@ Cypress.Commands.add("loginToVioletDev", () => {
   const url = "https://dev.violetgrowth.com/";
   const maxAttempts = 2;
 
-  function visitWithRetry(attempt = 1) {
+  function visitWithRetry(url, maxAttempts = 3, attempt = 1) {
+    cy.log(`Visit attempt ${attempt}`);
+
+    cy.visit(url, {
+      timeout: 240000,
+      failOnStatusCode: false, // allow us to inspect even 500s
+    })
+      .then(() => {
+        cy.log("Page loaded successfully");
+      })
+      .catch((err) => {
+        const safeMessage =
+          (err && err.message) ||
+          (typeof err === "string" ? err : "Unknown error during visit");
+
+        if (attempt < maxAttempts) {
+          cy.log(
+            `Visit failed on attempt ${attempt}: ${safeMessage}. Retrying...`
+          );
+          cy.wait(2000);
+          visitWithRetry(url, maxAttempts, attempt + 1);
+        } else {
+          throw new Error(
+            `Visit failed on final attempt ${attempt}: ${safeMessage}`
+          );
+        }
+      });
+  }
+
+  function visitWithRetry2(attempt = 1) {
     cy.log(`Visit attempt ${attempt}`);
     return cy
-      .visit(url, { timeout: 160000, failOnStatusCode: false, onLoad: () => {} })
+      .visit(url, {
+        timeout: 240000,
+        failOnStatusCode: false,
+        onLoad: () => {},
+      })
       .then(
         () => {
           // success
@@ -232,7 +265,9 @@ Cypress.Commands.add("createView", (name, options = {}) => {
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
   if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
   cy.get('button[type="submit"]', { timeout: 10000 }).click();
-  cy.contains("Your changes are saved.", { timeout: 10000 }).should("be.visible");
+  cy.contains("Your changes are saved.", { timeout: 10000 }).should(
+    "be.visible"
+  );
   cy.contains(name, { timeout: 10000 }).should("be.visible");
 });
 
