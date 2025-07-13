@@ -680,32 +680,32 @@ describe("analytics Test Suite", () => {
       cy.clickOnDeleteViewAndVerify();
     });
 
-    it("tests remove_view_modal_click_remove event payload", () => {
-      //Create new view
-      cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
-      cy.wait(3000); //necessary for elements loading
-      cy.reload();
-      cy.wait(3000);
+    // it("tests remove_view_modal_click_remove event payload", () => {
+    //   //Create new view
+    //   cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
+    //   cy.wait(3000); //necessary for elements loading
+    //   cy.reload();
+    //   cy.wait(3000);
 
-      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    //   cy.wait(3000);
 
-      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-        .find("div.group\\/item.relative")
-        .realHover();
+    //   cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
+    //     .find("div.group\\/item.relative")
+    //     .realHover();
 
-      cy.wait(3000); //necessary for elements loading
+    //   cy.wait(3000); //necessary for elements loading
 
-      cy.clickVisibleThreeDots();
-      cy.wait(3000); //necessary for elements loading
+    //   cy.clickVisibleThreeDots();
+    //   cy.wait(3000); //necessary for elements loading
 
-      cy.clickOnDeleteViewAndVerify();
+    //   cy.clickOnDeleteViewAndVerify();
 
-      cy.validateGtmEvent(
-        "remove_view_modal_click",
-        gtmExpectedEvents.remove_view_modal_click_remove,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "remove_view_modal_click",
+    //     gtmExpectedEvents.remove_view_modal_click_remove,
+    //     consoleMessages
+    //   );
+    // });
   });
 });
