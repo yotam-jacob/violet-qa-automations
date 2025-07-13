@@ -14,7 +14,7 @@ module.exports = defineConfig({
   videoCompression: false,
 
   e2e: {
-    pageLoadTimeout: 240000, // increase to 4 minutes
+    pageLoadTimeout: 240000, // 4 minutes
 
     setupNodeEvents(on, config) {
       on("task", {
@@ -25,7 +25,8 @@ module.exports = defineConfig({
       });
 
       on("before:browser:launch", (browser = {}, launchOptions) => {
-        if (browser.name === "chrome" || browser.name === "chromium") {
+        if (browser.family === "chromium") {
+          launchOptions.args.push("--js-flags=--max_old_space_size=4096");
           launchOptions.args.push("--no-sandbox");
           launchOptions.args.push("--disable-gpu");
           launchOptions.args.push("--disable-dev-shm-usage");
