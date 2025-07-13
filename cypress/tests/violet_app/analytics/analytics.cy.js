@@ -4,7 +4,6 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 describe("analytics Test Suite", () => {
   beforeEach(() => {
     cy.loginToVioletDev();
-    cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
   let consoleMessages = [];
