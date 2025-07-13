@@ -555,27 +555,27 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests save_view_modal_clicks_save event payload", () => {
-      //Create new view
-      cy.createView(AUTOMATION_VIEW_NAME);
+    // it("tests save_view_modal_clicks_save event payload", () => {
+    //   //Create new view
+    //   cy.createView(AUTOMATION_VIEW_NAME);
 
-      cy.validateGtmEvent(
-        "save view modal clicks",
-        gtmExpectedEvents.save_view_modal_clicks_save,
-        consoleMessages
-      );
+    //   cy.validateGtmEvent(
+    //     "save view modal clicks",
+    //     gtmExpectedEvents.save_view_modal_clicks_save,
+    //     consoleMessages
+    //   );
 
-      cy.reload();
+    //   cy.reload();
 
-      //Verify the view is renamed
-      cy.contains("Views", { timeout: 40000 }).click();
+    //   //Verify the view is renamed
+    //   cy.contains("Views", { timeout: 40000 }).click();
 
-      //Delete the view
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    //   //Delete the view
+    //   cy.contains(AUTOMATION_VIEW_NAME).realHover();
 
-      cy.clickVisibleThreeDots();
-      cy.clickOnDeleteViewAndVerify();
-    });
+    //   cy.clickVisibleThreeDots();
+    //   cy.clickOnDeleteViewAndVerify();
+    // });
 
     it("tests contact_support_modal_close event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();

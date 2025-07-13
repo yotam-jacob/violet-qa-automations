@@ -36,7 +36,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
         if (!retry) {
           cy.wait(5000); // Wait before retry
           cy.log("Retrying visit with reload...");
-          cy.reload({ timeout: 280000 });
+          cy.reload({ timeout: 60000 });
           visitWithRetry(true);
         } else {
           throw err;

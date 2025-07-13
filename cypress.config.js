@@ -20,7 +20,7 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 120000,
+    pageLoadTimeout: 60000,
 
     setupNodeEvents(on, config) {
       on("task", {
