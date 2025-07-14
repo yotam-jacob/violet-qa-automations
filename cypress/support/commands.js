@@ -168,10 +168,6 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  // cy.wait(4000);
-  // cy.reload();
-  // cy.wait(4000);
-  // cy.get("#__next", { timeout: 35000 }).should("exist");
   cy.contains("Views", { timeout: 40000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
