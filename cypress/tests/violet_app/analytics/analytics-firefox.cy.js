@@ -53,7 +53,7 @@ describe("analytics Test Suite", () => {
 
     it("tests report_load event payload", () => {
       cy.contains("KPI Trendlines", { timeout: 40000 }).click();
-      cy.wait(3000); 
+      cy.wait(3000);
       cy.validateGtmEvent(
         "report_load",
         gtmExpectedEvents.report_load,
@@ -145,7 +145,9 @@ describe("analytics Test Suite", () => {
 
     it("tests insight_thumb_rating event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
+      cy.wait(3000);
       cy.get(".cursor-pointer.bg-white").first().click();
+      cy.wait(3000);
 
       cy.validateGtmEvent(
         "insight_thumb_rating",
