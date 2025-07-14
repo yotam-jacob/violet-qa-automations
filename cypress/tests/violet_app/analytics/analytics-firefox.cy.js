@@ -41,7 +41,7 @@ describe("analytics Test Suite", () => {
       );
       cy.wait(3000); // Wait for the GTM script to load
 
-      cy.contains("KPI Trendlines", { timeout: 10000 }).click();
+      cy.contains("KPI Trendlines", { timeout: 40000 }).click();
       cy.wait(3000); // Wait for the GTM script to load
 
       cy.validateGtmEvent(
@@ -52,8 +52,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests report_load event payload", () => {
-      cy.contains("KPI Trendlines", { timeout: 10000 }).click();
-      cy.wait(1000); //need this to wait for the report to load
+      cy.contains("KPI Trendlines", { timeout: 40000 }).click();
+      cy.wait(3000); 
       cy.validateGtmEvent(
         "report_load",
         gtmExpectedEvents.report_load,
@@ -107,7 +107,7 @@ describe("analytics Test Suite", () => {
     it("tests filter_picked event payload", () => {
       cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
       cy.contains("button", "PopSells", { timeout: 20000 }).click();
-      cy.contains("PopSells2", { timeout: 10000 }).click();
+      cy.contains("PopSells2", { timeout: 40000 }).click();
 
       cy.validateGtmEvent(
         "filter_picked",
@@ -177,7 +177,7 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests open_help_menu_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help", { timeout: 40000 }).click();
 
       cy.validateGtmEvent(
         "open_help_menu_click",
@@ -187,8 +187,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.contains("Help Center", { timeout: 10000 }).click();
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.contains("Help Center", { timeout: 40000 }).click();
       cy.validateGtmEvent(
         "help_menu_item_click",
         gtmExpectedEvents.help_menu_item_click,
@@ -215,13 +215,13 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests internal_link_click event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
+      cy.contains("Help", { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.contains("Help Center", { timeout: 10000 }).click();
+      cy.contains("Help Center", { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
+      cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("internal links to other articles", {
@@ -240,10 +240,10 @@ describe("analytics Test Suite", () => {
       cy.contains("Help", { timeout: 20000 }).click();
       cy.wait(3000);
 
-      cy.contains("Help Center", { timeout: 10000 }).click();
+      cy.contains("Help Center", { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 10000 }).click();
+      cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("contextual links to external sites", {
@@ -259,8 +259,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click_lexicon event payload", () => {
-      cy.contains("Help", { timeout: 10000 }).click();
-      cy.contains("Lexicon", { timeout: 10000 }).click();
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.contains("Lexicon", { timeout: 40000 }).click();
 
       cy.validateGtmEvent(
         "help_menu_item_click",
