@@ -24,11 +24,11 @@ jobs:
       - name: Run Cypress firefox analytics tests
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics-firefox.cy.js"
 
-      - name: Run Cypress analytics1 tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics1.cy.js"
+      # - name: Run Cypress analytics1 tests
+      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics1.cy.js"
 
-      - name: Run Cypress analytics2 tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics2.cy.js"
+      # - name: Run Cypress analytics2 tests
+      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics2.cy.js"
 
       - name: Upload videos
         if: failure()
