@@ -77,6 +77,10 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.get("svg.h-6.w-6", { timeout: 30000 })
     .should("be.visible")
     .click({ force: true });
+
+  cy.reload();
+
+  cy.contains("KPI Trendlines", { timeout: 40000 }).should("be.visible");
 });
 
 Cypress.Commands.add("loginToVioletDev2", () => {

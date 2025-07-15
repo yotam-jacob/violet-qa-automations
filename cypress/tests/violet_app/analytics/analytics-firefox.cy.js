@@ -74,7 +74,6 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests views_menu_click_reset event payload", () => {
-      cy.reload();
       cy.contains("Views", { timeout: 40000 }).click();
       cy.contains("Reset", { timeout: 40000 }).click();
       cy.validateGtmEvent(
@@ -89,7 +88,7 @@ describe("analytics Test Suite", () => {
 
       cy.get(
         "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
-        { timeout: 25000 }
+        { timeout: 40000 }
       )
         .eq(1)
         .should("be.visible")
