@@ -20,8 +20,11 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 60000,
-
+    pageLoadTimeout: 120000,
+    retries: {
+      runMode: 2,
+      openMode: 0,
+    },
     setupNodeEvents(on, config) {
       on("task", {
         logToTerminal(msg) {

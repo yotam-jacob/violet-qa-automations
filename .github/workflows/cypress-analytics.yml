@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Run Cypress firefox analytics tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics-firefox.cy.js"
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics-firefox.cy.js" --headed
 
       # - name: Run Cypress analytics1 tests
       #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics1.cy.js"
