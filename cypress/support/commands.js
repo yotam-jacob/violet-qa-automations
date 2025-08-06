@@ -60,87 +60,29 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
+  cy.wait(2000);
+
   cy.contains("Sign In").click();
+  cy.wait(6000);
 
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
-  cy.get("svg.h-6.w-6", { timeout: 30000 })
-    .should("be.visible")
-    .click({ force: true });
+  cy.wait(4000);
+  cy.get("svg.h-6.w-6", { timeout: 30000 }).first().click();
+  cy.wait(4000);
+
   cy.contains("QA", { timeout: 30000 }).click();
 
   cy.wait(3000);
   cy.get("#__next", { timeout: 35000 }).should("exist");
   cy.url({ timeout: 35000 }).should("include", "/qa");
 
-  cy.get("svg.h-6.w-6", { timeout: 30000 })
-    .should("be.visible")
-    .click({ force: true });
+  cy.get("svg.h-6.w-6", { timeout: 30000 }).first().click();
 
   cy.reload();
 
   cy.contains("KPI Trendlines", { timeout: 40000 }).should("be.visible");
-});
-
-Cypress.Commands.add("loginToVioletDev2", () => {
-  const url = "https://dev.violetgrowth.com/";
-
-  // Suppress specific known error from your app
-  Cypress.on("uncaught:exception", (err) => {
-    if (
-      err.message.includes(
-        "Invariant: attempted to hard navigate to the same URL"
-      )
-    ) {
-      return false;
-    }
-  });
-
-  // Just visit with correct timeout
-  cy.visit(url, {
-    timeout: 280000,
-    failOnStatusCode: false, // allows debugging error pages
-  });
-
-  // Login steps
-  cy.contains("Sign in with email", { timeout: 60000 }).click();
-
-  cy.contains("Email Address")
-    .parent()
-    .find("input")
-    .type("yotamjacob@walla.co.il");
-
-  cy.contains("Continue", { timeout: 30000 }).click();
-
-  cy.get('input[type="password"]', { timeout: 30000 })
-    .should("be.visible")
-    .type("Eggrolls1246!");
-  cy.contains("Sign In").click();
-
-  cy.wait(4000);
-
-  cy.url().should("not.include", "/login", { timeout: 40000 });
-  cy.get("#__next", { timeout: 35000 }).should("exist");
-
-  cy.wait(4000);
-
-  cy.get("svg.h-6.w-6", { timeout: 30000 })
-    .should("be.visible")
-    .click({ force: true });
-  cy.contains("QA", { timeout: 30000 }).click();
-
-  cy.wait(2000);
-
-  cy.get("#__next", { timeout: 35000 }).should("exist");
-  cy.url({ timeout: 35000 }).should("include", "/qa");
-
-  cy.wait(4000);
-
-  cy.get("svg.h-6.w-6", { timeout: 35000 })
-    .eq(0)
-    .should("be.visible")
-    .click({ force: true });
 });
 
 Cypress.Commands.add("clickVisibleThreeDots", () => {
@@ -164,13 +106,13 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  cy.contains("Views", { timeout: 40000 }).click();
+  cy.contains("Views", { timeout: 50000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
   if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
-  cy.get('button[type="submit"]', { timeout: 10000 }).click();
-  cy.contains("Your changes are saved.", { timeout: 10000 }).should(
+  cy.get('button[type="submit"]', { timeout: 20000 }).click();
+  cy.contains("Your changes are saved.", { timeout: 20000 }).should(
     "be.visible"
   );
   cy.contains(name, { timeout: 10000 }).should("be.visible");

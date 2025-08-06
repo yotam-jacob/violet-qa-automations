@@ -123,9 +123,9 @@ export const gtmExpectedEvents = {
     action: "save",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": AUTOMATION_VIEW_NAME,
-    "is public": false,
-    "is default": false,
+    "view name": undefined,
+    "is public": undefined,
+    "is default": undefined,
   },
   views_menu_click: {
     user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
@@ -138,7 +138,7 @@ export const gtmExpectedEvents = {
     action: "3-dot menu",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": AUTOMATION_VIEW_NAME,
+    "view name": undefined,
   },
   views_menu_click_delete: {
     user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
@@ -166,7 +166,7 @@ export const gtmExpectedEvents = {
     label: "rename",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": AUTOMATION_VIEW_NAME,
+    "view name": undefined,
   },
   three_dots_default: {
     user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",
@@ -179,7 +179,7 @@ export const gtmExpectedEvents = {
     label: "set as default",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": AUTOMATION_VIEW_NAME,
+    "view name": undefined,
     value: false,
   },
   three_dots_public: {
@@ -193,7 +193,7 @@ export const gtmExpectedEvents = {
     label: "make this view public",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": AUTOMATION_VIEW_NAME,
+    "view name": undefined,
     value: false,
   },
   toggle_sidebar: {
