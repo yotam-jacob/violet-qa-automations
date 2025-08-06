@@ -103,7 +103,9 @@ describe("analytics Test Suite", () => {
       cy.contains("Help Center", { timeout: 20000 }).click();
       cy.wait(3000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 20000 }).click({force: true});
+      cy.contains("Comprehensive Example Article", { timeout: 20000 }).click({
+        force: true,
+      });
       cy.wait(3000);
 
       cy.contains("internal links to other articles", {
@@ -125,7 +127,9 @@ describe("analytics Test Suite", () => {
       cy.contains("Help Center", { timeout: 30000 }).click();
       cy.wait(3000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 30000 }).click({force: true});
+      cy.contains("Comprehensive Example Article", { timeout: 30000 }).click({
+        force: true,
+      });
       cy.wait(3000);
 
       cy.contains("contextual links to external sites", {
@@ -239,7 +243,9 @@ describe("analytics Test Suite", () => {
       cy.contains("Help Center", { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 40000 }).click({force: true});
+      cy.contains("Comprehensive Example Article", { timeout: 40000 }).click({
+        force: true,
+      });
       cy.wait(3000);
 
       cy.validateGtmEvent(

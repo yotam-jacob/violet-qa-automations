@@ -324,7 +324,7 @@ export const gtmExpectedEvents = {
     event: "article_list_lexicon_click",
     category: "Hourly Monitoring",
     report: "Table Viewer",
-    "view name": "",
+    "view name": undefined,
   },
   expand_collection_click: {
     user_id: "c21f1aff-e8c3-470e-953c-4e928318a90b",

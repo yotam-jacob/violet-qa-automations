@@ -183,8 +183,8 @@ describe("Features Test Suite", () => {
     cy.contains("Owner: Yotam Jacob").should("be.visible");
 
     cy.document().then((doc) => {
-      const primaryText = "Modified: 24 Jun 2025 18:37";
-      const fallbackText = "Modified: 24 Jun 2025 15:37";
+      const primaryText = "Modified: 05 Aug 2025 16:56";
+      const fallbackText = "Modified: 05 Aug 2025 13:56";
 
       // Use jQuery :contains selector
       const primaryExists =
