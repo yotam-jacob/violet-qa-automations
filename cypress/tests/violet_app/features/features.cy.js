@@ -185,15 +185,21 @@ describe("Features Test Suite", () => {
     cy.document().then((doc) => {
       const primaryText = "Modified: 05 Aug 2025 13:56";
       const fallbackText = "Modified: 05 Aug 2025 16:56";
+      const secondaryFallbackText = "Modified: 05 Aug 2025 16:56";
 
       // Use jQuery :contains selector
       const primaryExists =
         Cypress.$(`body:contains("${primaryText}")`).length > 0;
 
+      const fallbackTextExists =
+        Cypress.$(`body:contains("${fallbackText}")`).length > 0;
+
       if (primaryExists) {
         cy.contains(primaryText).should("be.visible");
-      } else {
+      } else if (fallbackTextExists) {
         cy.contains(fallbackText).should("be.visible");
+      } else {
+        cy.contains(secondaryFallbackText).should("be.visible");
       }
     });
   });
