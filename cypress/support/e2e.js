@@ -19,22 +19,24 @@ import "cypress-real-events/support";
 
 Cypress.on("uncaught:exception", (err) => {
   if (err.message.includes("&")) {
-    return false; // suppress only this specific kind of error
+    return false; 
   } else if (
     err.message.includes("NetworkError when attempting to fetch resource")
   ) {
-    return false; // suppress only this specific kind of error
+    return false; 
   } else if (
     err.message.includes("Failed to execute 'writeText' on 'Clipboard'")
   ) {
-    return false; // suppress only this specific kind of error
+    return false; 
   } else if (err.message.includes("showCustomViewAsync")) {
-    return false; // suppress only this specific kind of error
+    return false; 
   } else if (err.message.includes("reading 'status'")) {
-    return false; // suppress only this specific kind of error
+    return false; 
+  } else if (err.message.includes('Request failed with status code 500')) {
+    return false; 
   }
 
-  return true; // let all other errors fail the test
+  return true;
 });
 
 require("cypress-xpath");

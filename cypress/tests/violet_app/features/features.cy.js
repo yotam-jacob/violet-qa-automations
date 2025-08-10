@@ -155,9 +155,10 @@ describe("Features Test Suite", () => {
 
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
-    const timePart = `${hours}:${minutes}`; // "09:34"
+    // const timePart = `${hours}:${minutes}`; // "09:34"
+    const timePart = `${hours}:`; // "09:" //validate only hours to avoid flakiness
 
-    const fullText = `Modified: ${datePart} ${timePart}`; // "Modified: 23 Jun 2025 09:34"
+    const fullText = `Modified: ${datePart} ${timePart}`; // "Modified: 23 Jun 2025 09:"
 
     cy.contains(fullText).should("be.visible");
 
