@@ -126,9 +126,7 @@ describe("Sanity Test Suite", () => {
     cy.get("#__next", { timeout: 45000 }).should("exist");
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 60000 }).click();
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-      .find("div.group\\/item.relative")
-      .realHover();
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
     cy.clickVisibleThreeDots();
     //Delete the view
     cy.clickOnDeleteViewAndVerify();
@@ -140,28 +138,43 @@ describe("Sanity Test Suite", () => {
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
     // Verify it is set as public
-    cy.contains("Views", { timeout: 40000 }).click();
-    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    cy.wait(3000); //necessary for elements loading
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
-    cy.contains(AUTOMATION_VIEW_NAME).realHover();
-    cy.contains("You are sharing this view as a Team view", {
-      timeout: 40000,
-    })
-      .contains(AUTOMATION_VIEW_NAME)
-      .should("be.visible");
+    cy.get("button.flex.items-center.w-full")
+      .should("exist")
+      .and(($el) => {
+        const text = $el.text();
+        expect(text).to.include("You are sharing this view as a Team view");
+        expect(text).to.include(AUTOMATION_VIEW_NAME);
+      });
+
+    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
+
     //Change the view to non public
     cy.clickVisibleThreeDots();
     cy.get("#isPublic", { timeout: 40000 }).click();
-    cy.contains("You are sharing this view as a Team view", {
-      timeout: 40000,
-    })
-      .contains(AUTOMATION_VIEW_NAME)
-      .should("not.exist");
+
+    cy.get("button.flex.items-center.w-full").should(($els) => {
+      const found = [...$els].some((el) => {
+        const text = el.innerText;
+        return (
+          text.includes("You are sharing this view as a Team view") &&
+          text.includes(AUTOMATION_VIEW_NAME)
+        );
+      });
+      expect(found).to.be.false;
+    });
+
     cy.reload();
-    //Verify the view is renamed
-    cy.contains("Views", { timeout: 40000 }).click();
+    cy.wait(3000); //necessary for elements loading
+
     //Delete the view
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).realHover();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
+      timeout: 40000,
+    }).realHover();
     cy.clickVisibleThreeDots();
     cy.clickOnDeleteViewAndVerify();
   });

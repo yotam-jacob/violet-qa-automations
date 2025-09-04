@@ -8,41 +8,45 @@ describe("Regression Test Suite", () => {
 
   it("User can rename a view", () => {
     //Create new view
-    cy.createView(AUTOMATION_VIEW_NAME);
+    cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
 
     cy.reload();
     //Rename the view
-    cy.contains("Views", { timeout: 40000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    cy.wait(1000);
 
     //Hover over the view and click the 3-dots menu
-    cy.contains(AUTOMATION_VIEW_NAME).realHover();
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
+
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
+    cy.wait(1000);
 
     cy.contains("Rename view", { timeout: 40000 }).click();
 
-    cy.get("input[value='Automation Test View']").clear();
-
-    cy.get("input[type='text']").type("Automation Test View Renamed");
+    cy.get("input[value='Automation Test View']")
+      .clear()
+      .type("Automation Test View Renamed");
 
     cy.get("button.bg-main-primaryPurple").eq(0).click();
 
     cy.reload();
 
-    //Verify the view is renamed
-    cy.contains("Views", { timeout: 40000 }).click();
-
     cy.contains("Automation Test View Renamed", {
       timeout: 40000,
-    }).should("be.visible");
-
+    })
+      .should("be.visible")
+      .click();
+    cy.wait(1000);
     //Delete the view
-    cy.contains(
-      "button.font-inter.flex.justify-between.group.items-center.relative.leading-3.px-2\\.5.font-medium.w-full.text-start.rounded-md.text-\\[13px\\].text-main-primaryDarkBlue.hover\\:bg-gray-150",
-      AUTOMATION_VIEW_NAME
-    ).realHover();
+    cy.contains("div.w-full", "Automation Test View Renamed").realHover();
+
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
+    cy.wait(1000);
+
     cy.clickOnDeleteViewAndVerify();
   });
 
@@ -111,14 +115,14 @@ describe("Regression Test Suite", () => {
 
     cy.get("@clipboardWrite", { timeout: 40000 }).should("have.been.called");
 
-    cy.wait(2000);
+    cy.wait(1000);
 
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
+      .scrollIntoView()
+      .click({ force: true });
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-      .find("div.group\\/item.relative")
-      .realHover();
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
     cy.wait(2000);
 
@@ -196,8 +200,8 @@ describe("Regression Test Suite", () => {
     cy.contains("MANAGE QA").should("not.exist");
   });
 
-  it("Partner logo will change according to the partner selected", () => {
-    cy.get('img[alt="Partner logo"]')
+  it("Space logo will change according to the space selected", () => {
+    cy.get('img[alt="Space logo"]')
       .should(
         "have.attr",
         "src",
@@ -208,16 +212,11 @@ describe("Regression Test Suite", () => {
 
     cy.get("svg.h-6.w-6").should("be.visible").click({ force: true });
 
-    cy.contains("dev").click();
+    cy.contains("QA").click();
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    cy.get('img[alt="Partner logo"]')
-      .should(
-        "have.attr",
-        "src",
-        "https://storage.googleapis.com/violet_dev/20170301123009!Google__G__logo-1726743137687.svg",
-        { timeout: 25000 }
-      )
+    cy.get('img[alt="Space logo"]')
+      .should("have.attr", "src", 'https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg', { timeout: 25000 })
       .and("be.visible");
   });
 

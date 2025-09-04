@@ -118,7 +118,14 @@ describe("analytics Test Suite", () => {
     it("tests save_view_modal_clicks_cancel event payload", () => {
       cy.contains("Views", { timeout: 40000 }).click();
       cy.contains("Save as New", { timeout: 40000 }).click();
-      cy.contains("Cancel", { timeout: 40000 }).click();
+
+      cy.get("div.fixed.top-0.left-0.w-full.h-full:visible").each(($modal) => {
+        cy.wrap($modal).within(() => {
+          cy.contains("button", /^cancel$/i)
+            .should("be.visible")
+            .click();
+        });
+      });
 
       cy.validateGtmEvent(
         "save view modal clicks",
@@ -203,9 +210,13 @@ describe("analytics Test Suite", () => {
       cy.contains("Help Center", { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.get("button.bg-gray-150", { timeout: 40000 })
+      cy.get('svg[aria-hidden="true"][viewBox="0 0 20 20"]')
+        .should("exist")
+        .parents("button")
+        .first()
         .should("be.visible")
-        .click({ force: true });
+        .click();
+
       cy.wait(3000);
 
       cy.validateGtmEvent(
@@ -220,6 +231,9 @@ describe("analytics Test Suite", () => {
       cy.wait(3000);
 
       cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
@@ -242,6 +256,9 @@ describe("analytics Test Suite", () => {
       cy.wait(3000);
 
       cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();

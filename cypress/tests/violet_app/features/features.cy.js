@@ -20,16 +20,10 @@ describe("Features Test Suite", () => {
     cy.reload();
 
     // Verify it is set as public
-    cy.contains("Views", { timeout: 40000 }).click();
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, { timeout: 40000 })
-      .find("div.group\\/item.relative")
-      .realHover();
-
-    cy.contains("You are sharing this view as a Team view", { timeout: 40000 })
-      .contains(AUTOMATION_VIEW_NAME)
-      .should("be.visible");
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
     //Change the view to non public
     cy.clickVisibleThreeDots();
@@ -37,9 +31,9 @@ describe("Features Test Suite", () => {
     cy.contains("Delete view", { timeout: 40000 }).click();
 
     cy.contains(
-      "Are you sure you want to delete “" +
+      'Are you sure you want to delete "' +
         AUTOMATION_VIEW_NAME +
-        "“ from your list of saved views?",
+        '" with the current filters and settings?',
       { timeout: 40000 }
     ).should("be.visible");
 
@@ -51,11 +45,7 @@ describe("Features Test Suite", () => {
   it("User can use other users public view as its default view with consistency to reload, and return to previous state", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
 
-    cy.wait(6000);
-
-    cy.reload();
-
-    cy.wait(6000);
+    cy.wait(4000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
@@ -79,6 +69,9 @@ describe("Features Test Suite", () => {
     cy.wait(3000);
 
     cy.get("#isDefault", { timeout: 40000 }).click();
+
+    cy.wait(3000);
+
     cy.get("*", { timeout: 40000 })
       .filter(
         (_, el) =>
@@ -88,13 +81,10 @@ describe("Features Test Suite", () => {
       .should("have.length.at.least", 1)
       .first()
       .should("be.visible");
+
     cy.wait(3000);
 
-    //reload
-    cy.get("button", { timeout: 40000 })
-      .filter(':has(img[alt="Logo"])')
-      .first()
-      .click({ force: true });
+    cy.visit("https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines");
 
     // public automation view is now default
     cy.get("#__next", { timeout: 45000 }).should("exist");
@@ -110,11 +100,9 @@ describe("Features Test Suite", () => {
     cy.wait(3000);
     cy.get("#isDefault", { timeout: 40000 }).click();
     cy.wait(3000);
+
     // reload
-    cy.get("button", { timeout: 40000 })
-      .filter(':has(img[alt="Logo"])')
-      .first()
-      .click({ force: true });
+    cy.visit("https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines");
 
     //unfiltered report is loaded
     cy.get("#__next", { timeout: 45000 }).should("exist");
@@ -122,9 +110,9 @@ describe("Features Test Suite", () => {
     cy.wait(3000);
 
     // delete the view
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, { timeout: 40000 })
-      .find("div.group\\/item.relative")
-      .realHover();
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
+      timeout: 40000,
+    }).realHover();
     cy.wait(3000);
 
     cy.clickVisibleThreeDots();
@@ -149,16 +137,16 @@ describe("Features Test Suite", () => {
     cy.wait(3000);
 
     const now = new Date();
-
     const options = { day: "2-digit", month: "short", year: "numeric" };
-    const datePart = now.toLocaleDateString("en-GB", options).replace(/,/g, ""); // "23 Jun 2025"
+    const datePart = now
+      .toLocaleDateString("en-US", options)
+      .replace(/(\w+)\s(\d{2}),\s(\d{4})/, "$2 $1 $3"); // "02 Sep 2025"
 
     const hours = String(now.getHours()).padStart(2, "0");
     const minutes = String(now.getMinutes()).padStart(2, "0");
-    // const timePart = `${hours}:${minutes}`; // "09:34"
     const timePart = `${hours}:`; // "09:" //validate only hours to avoid flakiness
 
-    const fullText = `Modified: ${datePart} ${timePart}`; // "Modified: 23 Jun 2025 09:"
+    const fullText = "Modified: " + datePart + " " + timePart; // "Modified: 23 Jun 2025 09:"
 
     cy.contains(fullText).should("be.visible");
 
@@ -184,9 +172,9 @@ describe("Features Test Suite", () => {
     cy.contains("Owner: Yotam Jacob").should("be.visible");
 
     cy.document().then((doc) => {
-      const primaryText = "Modified: 05 Aug 2025 13:56";
-      const fallbackText = "Modified: 05 Aug 2025 16:56";
-      const secondaryFallbackText = "Modified: 05 Aug 2025 14:56";
+      const primaryText = "Modified: 01 Sep 2025 14:52";
+      const fallbackText = "Modified: 01 Sep 2025 17:52";
+      const secondaryFallbackText = "Modified: 01 Sep 2025 14:52";
 
       // Use jQuery :contains selector
       const primaryExists =

@@ -83,9 +83,12 @@ describe("analytics Test Suite", () => {
       cy.contains("Help Center", { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.get("button.bg-gray-150", { timeout: 40000 })
+      cy.get('svg[aria-hidden="true"][viewBox="0 0 20 20"]')
+        .should("exist")
+        .parents("button")
+        .first()
         .should("be.visible")
-        .click({ force: true });
+        .click();
       cy.wait(3000);
 
       cy.validateGtmEvent(
@@ -101,6 +104,9 @@ describe("analytics Test Suite", () => {
       cy.wait(3000);
 
       cy.contains("Help Center", { timeout: 20000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("Comprehensive Example Article", { timeout: 20000 }).click({
@@ -125,6 +131,9 @@ describe("analytics Test Suite", () => {
       cy.wait(3000);
 
       cy.contains("Help Center", { timeout: 30000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("Comprehensive Example Article", { timeout: 30000 }).click({
@@ -158,22 +167,20 @@ describe("analytics Test Suite", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME);
 
+      //Verify the view is renamed
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+
+      //Delete the view
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
+
+      cy.clickVisibleThreeDots();
+      cy.clickOnDeleteViewAndVerify();
+
       cy.validateGtmEvent(
         "save view modal clicks",
         gtmExpectedEvents.save_view_modal_clicks_save,
         consoleMessages
       );
-
-      cy.reload();
-
-      //Verify the view is renamed
-      cy.contains("Views", { timeout: 40000 }).click();
-
-      //Delete the view
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
-
-      cy.clickVisibleThreeDots();
-      cy.clickOnDeleteViewAndVerify();
     });
 
     it("tests contact_support_modal_close event payload", () => {
@@ -236,11 +243,14 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests article_click event payload", () => {
+    it("tests category_article_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
       cy.wait(3000);
 
       cy.contains("Comprehensive Example Article", { timeout: 40000 }).click({
@@ -249,8 +259,8 @@ describe("analytics Test Suite", () => {
       cy.wait(3000);
 
       cy.validateGtmEvent(
-        "article_click",
-        gtmExpectedEvents.article_click,
+        "category_article_click",
+        gtmExpectedEvents.category_article_click,
         consoleMessages
       );
     });
@@ -259,34 +269,39 @@ describe("analytics Test Suite", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME);
 
-      cy.reload();
       //Cancel the view
-      cy.contains("Views", { timeout: 40000 }).click();
+      cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       cy.wait(3000);
 
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
       cy.wait(3000);
       cy.clickVisibleThreeDots();
       cy.wait(3000);
 
       cy.contains("Delete view", { timeout: 40000 }).click();
-      cy.contains("button", "Cancel", { timeout: 45000 }).click();
+      cy.wait(1000);
+      cy.contains("button:visible", "Cancel", { timeout: 15000 }).click({
+        scrollBehavior: "center",
+      });
 
-      //Delete the view
-      cy.contains("Views", { timeout: 40000 }).click();
-      cy.contains(AUTOMATION_VIEW_NAME).realHover();
       cy.wait(3000);
-
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
+      cy.wait(3000);
       cy.clickVisibleThreeDots();
+      cy.wait(3000);
       cy.clickOnDeleteViewAndVerify();
+
+      cy.validateGtmEvent(
+        "remove_view_modal_click_cancel",
+        gtmExpectedEvents.remove_view_modal_click_cancel,
+        consoleMessages
+      );
     });
 
     it("tests remove_view_modal_click_remove event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
       cy.wait(3000); //necessary for elements loading
-      cy.reload();
-      cy.wait(3000);
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       cy.wait(3000);
@@ -303,7 +318,7 @@ describe("analytics Test Suite", () => {
       cy.clickOnDeleteViewAndVerify();
 
       cy.validateGtmEvent(
-        "remove_view_modal_click",
+        "remove_view_modal_click_remove",
         gtmExpectedEvents.remove_view_modal_click_remove,
         consoleMessages
       );

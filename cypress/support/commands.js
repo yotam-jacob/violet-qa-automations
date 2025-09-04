@@ -68,21 +68,9 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
-  cy.wait(4000);
-  cy.get("svg.h-6.w-6", { timeout: 30000 }).first().click();
-  cy.wait(4000);
-
-  cy.contains("QA", { timeout: 30000 }).click();
-
-  cy.wait(3000);
-  cy.get("#__next", { timeout: 35000 }).should("exist");
   cy.url({ timeout: 35000 }).should("include", "/qa");
 
-  cy.get("svg.h-6.w-6", { timeout: 30000 }).first().click();
-
-  cy.reload();
-
-  cy.contains("KPI Trendlines", { timeout: 40000 }).should("be.visible");
+  cy.contains("KPI Trendlines", { timeout: 40000 }).click();
 });
 
 Cypress.Commands.add("clickVisibleThreeDots", () => {
@@ -106,16 +94,24 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
+  cy.wait(3000);
   cy.contains("Views", { timeout: 50000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
   if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
+  cy.wait(1000);
+
   cy.get('button[type="submit"]', { timeout: 20000 }).click();
-  cy.contains("Your changes are saved.", { timeout: 20000 }).should(
-    "be.visible"
-  );
+  cy.wait(1000);
+  cy.contains('"' + name + '"' + " saved successfully!", {
+    timeout: 20000,
+  }).should("be.visible");
+
+  cy.wait(1000);
+
   cy.contains(name, { timeout: 10000 }).should("be.visible");
+  cy.wait(1000);
 });
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
