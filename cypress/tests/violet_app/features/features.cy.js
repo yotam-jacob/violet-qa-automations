@@ -174,7 +174,7 @@ describe("Features Test Suite", () => {
     cy.document().then((doc) => {
       const primaryText = "Modified: 01 Sep 2025 14:52";
       const fallbackText = "Modified: 01 Sep 2025 17:52";
-      const secondaryFallbackText = "Modified: 01 Sep 2025 14:52";
+      const secondaryFallbackText = "Modified: 01 Sep 2025 12:52";
 
       // Use jQuery :contains selector
       const primaryExists =
