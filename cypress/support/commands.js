@@ -100,18 +100,18 @@ Cypress.Commands.add("createView", (name, options = {}) => {
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
   if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
-  cy.wait(1000);
+  cy.wait(3000);
 
   cy.get('button[type="submit"]', { timeout: 20000 }).click();
-  cy.wait(1000);
+  cy.wait(3000);
   cy.contains('"' + name + '"' + " saved successfully!", {
     timeout: 20000,
   }).should("be.visible");
 
-  cy.wait(1000);
+  cy.wait(3000);
 
   cy.contains(name, { timeout: 10000 }).should("be.visible");
-  cy.wait(1000);
+  cy.wait(3000);
 });
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {

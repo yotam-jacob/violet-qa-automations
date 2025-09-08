@@ -103,6 +103,7 @@ describe("Regression Test Suite", () => {
 
     cy.wait(2000);
 
+    //click on the copy button
     cy.get(
       "div.flex.relative.flex-col.w-full.gap-\\[5px\\].items-start"
     ).within(() => {
@@ -126,7 +127,6 @@ describe("Regression Test Suite", () => {
 
     cy.wait(2000);
 
-    //Change the view to non public
     cy.clickVisibleThreeDots();
 
     // Delete the view
@@ -216,7 +216,12 @@ describe("Regression Test Suite", () => {
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
     cy.get('img[alt="Space logo"]')
-      .should("have.attr", "src", 'https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg', { timeout: 25000 })
+      .should(
+        "have.attr",
+        "src",
+        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg",
+        { timeout: 25000 }
+      )
       .and("be.visible");
   });
 

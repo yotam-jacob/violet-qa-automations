@@ -109,7 +109,6 @@ describe("analytics Test Suite", () => {
 
       //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-        // .find("div.group\\/item.relative")
         .realHover();
 
       cy.contains("You are sharing this view as a Team view")
