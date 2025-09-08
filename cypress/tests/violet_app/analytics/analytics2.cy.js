@@ -265,6 +265,23 @@ describe("analytics Test Suite", () => {
       );
     });
 
+    it("tests category_click event payload", () => {
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.wait(3000);
+
+      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
+      cy.wait(3000);
+
+      cy.validateGtmEvent(
+        "category_click",
+        gtmExpectedEvents.category_click,
+        consoleMessages
+      );
+    });
+
     it("tests remove_view_modal_click_cancel event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME);

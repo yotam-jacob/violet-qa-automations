@@ -457,17 +457,16 @@ export const gtmExpectedEvents = {
     work_department: "Customer Success",
     work_role: "Customer Success Manager",
   },
-  article_click: {
-    //TODO
-    user_id: "4000eea3-5867-4893-8141-6e3f6a5baf8a",
+  category_click: {
     email: "yotamjacob@walla.co.il",
     name: "Yotam Jacob Walla",
     EXpartner: "qa",
-    internal_user: true,
+    internal_user: false,
     env: "development",
-    event: "article_click",
-    target_url: "How to Share a Dashboard",
     work_department: "Customer Success",
     work_role: "Customer Success Manager",
+    event: "category_click",
+    category_title: "Dashboards Overview",
+    category_id: "a1f3dd12-5ba7-4dcd-9f25-26c467570f1c",
   },
 };
