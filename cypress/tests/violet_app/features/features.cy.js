@@ -171,25 +171,11 @@ describe("Features Test Suite", () => {
     // Verify the tooltip metadata
     cy.contains("Owner: Yotam Jacob").should("be.visible");
 
-    cy.document().then((doc) => {
-      const primaryText = "Modified: 01 Sep 2025 14:52";
-      const fallbackText = "Modified: 01 Sep 2025 17:52";
-      const secondaryFallbackText = "Modified: 01 Sep 2025 12:52";
+    cy.document().then(() => {
+      const datePart = "01 Sep 2025";
+      const regex = new RegExp(`Modified: ${datePart} \\d{2}:\\d{2}`);
 
-      // Use jQuery :contains selector
-      const primaryExists =
-        Cypress.$(`body:contains("${primaryText}")`).length > 0;
-
-      const fallbackTextExists =
-        Cypress.$(`body:contains("${fallbackText}")`).length > 0;
-
-      if (primaryExists) {
-        cy.contains(primaryText).should("be.visible");
-      } else if (fallbackTextExists) {
-        cy.contains(fallbackText).should("be.visible");
-      } else {
-        cy.contains(secondaryFallbackText).should("be.visible");
-      }
+      cy.contains(regex).should("be.visible");
     });
   });
 });

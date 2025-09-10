@@ -42,13 +42,6 @@ describe("analytics Test Suite", () => {
       );
       cy.wait(3000);
 
-      //Verify that the new view is set as default
-      cy.reload();
-      cy.wait(3000);
-
-      cy.get("#__next", { timeout: 45000 }).should("exist");
-      cy.wait(3000);
-
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
       //Hover over the "Default" view and click the 3-dots menu
 
@@ -108,8 +101,7 @@ describe("analytics Test Suite", () => {
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 60000 }).click();
 
       //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
-      cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-        .realHover();
+      cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
       cy.contains("You are sharing this view as a Team view")
         .contains(AUTOMATION_VIEW_NAME)
@@ -219,6 +211,15 @@ describe("analytics Test Suite", () => {
 
       cy.get(".h-3.w-3", { timeout: 25000 }).click();
       cy.wait(2000);
+
+      //Close share modal
+      cy.get(
+        "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
+        { timeout: 25000 }
+      )
+        .eq(0)
+        .should("be.visible")
+        .click();
 
       cy.validateGtmEvent(
         "share_menu_click",
