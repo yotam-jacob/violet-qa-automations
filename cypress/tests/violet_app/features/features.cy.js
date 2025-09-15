@@ -45,7 +45,7 @@ describe("Features Test Suite", () => {
   it("User can use other users public view as its default view with consistency to reload, and return to previous state", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true, isDefault: true });
 
-    cy.wait(4000);
+    cy.wait(1000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
@@ -59,18 +59,18 @@ describe("Features Test Suite", () => {
       .first()
       .should("be.visible");
 
-    cy.wait(3000);
+    cy.wait(1000);
 
     // Selected the automation public view as default
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).realHover();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.get("#isDefault", { timeout: 40000 }).click();
 
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.get("*", { timeout: 40000 })
       .filter(
@@ -82,41 +82,41 @@ describe("Features Test Suite", () => {
       .first()
       .should("be.visible");
 
-    cy.wait(3000);
+    cy.wait(1000);
 
-    cy.visit("https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines");
+    cy.visit("https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines");
 
     // public automation view is now default
     cy.get("#__next", { timeout: 45000 }).should("exist");
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
 
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).realHover();
 
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
     cy.get("#isDefault", { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     // reload
-    cy.visit("https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines");
+    cy.visit("https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines");
 
     //unfiltered report is loaded
     cy.get("#__next", { timeout: 45000 }).should("exist");
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 60000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     // delete the view
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickOnDeleteViewAndVerify();
   });
@@ -126,15 +126,15 @@ describe("Features Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
     //Hover over the "Default" view and click the 3-dots menu
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
 
     const now = new Date();
     const options = { day: "2-digit", month: "short", year: "numeric" };
@@ -157,22 +157,22 @@ describe("Features Test Suite", () => {
   it("User can review the tooltip metada of public views from other users", () => {
     //open Views
     cy.contains("Views", { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     //Hover over the AUTOMATION_PUBLIC_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(3000);
+    cy.wait(1000);
 
     //open 3-dots menu
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
     // Verify the tooltip metadata
     cy.contains("Owner: Yotam Jacob").should("be.visible");
 
     cy.document().then(() => {
-      const datePart = "01 Sep 2025";
+      const datePart = "14 Sep 2025";
       const regex = new RegExp(`Modified: ${datePart} \\d{2}:\\d{2}`);
 
       cy.contains(regex).should("be.visible");

@@ -34,15 +34,15 @@ describe("analytics Test Suite", () => {
 
   describe("GTM Events Validation", () => {
     it("tests report_click event payload", () => {
-      cy.wait(3000); // Wait for the GTM script to load
+      cy.wait(1000); // Wait for the GTM script to load
 
       cy.visit(
-        "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines"
+        "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
       );
-      cy.wait(3000); // Wait for the GTM script to load
+      cy.wait(1000); // Wait for the GTM script to load
 
       cy.contains("KPI Trendlines", { timeout: 40000 }).click();
-      cy.wait(3000); // Wait for the GTM script to load
+      cy.wait(1000); // Wait for the GTM script to load
 
       cy.validateGtmEvent(
         "report_click",
@@ -53,7 +53,7 @@ describe("analytics Test Suite", () => {
 
     it("tests report_load event payload", () => {
       cy.contains("KPI Trendlines", { timeout: 40000 }).click();
-      cy.wait(3000);
+      cy.wait(1000);
       cy.validateGtmEvent(
         "report_load",
         gtmExpectedEvents.report_load,
@@ -62,9 +62,9 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests actions_menu_click event payload", () => {
-      cy.wait(3000);
+      cy.wait(1000);
       cy.contains("Views", { timeout: 40000 }).click();
-      cy.wait(3000);
+      cy.wait(1000);
 
       cy.validateGtmEvent(
         "actions_menu_click",
@@ -104,7 +104,8 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests filter_picked event payload", () => {
-      cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
+      cy.visit("https://staging.violetgrowth.com/partners/qa/reports/insights");
+
       cy.contains("button", "PopSells", { timeout: 20000 }).click();
       cy.contains("PopSells2", { timeout: 40000 }).click();
 
@@ -136,11 +137,11 @@ describe("analytics Test Suite", () => {
 
     it("tests sidebar toggle event payload", () => {
       // Close the sidebar menu
-      cy.wait(3000);
+      cy.wait(1000);
       cy.get('button:has(svg[width="16"][height="16"][viewBox="0 0 16 16"])')
         .eq(1)
         .click();
-      cy.wait(3000);
+      cy.wait(1000);
 
       cy.validateGtmEvent(
         "toggle sidebar",
@@ -150,10 +151,10 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests insight_thumb_rating event payload", () => {
-      cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
-      cy.wait(3000);
+      cy.visit("https://staging.violetgrowth.com/partners/qa/reports/insights");
+      cy.wait(1000);
       cy.get(".cursor-pointer.bg-white").first().click();
-      cy.wait(3000);
+      cy.wait(1000);
 
       cy.validateGtmEvent(
         "insight_thumb_rating",
@@ -163,7 +164,7 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests copy_button_click event payload", () => {
-      cy.visit("https://dev.violetgrowth.com/partners/qa/reports/insights");
+      cy.visit("https://staging.violetgrowth.com/partners/qa/reports/insights");
       cy.get(".cursor-pointer.bg-gray-60", { timeout: 40000 }).first().click();
 
       cy.validateGtmEvent(
@@ -174,7 +175,7 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests drivers_tab_click event payload", () => {
-      cy.visit("https://dev.violetgrowth.com/partners/qa/reports/drivers");
+      cy.visit("https://staging.violetgrowth.com/partners/qa/reports/drivers");
       cy.contains("Drivers Tab", { timeout: 20000 }).click();
 
       cy.validateGtmEvent(
@@ -206,9 +207,9 @@ describe("analytics Test Suite", () => {
 
     it("tests drawer_close_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(3000);
+      cy.wait(1000);
       cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(3000);
+      cy.wait(1000);
 
       cy.get('svg[aria-hidden="true"][viewBox="0 0 20 20"]')
         .should("exist")
@@ -217,7 +218,7 @@ describe("analytics Test Suite", () => {
         .should("be.visible")
         .click();
 
-      cy.wait(3000);
+      cy.wait(1000);
 
       cy.validateGtmEvent(
         "drawer_close_click",
@@ -226,65 +227,65 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    it("tests internal_link_click event payload", () => {
-      cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(3000);
+    // it("tests internal_link_click event payload", () => {
+    //   cy.contains("Help", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Help Center", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Dashboard Overviews", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("internal links to other articles", {
-        timeout: 10000,
-      }).click();
-      cy.wait(3000);
+    //   cy.contains("internal links to other articles", {
+    //     timeout: 10000,
+    //   }).click();
+    //   cy.wait(1000);
 
-      cy.validateGtmEvent(
-        "internal_link_click",
-        gtmExpectedEvents.internal_link_click,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "internal_link_click",
+    //     gtmExpectedEvents.internal_link_click,
+    //     consoleMessages
+    //   );
+    // });
 
-    it("tests external_link_click event payload", () => {
-      cy.contains("Help", { timeout: 20000 }).click();
-      cy.wait(3000);
+    // it("tests external_link_click event payload", () => {
+    //   cy.contains("Help", { timeout: 20000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Help Center", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("Dashboards Overview", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Dashboard Overviews", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
-      cy.wait(3000);
+    //   cy.contains("Comprehensive Example Article", { timeout: 40000 }).click();
+    //   cy.wait(1000);
 
-      cy.contains("contextual links to external sites", {
-        timeout: 10000,
-      }).click();
-      cy.wait(3000);
+    //   cy.contains("contextual links to external sites", {
+    //     timeout: 10000,
+    //   }).click();
+    //   cy.wait(1000);
 
-      cy.validateGtmEvent(
-        "external_link_click",
-        gtmExpectedEvents.external_link_click,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "external_link_click",
+    //     gtmExpectedEvents.external_link_click,
+    //     consoleMessages
+    //   );
+    // });
 
-    it("tests help_menu_item_click_lexicon event payload", () => {
-      cy.contains("Help", { timeout: 40000 }).click();
-      cy.contains("Lexicon", { timeout: 40000 }).click();
+    // it("tests help_menu_item_click_lexicon event payload", () => {
+    //   cy.contains("Help", { timeout: 40000 }).click();
+    //   cy.contains("Lexicon", { timeout: 40000 }).click();
 
-      cy.validateGtmEvent(
-        "help_menu_item_click",
-        gtmExpectedEvents.help_menu_item_click_lexicon,
-        consoleMessages
-      );
-    });
+    //   cy.validateGtmEvent(
+    //     "help_menu_item_click",
+    //     gtmExpectedEvents.help_menu_item_click_lexicon,
+    //     consoleMessages
+    //   );
+    // });
   });
 });

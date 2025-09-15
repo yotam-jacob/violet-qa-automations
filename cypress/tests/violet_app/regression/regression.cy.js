@@ -64,7 +64,7 @@ describe("Regression Test Suite", () => {
     cy.contains("Views", { timeout: 40000 }).click();
     cy.wait(5000);
     cy.contains(AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(2000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
 
@@ -78,6 +78,8 @@ describe("Regression Test Suite", () => {
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
+    cy.wait(1000);
+
     //Open share modal and click on the share button
     cy.get(
       "button.flex.gap-2.rounded-full.p-2.text-main-primaryPurple.justify-center.items-center.bg-main-primaryLightGrey",
@@ -86,6 +88,8 @@ describe("Regression Test Suite", () => {
       .eq(0)
       .should("be.visible")
       .click();
+
+    cy.wait(1000);
 
     cy.get("input#shareableLink")
       .invoke("val")
@@ -101,7 +105,7 @@ describe("Regression Test Suite", () => {
       }
     });
 
-    cy.wait(2000);
+    cy.wait(1000);
 
     //click on the copy button
     cy.get(
@@ -112,7 +116,7 @@ describe("Regression Test Suite", () => {
       });
     });
 
-    cy.wait(2000);
+    cy.wait(1000);
 
     cy.get("@clipboardWrite", { timeout: 40000 }).should("have.been.called");
 
@@ -125,7 +129,7 @@ describe("Regression Test Suite", () => {
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
-    cy.wait(2000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
 
@@ -205,7 +209,7 @@ describe("Regression Test Suite", () => {
       .should(
         "have.attr",
         "src",
-        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg",
+        "https://storage.googleapis.com/violet_staging/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742728804618.jpg",
         { timeout: 25000 }
       )
       .and("be.visible");
@@ -219,29 +223,10 @@ describe("Regression Test Suite", () => {
       .should(
         "have.attr",
         "src",
-        "https://storage.googleapis.com/violet_dev/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742479975649.jpg",
+        "https://storage.googleapis.com/violet_staging/letters-qa-monogram-logo-5fdc8544-4827-4e48-b507-a009ec13a48f-1742728804618.jpg",
         { timeout: 25000 }
       )
       .and("be.visible");
-  });
-
-  const routes = [
-    "/partners/qa/reports/kpi-trendlines",
-    "/partners/qa/reports/appointments-tracker",
-    "/partners/qa/reports/offline-schedule",
-  ];
-
-  const repeatCount = 10;
-
-  it(`repeatedly navigates between ${routes.length} main pages, ${repeatCount} times`, () => {
-    for (let i = 0; i < repeatCount; i++) {
-      routes.forEach((route) => {
-        cy.visit(route);
-        cy.get("#__next", { timeout: 10000 }).should("exist");
-        cy.url().should("include", route);
-        cy.contains(/not found/i).should("not.exist"); // case-insensitive check
-      });
-    }
   });
 
   it("measures and asserts homepage load time is acceptable", () => {

@@ -21,41 +21,78 @@ describe("Sanity Test Suite", () => {
   });
 
   it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
-    cy.wait(3000); //necessary for the page to load
+    cy.wait(2000); //necessary for the page to load
 
     cy.contains("KPI Trendlines", { timeout: 40000 })
       .closest("div")
       .realHover();
+    cy.wait(2000); //necessary for the page to load
 
     cy.clickVisibleThreeDots();
+    cy.wait(2000); //necessary for the page to load
+
     cy.contains("Set as Homepage", { timeout: 40000 }).click();
-    cy.wait(3000); //necessary for the page to load
+    cy.wait(2000); //necessary for the page to load
+
+    cy.wait(2000); //necessary for the page to load
 
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
       .first()
       .click({ force: true });
+
+    cy.wait(2000); //necessary for the page to load
 
     cy.url().should("include", "partners/qa/reports/kpi-trendlines", {
       timeout: 40000,
     });
 
-    cy.get("#__next", { timeout: 15000 }).should("exist");
-    cy.wait(3000); //necessary for the page to load
-    cy.contains("Table Viewer", { timeout: 40000 }).closest("div").realHover();
-    cy.clickVisibleThreeDots();
-    cy.contains("Set as Homepage", { timeout: 40000 }).click();
-    cy.wait(3000); //necessary for the page to load
+    cy.wait(2000); //necessary for the page to load
 
-    cy.reload();
-    cy.wait(3000); //necessary for the page to load
+    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.wait(2000); //necessary for the page to load
+    cy.contains("Summary", { timeout: 40000 }).closest("div").realHover();
+    cy.wait(2000); //necessary for the page to load
+
+    cy.clickVisibleThreeDots();
+    cy.wait(2000); //necessary for the page to load
+
+    cy.contains("Set as Homepage", { timeout: 40000 }).click();
+    cy.wait(2000); //necessary for the page to load
 
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
       .first()
       .click({ force: true });
 
-    cy.url().should("include", "partners/qa/reports/omaze-table-viewer", {
+    cy.wait(2000); //necessary for the page to load
+
+    cy.url().should("include", "partners/qa/reports/summary", {
+      timeout: 40000,
+    });
+    cy.wait(2000); //necessary for the page to load
+
+    //revert to original homepage
+    cy.get("#__next", { timeout: 15000 }).should("exist");
+    cy.wait(2000); //necessary for the page to load
+    cy.contains("KPI Trendlines", { timeout: 40000 })
+      .closest("div")
+      .realHover();
+    cy.wait(2000); //necessary for the page to load
+
+    cy.clickVisibleThreeDots();
+    cy.wait(2000); //necessary for the page to load
+
+    cy.contains("Set as Homepage", { timeout: 40000 }).click();
+    cy.wait(2000); //necessary for the page to load
+
+    cy.get("button", { timeout: 40000 })
+      .filter(':has(img[alt="Logo"])')
+      .first()
+      .click({ force: true });
+    cy.wait(2000); //necessary for the page to load
+
+    cy.url().should("include", "partners/qa/reports/kpi-trendlines", {
       timeout: 40000,
     });
   });
@@ -138,7 +175,7 @@ describe("Sanity Test Suite", () => {
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
     // Verify it is set as public
-    cy.wait(3000); //necessary for elements loading
+    cy.wait(1000); //necessary for elements loading
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
     cy.get("button.flex.items-center.w-full")
@@ -168,7 +205,7 @@ describe("Sanity Test Suite", () => {
     });
 
     cy.reload();
-    cy.wait(3000); //necessary for elements loading
+    cy.wait(1000); //necessary for elements loading
 
     //Delete the view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();

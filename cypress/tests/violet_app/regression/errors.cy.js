@@ -8,7 +8,7 @@ describe("Errors Handling Test Suite", () => {
 
   it("shows 404 page when navigating to a non-existent route", () => {
     // Visit a non-existent page
-    cy.visit("https://dev.violetgrowth.com/unknownpage", {
+    cy.visit("https://staging.violetgrowth.com/unknownpage", {
       failOnStatusCode: false,
     });
 
@@ -17,7 +17,7 @@ describe("Errors Handling Test Suite", () => {
     cy.url().should("include", "/page-not-found");
 
     cy.contains("Violet Homepage").should("be.visible").click();
-    cy.url().should("contain", "https://dev.violetgrowth.com/");
+    cy.url().should("contain", "https://staging.violetgrowth.com/");
     cy.get("#__next").should("be.visible");
   });
 });

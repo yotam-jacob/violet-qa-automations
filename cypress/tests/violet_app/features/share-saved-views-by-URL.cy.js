@@ -29,16 +29,16 @@ describe("Features Test Suite", () => {
     });
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
 
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickOnDeleteViewAndVerify();
   });
@@ -47,9 +47,9 @@ describe("Features Test Suite", () => {
     //click on Views
     cy.contains("Views", { timeout: 40000 }).click();
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
     //Url should contain correct viewid
-    cy.url().should("include", "view=b5f7b69d-4efc-4d4e-8050-0fc67bce5017");
+    cy.url().should("include", "view=dd0de051-c9a5-42ae-aaa2-60672fb4ab6a");
   });
 
   it("Open a public saved view and verify that the share button is enabled", () => {
@@ -78,7 +78,7 @@ describe("Features Test Suite", () => {
 
     //change view to private
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {}).realHover();
 
@@ -130,16 +130,16 @@ describe("Features Test Suite", () => {
     //delete view and finish
     cy.reload();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
 
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 
@@ -181,7 +181,7 @@ describe("Features Test Suite", () => {
 
     cy.get("@viewId").then((viewId) => {
       cy.location().then((loc) => {
-        const expectedUrl = `https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines?view=${viewId}`;
+        const expectedUrl = `https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines?view=${viewId}`;
         cy.get("@writeText").should("have.been.calledOnceWith", expectedUrl);
       });
     });
@@ -189,15 +189,15 @@ describe("Features Test Suite", () => {
     //delete view and finish
     cy.reload();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(3000);
+    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
+    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 

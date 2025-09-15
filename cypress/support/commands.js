@@ -9,7 +9,8 @@
 // ***********************************************
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
-Cypress.Commands.add("loginToVioletDev", () => {
+//temporarly changing the name to test if staging works
+Cypress.Commands.add("loginToVioletTemp", () => {
   const url = "https://dev.violetgrowth.com/";
 
   // Suppress specific known error from your app
@@ -73,7 +74,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.contains("KPI Trendlines", { timeout: 40000 }).click();
 });
 
-Cypress.Commands.add("loginToVioletStg", () => {
+Cypress.Commands.add("loginToVioletDev", () => {
   const url = "https://staging.violetgrowth.com/";
 
   // Suppress specific known error from your app
@@ -98,7 +99,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
       (err) => {
         cy.log("Initial visit failed:", err.message);
         if (!retry) {
-          cy.wait(5000); // Wait before retry
+          cy.wait(1000); // Wait before retry
           cy.log("Retrying visit with reload...");
           cy.reload({ timeout: 60000 });
           visitWithRetry(true);
@@ -124,10 +125,10 @@ Cypress.Commands.add("loginToVioletStg", () => {
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
-  cy.wait(2000);
+  cy.wait(1000);
 
   cy.contains("Sign In").click();
-  cy.wait(6000);
+  cy.wait(1000);
 
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
@@ -158,33 +159,33 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  cy.wait(3000);
+  cy.wait(1000);
   cy.contains("Views", { timeout: 50000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
   if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
-  cy.wait(3000);
+  cy.wait(1000);
 
   cy.get('button[type="submit"]', { timeout: 20000 }).click();
-  cy.wait(3000);
+  cy.wait(1000);
   cy.contains('"' + name + '"' + " saved successfully!", {
     timeout: 20000,
   }).should("be.visible");
 
-  cy.wait(3000);
+  cy.wait(1000);
 
   cy.contains(name, { timeout: 10000 }).should("be.visible");
-  cy.wait(3000);
+  cy.wait(1000);
 });
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
   cy.contains("Delete view", { timeout: 40000 }).click();
-  cy.wait(4000);
+  cy.wait(3000);
   cy.contains("button", "Remove", { timeout: 45000 }).click();
-  cy.wait(4000);
+  cy.wait(3000);
   cy.reload();
-  cy.wait(4000);
+  cy.wait(3000);
 });
 
 Cypress.Commands.add(
