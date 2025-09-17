@@ -49,7 +49,7 @@ describe("Features Test Suite", () => {
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
     cy.wait(1000);
     //Url should contain correct viewid
-    cy.url().should("include", "view=dd0de051-c9a5-42ae-aaa2-60672fb4ab6a");
+    cy.url().should("include", "view=ddc8f41f-e59e-4852-b088-dd06c02bb98b");
   });
 
   it("Open a public saved view and verify that the share button is enabled", () => {
