@@ -172,7 +172,7 @@ describe("Features Test Suite", () => {
     cy.contains("Owner: Yotam Jacob").should("be.visible");
 
     cy.document().then(() => {
-      const datePart = "15 Sep 2025";
+      const datePart = "25 Sep 2025";
       const regex = new RegExp(`Modified: ${datePart} \\d{2}:\\d{2}`);
 
       cy.contains(regex).should("be.visible");

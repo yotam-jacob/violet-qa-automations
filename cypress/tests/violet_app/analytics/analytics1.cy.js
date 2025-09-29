@@ -302,15 +302,11 @@ describe("analytics Test Suite", () => {
       cy.reload();
       cy.wait(1000);
 
-      //Verify the view is renamed
-      cy.wait(1000);
-
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 20000 }).click();
       cy.wait(1000);
 
       //Delete the view
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
-        // .find("div.group\\/item.relative")
         .realHover();
       cy.wait(1000);
 
