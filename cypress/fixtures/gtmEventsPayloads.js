@@ -248,7 +248,6 @@ export const gtmExpectedEvents = {
     report: "Insights",
     title_1: "the 3P Affiliates platform",
     tag_1: "platform:3P Affiliates",
-    thumb_edited: "TRUE",
     work_department: "Customer Success",
     work_role: "Customer Success Manager",
   },
