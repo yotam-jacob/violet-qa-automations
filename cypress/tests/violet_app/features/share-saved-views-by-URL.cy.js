@@ -290,11 +290,12 @@ describe("Features Test Suite", () => {
     cy.contains(/^Save$/, { timeout: 25000 })
       .should("be.visible")
       .click();
-    cy.wait(2000);
+    cy.wait(3000);
     //Text is not visible: Please save this view as a new view in order to share it.
     cy.contains("Please save this view as a new view in order to share it.", {
       timeout: 25000,
     }).should("not.exist");
+    cy.wait(3000);
 
     //click on the copy button
     cy.get(
@@ -304,6 +305,8 @@ describe("Features Test Suite", () => {
         cy.wrap($btn).click({ force: true });
       });
     });
+    cy.wait(3000);
+
     //delete view and finish
     cy.reload();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
@@ -326,6 +329,7 @@ describe("Features Test Suite", () => {
     //make sure the url containd the view id
     cy.url().should("include", "view=");
     //Make the public automation view default
+    cy.wait(2000);
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
