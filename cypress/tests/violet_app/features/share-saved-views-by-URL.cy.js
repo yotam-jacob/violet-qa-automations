@@ -4,7 +4,7 @@ import { AUTOMATION_PUBLIC_VIEW_ID } from "/cypress/support/constants.js";
 
 describe("Features Test Suite", () => {
   beforeEach(() => {
-    cy.loginToVioletDev();
+    cy.loginToVioletStg();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 

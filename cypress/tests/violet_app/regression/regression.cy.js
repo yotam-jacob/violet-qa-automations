@@ -2,7 +2,7 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Regression Test Suite", () => {
   beforeEach(() => {
-    cy.loginToVioletDev();
+    cy.loginToVioletStg();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
@@ -283,5 +283,38 @@ describe("Regression Test Suite", () => {
     cy.get('a[href="https://exacti.us"]')
       .invoke("removeAttr", "target") // prevent opening in new tab
       .click();
+  });
+
+  it("Warning message should not appear when deleting an unused deefault view", () => {
+    //Create new default view
+    cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+
+    cy.reload();
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+
+    cy.wait(1000);
+
+    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
+      .should("be.visible")
+      .click();
+    cy.wait(1000);
+
+    //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
+    cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
+    cy.wait(1000);
+
+    cy.clickVisibleThreeDots();
+    cy.wait(1000);
+    // Delete the view
+    cy.contains("Delete view", { timeout: 40000 }).click();
+    cy.wait(3000);
+    //Message "Some users have set this view" should not appear
+    cy.contains("Some users have set this view", { timeout: 0 }).should(
+      "not.be.visible"
+    );
+    cy.contains("button", "Remove", { timeout: 45000 }).click();
+    cy.wait(3000);
+    cy.reload();
+    cy.wait(3000);
   });
 });

@@ -2,7 +2,7 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Sanity Test Suite", () => {
   beforeEach(() => {
-    cy.loginToVioletDev();
+    cy.loginToVioletStg();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
@@ -136,7 +136,7 @@ describe("Sanity Test Suite", () => {
 
     // Log back in
 
-    cy.loginToVioletDev();
+    cy.loginToVioletStg();
 
     cy.get("#__next", { timeout: 15000 }).should("exist");
   });

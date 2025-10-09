@@ -2,7 +2,7 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Errors Handling Test Suite", () => {
   beforeEach(() => {
-    cy.loginToVioletDev();
+    cy.loginToVioletStg();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 

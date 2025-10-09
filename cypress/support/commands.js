@@ -9,72 +9,7 @@
 // ***********************************************
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
-//temporarly changing the name to test if staging works
-Cypress.Commands.add("loginToVioletTemp", () => {
-  const url = "https://dev.violetgrowth.com/";
-
-  // Suppress specific known error from your app
-  Cypress.on("uncaught:exception", (err) => {
-    if (
-      err.message.includes(
-        "Invariant: attempted to hard navigate to the same URL"
-      )
-    ) {
-      return false;
-    }
-  });
-
-  function visitWithRetry(retry = false) {
-    cy.visit(url, {
-      timeout: 120000,
-      failOnStatusCode: false,
-    }).then(
-      () => {
-        cy.log("Page loaded successfully");
-      },
-      (err) => {
-        cy.log("Initial visit failed:", err.message);
-        if (!retry) {
-          cy.wait(5000); // Wait before retry
-          cy.log("Retrying visit with reload...");
-          cy.reload({ timeout: 60000 });
-          visitWithRetry(true);
-        } else {
-          throw err;
-        }
-      }
-    );
-  }
-
-  visitWithRetry();
-
-  // Login steps
-  cy.contains("Sign in with email", { timeout: 60000 }).click();
-
-  cy.contains("Email Address")
-    .parent()
-    .find("input")
-    .type("yotamjacob@walla.co.il");
-
-  cy.contains("Continue", { timeout: 30000 }).click();
-
-  cy.get('input[type="password"]', { timeout: 30000 })
-    .should("be.visible")
-    .type("Eggrolls1246!");
-  cy.wait(2000);
-
-  cy.contains("Sign In").click();
-  cy.wait(6000);
-
-  cy.url().should("not.include", "/login", { timeout: 40000 });
-  cy.get("#__next", { timeout: 35000 }).should("exist");
-
-  cy.url({ timeout: 35000 }).should("include", "/qa");
-
-  cy.contains("KPI Trendlines", { timeout: 40000 }).click();
-});
-
-Cypress.Commands.add("loginToVioletDev", () => {
+Cypress.Commands.add("loginToVioletStg", () => {
   const url = "https://staging.violetgrowth.com/";
 
   // Suppress specific known error from your app
