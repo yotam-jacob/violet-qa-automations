@@ -10,6 +10,7 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    timeout-minutes: 45
 
     steps:
       - name: Checkout repo
@@ -21,15 +22,26 @@ jobs:
           node-version: "22"
           cache: "npm"
 
-      - name: Install dependencies
-        run: npm ci
+      - name: Cache Cypress binary
+        uses: actions/cache@v4
+        with:
+          path: ~/.cache/Cypress
+          key: ${{ runner.os }}-cypress-${{ hashFiles('package-lock.json') }}
+
+      - name: Install dependencies (fast)
+        run: npm ci --no-audit --no-fund --no-progress --prefer-offline
+        env:
+          CYPRESS_INSTALL_BINARY: 0
 
       - name: Run All Cypress tests
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           spec: cypress/tests/**/*.cy.js
-          # headed: true   # uncomment if you need a headed run for debugging
+        env:
+          CYPRESS_INSTALL_BINARY: 1
+          CI: true
+          NODE_OPTIONS: --max-old-space-size=4096
 
       - name: Upload videos
         if: failure()
