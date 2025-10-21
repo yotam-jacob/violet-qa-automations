@@ -18,28 +18,23 @@ jobs:
           node-version: '22.14.0'
           cache: npm
 
-      # Install the nearest Chrome in the 141 line (latest Known Good 141.x)
+      # Install Chrome 141.x (closest to your local 141.0.7390.108)
       - name: Setup Chrome 141.x
         uses: browser-actions/setup-chrome@v1
         with:
           chrome-version: '141'
 
-      # Optional: show what was installed (no assertions)
       - name: Show versions
         run: |
-          google-chrome --version || chrome --version || true
           node -v
+          google-chrome --version || chrome --version
           npx cypress --version
 
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
       - name: Run All Cypress tests (Chrome 141.x)
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          spec: cypress/tests/violet_app/sanity/sanity.cy.js
-          install: false   # npm ci already ran
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
 
       - name: Upload videos
         if: failure()
