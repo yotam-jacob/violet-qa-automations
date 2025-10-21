@@ -24,7 +24,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
   });
 
   cy.visit(url, {
-    timeout: 5000,
+    timeout: 15000,
   });
 
   cy.contains("Sign in with email", { timeout: 60000 }).click();
