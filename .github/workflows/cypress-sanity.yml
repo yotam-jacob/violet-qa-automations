@@ -12,42 +12,34 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      # Pin Node to EXACTLY v22.14.0 (matches local)
       - name: Use Node.js 22.14.0
         uses: actions/setup-node@v4
         with:
-          node-version: "22.14.0"
-          cache: "npm"
+          node-version: '22.14.0'
+          cache: npm
 
-      # Ensure the exact Chrome version (141.0.7390.108)
-      # Install Google’s signing key + repo, then install a pinned version and hold it
-      - name: Install Google Chrome 141.0.7390.108
+      # Install EXACT Chrome version (matches your local)
+      - name: Setup Chrome 141.0.7390.108
+        uses: browser-actions/setup-chrome@v1
+        with:
+          chrome-version: '141.0.7390.108'
+
+      - name: Show versions (sanity check)
         run: |
-          set -euxo pipefail
-          sudo install -d -m 0755 /etc/apt/keyrings
-          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /etc/apt/keyrings/google-linux-signing-keyring.gpg
-          echo "deb [signed-by=/etc/apt/keyrings/google-linux-signing-keyring.gpg arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
-          sudo apt-get update
-          # The Debian package version suffix (-1) may change; try common variants
-          sudo apt-get install -y "google-chrome-stable=141.0.7390.108-1" || \
-          sudo apt-get install -y "google-chrome-stable=141.0.7390.108-1~stable" || \
-          sudo apt-get install -y "google-chrome-stable=141.0.7390.108"
-          google-chrome --version
-          sudo apt-mark hold google-chrome-stable
+          google-chrome --version || chrome --version || true
+          node -v
+          npx cypress --version
 
-      # Install deps (Cypress 14.4.1 should be pinned in package.json/package-lock.json)
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
 
-      # Run Cypress on the system Chrome we just installed
       - name: Run All Cypress tests (Chrome 141)
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           spec: cypress/tests/violet_app/sanity/sanity.cy.js
-          install: false # we already ran npm ci
+          install: false   # npm ci already ran
 
-      # Upload artifacts on failure (names match what your Slack report expects)
       - name: Upload videos
         if: failure()
         uses: actions/upload-artifact@v4
