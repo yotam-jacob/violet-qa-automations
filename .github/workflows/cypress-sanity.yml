@@ -22,7 +22,7 @@ jobs:
         run: npm ci
 
       - name: Run All Cypress tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js" --headed
       - name: Upload videos
         if: failure()
         uses: actions/upload-artifact@v4
