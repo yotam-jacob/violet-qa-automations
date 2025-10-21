@@ -55,23 +55,4 @@ jobs:
             echo "artifact_url=" >> $GITHUB_OUTPUT
             exit 0
           fi
-          echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
-
-      # Post Slack: append the exact video artifact URL if present, otherwise say job passed
-      - name: Post Slack report
-        if: always()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-          ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
-        run: |
-          set -e
-          BASE_TEXT=$(cat "$REPORT_PATH")
-          if [ -n "$ARTIFACT_URL" ]; then
-            FINAL_TEXT="${BASE_TEXT}\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
-          else
-            FINAL_TEXT="${BASE_TEXT}\nJob passed — no artifacts."
-          fi
-          curl -sS -X POST -H "Content-Type: application/json" \
-            --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
-            "$SLACK_WEBHOOK_URL"
+          echo "artifact_url=https://git_
