@@ -81,17 +81,21 @@ module.exports = defineConfig({
           passRate = Math.round((totalPassed / totalTests) * 100) || 0,
           mins = Math.floor(totalDuration / 6e4),
           secs = Math.round((totalDuration % 6e4) / 1e3),
-          emoji = totalFailed > 0 ? "❌" : "✅";
+          failed = totalFailed > 0,
+          emoji = failed ? "❌" : "✅";
 
         const lines = [
           SEP,
           `${emoji} *QA Automations Report — ${label}* — ${totalPassed}/${totalTests} passed (${passRate}%) • ${mins}m ${secs}s`,
           SEP,
           `GitHub Job: <${ghRun()}|Open Job>`,
-          `Artifacts (videos): <${ghArtifact("cypress-videos")}|Open>`,
-          `Artifacts (screenshots): <${ghArtifact(
-            "cypress-screenshots"
-          )}|Open>`,
+          failed
+            ? `Artifacts (videos): <${ghArtifact(
+                "cypress-videos"
+              )}|Open>\nArtifacts (screenshots): <${ghArtifact(
+                "cypress-screenshots"
+              )}|Open>`
+            : `Job passed — no artifacts.`,
           SEP,
           "",
         ];
