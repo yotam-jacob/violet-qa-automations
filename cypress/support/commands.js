@@ -63,7 +63,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
   cy.wait(1000);
 
   cy.contains("Sign In").click();
-  cy.wait(1000);
+  cy.wait(3000);
 
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
