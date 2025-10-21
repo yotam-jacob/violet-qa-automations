@@ -68,9 +68,13 @@ jobs:
           set -e
           BASE_TEXT=$(cat "$REPORT_PATH")
           if [ -n "$ARTIFACT_URL" ]; then
-            FINAL_TEXT="${BASE_TEXT}\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
+            # insert artifact link directly after "GitHub Job:" line
+            FINAL_TEXT=$(echo "$BASE_TEXT" | awk -v a="Artifacts (videos): <${ARTIFACT_URL}|Open>" '
+              /GitHub Job:/ { print; print a; next }1')
           else
-            FINAL_TEXT="${BASE_TEXT}\nJob passed — no artifacts."
+            # insert "Job passed" message below GitHub Job line
+            FINAL_TEXT=$(echo "$BASE_TEXT" | awk -v a="Job passed — no artifacts." '
+              /GitHub Job:/ { print; print a; next }1')
           fi
           curl -sS -X POST -H "Content-Type: application/json" \
             --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
