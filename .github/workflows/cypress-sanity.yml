@@ -57,21 +57,29 @@ jobs:
           fi
           echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
 
-      # Post Slack: append the exact video artifact URL if present, otherwise say job passed
+      # Post Slack: insert the artifacts (or "Job passed") line directly after "GitHub Job:"
       - name: Post Slack report
         if: always()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -e
-          BASE_TEXT=$(cat "$REPORT_PATH")
+          # Ensure the "GitHub Job:" line is a plain label + link text, like the example
+          # Replace any existing link markup with "Open Job" (Slack will still render the link below)
+          perl -0777 -pe 's/^GitHub Job:.*$/GitHub Job: Open Job/m' "$REPORT_PATH" > slack_base.txt
+
           if [ -n "$ARTIFACT_URL" ]; then
-            FINAL_TEXT="${BASE_TEXT}\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
+            # Insert artifact line right after "GitHub Job:"
+            perl -0777 -pe "s/^(GitHub Job:.*\n)/\${1}Artifacts (videos): <${ARTIFACT_URL}|Open>\n/m" slack_base.txt > slack_final.txt
           else
-            FINAL_TEXT="${BASE_TEXT}\nJob passed — no artifacts."
+            # Insert 'Job passed — no artifacts.' right after "GitHub Job:"
+            perl -0777 -pe "s/^(GitHub Job:.*\n)/\${1}Job passed — no artifacts.\n/m" slack_base.txt > slack_final.txt
           fi
+
+          # Send to Slack
           curl -sS -X POST -H "Content-Type: application/json" \
-            --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
+            --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
             "$SLACK_WEBHOOK_URL"
