@@ -27,12 +27,12 @@ const ghRun = () =>
   process.env.GITHUB_RUN_ID
     ? `https://github.com/${ghRepo()}/actions/runs/${process.env.GITHUB_RUN_ID}`
     : "<GITHUB_RUN_URL_PLACEHOLDER>";
-const ghArtifacts = () =>
+const ghArtifact = (name) =>
   process.env.GITHUB_RUN_ID
     ? `https://github.com/${ghRepo()}/actions/runs/${
         process.env.GITHUB_RUN_ID
-      }/artifacts`
-    : "<GITHUB_ARTIFACTS_URL_PLACEHOLDER>";
+      }/artifacts?name=${encodeURIComponent(name)}`
+    : `<GITHUB_ARTIFACT_${name.toUpperCase()}_URL_PLACEHOLDER>`;
 
 module.exports = defineConfig({
   component: { devServer: { framework: "react", bundler: "vite" } },
@@ -88,7 +88,10 @@ module.exports = defineConfig({
           `${emoji} *QA Automations Report — ${label}* — ${totalPassed}/${totalTests} passed (${passRate}%) • ${mins}m ${secs}s`,
           SEP,
           `GitHub Job: <${ghRun()}|Open Job>`,
-          `Artifacts: <${ghArtifacts()}|Videos & Screenshots>`,
+          `Artifacts (videos): <${ghArtifact("cypress-videos")}|Open>`,
+          `Artifacts (screenshots): <${ghArtifact(
+            "cypress-screenshots"
+          )}|Open>`,
           SEP,
           "",
         ];
@@ -119,7 +122,7 @@ module.exports = defineConfig({
                 : "Unnamed test";
             lines.push(`  ${i + 1}. ${prefix} ${title}`);
           });
-          lines.push(""); // space between suites
+          lines.push("");
         }
 
         lines.push(

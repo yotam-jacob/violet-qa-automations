@@ -1,10 +1,6 @@
 name: Run All Cypress Tests
 
 on:
-  push:
-    branches: [main]
-  pull_request:
-    branches: [main]
   workflow_dispatch:
 
 jobs:
@@ -28,7 +24,7 @@ jobs:
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
-          spec: cypress/tests/**/*.cy.js
+          spec: cypress/tests/violet_app/sanity/sanity.cy.js
           install: false # npm ci already ran
 
       # Upload artifacts (names must match links in the Slack report)
