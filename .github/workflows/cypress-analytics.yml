@@ -6,29 +6,33 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container:
-      image: cypress/included:14.4.1
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
-          node-version: "22.14.0"
+          node-version: "22"
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress firefox analytics tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics-firefox.cy.js" --headed
+      - name: Run analytics1 tests (Chrome)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: cypress/tests/violet_app/analytics/analytics1.cy.js
+          install: false
 
-      - name: Run Cypress analytics1 tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics1.cy.js" --headed
-
-      - name: Run Cypress analytics2 tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics2.cy.js" --headed
+      - name: Run analytics2 tests (Chrome)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: cypress/tests/violet_app/analytics/analytics2.cy.js
+          install: false
 
       - name: Upload videos
         if: failure()

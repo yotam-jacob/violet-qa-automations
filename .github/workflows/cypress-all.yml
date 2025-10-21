@@ -29,9 +29,8 @@ jobs:
         with:
           browser: chrome
           spec: cypress/tests/**/*.cy.js
-          install: false # npm ci already ran
+          install: false
 
-      # Upload artifacts (names must match links in the Slack report)
       - name: Upload videos
         if: failure()
         uses: actions/upload-artifact@v4

@@ -1,4 +1,4 @@
-name: Run Sanity Cypress Tests
+name: Run Sanity Tests
 
 on:
   workflow_dispatch:
@@ -25,9 +25,8 @@ jobs:
         with:
           browser: chrome
           spec: cypress/tests/violet_app/sanity/sanity.cy.js
-          install: false # npm ci already ran
+          install: false
 
-      # Upload artifacts (names must match links in the Slack report)
       - name: Upload videos
         if: failure()
         uses: actions/upload-artifact@v4

@@ -1,4 +1,4 @@
-name: Run Features Cypress Tests
+name: Run Features Tests
 
 on:
   workflow_dispatch:
@@ -6,23 +6,26 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    container:
-      image: cypress/included:14.4.1
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v3
+        uses: actions/checkout@v4
 
       - name: Use Node.js
-        uses: actions/setup-node@v3
+        uses: actions/setup-node@v4
         with:
           node-version: "22"
+          cache: npm
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress analytics tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/features/features.cy.js"
+      - name: Run All Cypress tests (Chrome)
+        uses: cypress-io/github-action@v6
+        with:
+          browser: chrome
+          spec: cypress/tests/violet_app/features/features.cy.js
+          install: false
 
       - name: Upload videos
         if: failure()
