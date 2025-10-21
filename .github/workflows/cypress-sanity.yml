@@ -12,70 +12,52 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Use Node.js
+      # Pin Node to EXACTLY v22.14.0 (matches local)
+      - name: Use Node.js 22.14.0
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: npm
+          node-version: "22.14.0"
+          cache: "npm"
 
+      # Ensure the exact Chrome version (141.0.7390.108)
+      # Install Google’s signing key + repo, then install a pinned version and hold it
+      - name: Install Google Chrome 141.0.7390.108
+        run: |
+          set -euxo pipefail
+          sudo install -d -m 0755 /etc/apt/keyrings
+          curl -fsSL https://dl.google.com/linux/linux_signing_key.pub | sudo gpg --dearmor -o /etc/apt/keyrings/google-linux-signing-keyring.gpg
+          echo "deb [signed-by=/etc/apt/keyrings/google-linux-signing-keyring.gpg arch=amd64] http://dl.google.com/linux/chrome/deb/ stable main" | sudo tee /etc/apt/sources.list.d/google-chrome.list
+          sudo apt-get update
+          # The Debian package version suffix (-1) may change; try common variants
+          sudo apt-get install -y "google-chrome-stable=141.0.7390.108-1" || \
+          sudo apt-get install -y "google-chrome-stable=141.0.7390.108-1~stable" || \
+          sudo apt-get install -y "google-chrome-stable=141.0.7390.108"
+          google-chrome --version
+          sudo apt-mark hold google-chrome-stable
+
+      # Install deps (Cypress 14.4.1 should be pinned in package.json/package-lock.json)
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --no-audit --no-fund
 
-      # Produce the Slack report file (without artifact link)
-      - name: Run All Cypress tests (Chrome)
+      # Run Cypress on the system Chrome we just installed
+      - name: Run All Cypress tests (Chrome 141)
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           spec: cypress/tests/violet_app/sanity/sanity.cy.js
-          install: false
-        env:
-          SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
+          install: false # we already ran npm ci
 
-      # Upload videos only on failure (this generates the numeric artifact ID)
+      # Upload artifacts on failure (names match what your Slack report expects)
       - name: Upload videos
         if: failure()
-        id: upload_videos
         uses: actions/upload-artifact@v4
         with:
           name: cypress-videos
           path: cypress/videos
 
-      # Get the numeric artifact ID for "cypress-videos" via GitHub API (always run)
-      - name: Resolve video artifact ID
-        if: always()
-        id: resolve_artifact
-        run: |
-          set -e
-          ARTIFACT_ID=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
-            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts \
-            | jq -r '.artifacts[] | select(.name=="cypress-videos") | .id' | head -n1)
-          if [ -z "$ARTIFACT_ID" ] || [ "$ARTIFACT_ID" = "null" ]; then
-            echo "artifact_url=" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
-
-      # Post Slack: append the exact video artifact URL if present, otherwise say job passed
-      - name: Post Slack report
-        if: always()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-          ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
-        run: |
-          set -e
-          BASE_TEXT=$(cat "$REPORT_PATH")
-          if [ -n "$ARTIFACT_URL" ]; then
-            # insert artifact link directly after "GitHub Job:" line
-            FINAL_TEXT=$(echo "$BASE_TEXT" | awk -v a="Artifacts (videos): <${ARTIFACT_URL}|Open>" '
-              /GitHub Job:/ { print; print a; next }1')
-          else
-            # insert "Job passed" message below GitHub Job line
-            FINAL_TEXT=$(echo "$BASE_TEXT" | awk -v a="Job passed — no artifacts." '
-              /GitHub Job:/ { print; print a; next }1')
-          fi
-          curl -sS -X POST -H "Content-Type: application/json" \
-            --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
-            "$SLACK_WEBHOOK_URL"
+      - name: Upload screenshots
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cypress-screenshots
+          path: cypress/screenshots
