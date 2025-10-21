@@ -68,9 +68,9 @@ jobs:
           set -e
           BASE_TEXT=$(cat "$REPORT_PATH")
           if [ -n "$ARTIFACT_URL" ]; then
-            FINAL_TEXT="${BASE_TEXT}\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
+            FINAL_TEXT="${BASE_TEXT}\n\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
           else
-            FINAL_TEXT="${BASE_TEXT}\nJob passed — no artifacts."
+            FINAL_TEXT="${BASE_TEXT}\n\nJob passed — no artifacts."
           fi
           curl -sS -X POST -H "Content-Type: application/json" \
             --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
