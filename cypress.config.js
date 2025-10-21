@@ -20,10 +20,12 @@ const suiteName = (f) =>
     .replace(/\.cy\.(j|t)sx?$/i, "")
     .replace(/\.spec\.(j|t)sx?$/i, "")
     .replace(/\.(j|t)sx?$/i, "")
-    .split(/[._\\-/]+/)
+    // split on dot, underscore, dash, slash, or backslash
+    .split(/[._\-\/\\]+/)
     .filter(Boolean)
     .map((s) => s[0].toUpperCase() + s.slice(1))
     .join(" ");
+
 const ghRepo = () =>
   process.env.GITHUB_REPOSITORY || "Exactius/violet-qa-automations";
 const ghRun = () =>

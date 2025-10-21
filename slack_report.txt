@@ -1,0 +1,20 @@
+────────────────────────────────
+✅ *QA Automations Report — Staging* — 0/9 passed (0%) • 0m 1s
+────────────────────────────────
+Local test run — no job or artifacts.
+────────────────────────────────
+
+*Test Suite - Sanity (sanity.cy.js)*
+────────────────────────────────
+  1. ⏭ Skipped: should log in successfully and redirect to the QA partners page
+  2. ⏭ Skipped: should navigate to Appointments Tracker via SOL Reports menu
+  3. ⏭ Skipped: should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
+  4. ⏭ Skipped: User can open and close the sidebar menu
+  5. ⏭ Skipped: User can logoff and log back in
+  6. ⏭ Skipped: Save current view, set as default and then remove it
+  7. ⏭ Skipped: User can create a public view
+  8. ⏭ Skipped: Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager
+  9. ⏭ Skipped: Make sure the global annoucement says this is a test global announcement
+
+────────────────────────────────
+Cypress: 14.4.1 • Browser: chrome 141.0.7390.108 • Node: v22.14.0
