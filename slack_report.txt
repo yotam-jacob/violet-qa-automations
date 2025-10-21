@@ -1,14 +1,14 @@
 ────────────────────────────────
-✅ *QA Automations Report — Staging* — 3/3 passed (100%) • 1m 35s
+✅ *QA Automations Report — Staging* — 0/3 passed (0%) • 0m 11s
 ────────────────────────────────
 Local test run — no job or artifacts.
 ────────────────────────────────
 
 *Test Suite - Sanity (sanity.cy.js)*
 ────────────────────────────────
-  1. ✅ should log in successfully and redirect to the QA partners page
-  2. ✅ should navigate to Appointments Tracker via SOL Reports menu
-  3. ✅ should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
+  1. ⏭ Skipped: should log in successfully and redirect to the QA partners page
+  2. ⏭ Skipped: should navigate to Appointments Tracker via SOL Reports menu
+  3. ⏭ Skipped: should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
 
 ────────────────────────────────
 Cypress: 14.4.1 • Browser: chrome 141.0.7390.108 • Node: v22.14.0
