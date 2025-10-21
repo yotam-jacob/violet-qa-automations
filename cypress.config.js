@@ -82,20 +82,24 @@ module.exports = defineConfig({
           mins = Math.floor(totalDuration / 6e4),
           secs = Math.round((totalDuration % 6e4) / 1e3),
           failed = totalFailed > 0,
-          emoji = failed ? "❌" : "✅";
+          emoji = failed ? "❌" : "✅",
+          isGH = !!(process.env.GITHUB_ACTIONS || process.env.GITHUB_RUN_ID);
 
         const lines = [
           SEP,
           `${emoji} *QA Automations Report — ${label}* — ${totalPassed}/${totalTests} passed (${passRate}%) • ${mins}m ${secs}s`,
           SEP,
-          `GitHub Job: <${ghRun()}|Open Job>`,
-          failed
-            ? `Artifacts (videos): <${ghArtifact(
-                "cypress-videos"
-              )}|Open>\nArtifacts (screenshots): <${ghArtifact(
-                "cypress-screenshots"
-              )}|Open>`
-            : `Job passed — no artifacts.`,
+          isGH
+            ? `GitHub Job: <${ghRun()}|Open Job>\n${
+                failed
+                  ? `Artifacts (videos): <${ghArtifact(
+                      "cypress-videos"
+                    )}|Open>\nArtifacts (screenshots): <${ghArtifact(
+                      "cypress-screenshots"
+                    )}|Open>`
+                  : `Job passed — no artifacts.`
+              }`
+            : `Local test run — no job or artifacts.`,
           SEP,
           "",
         ];
