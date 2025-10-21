@@ -1,4 +1,4 @@
-name: Run All Cypress Tests
+name: Run Sanity Cypress Tests
 
 on:
   workflow_dispatch:
