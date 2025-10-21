@@ -1,4 +1,4 @@
-name: Run Sanity Tests
+name: Run All Tests
 
 on:
   workflow_dispatch:
