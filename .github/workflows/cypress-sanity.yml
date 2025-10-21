@@ -60,18 +60,27 @@ jobs:
       # Post Slack: append the exact video artifact URL if present, otherwise say job passed
       - name: Post Slack report
         if: always()
+        continue-on-error: true
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
         run: |
           set -e
-          BASE_TEXT=$(cat "$REPORT_PATH")
-          if [ -n "$ARTIFACT_URL" ]; then
-            FINAL_TEXT="$(printf '%s\n\nArtifacts (videos): <%s|Open>' "$BASE_TEXT" "$ARTIFACT_URL")"
-          else
-            FINAL_TEXT="$(printf '%s\n\n%s' "$BASE_TEXT" 'Job passed — no artifacts.')"
+          if [ -z "$SLACK_WEBHOOK_URL" ]; then
+            echo "No SLACK_WEBHOOK_URL; skipping Slack post."
+            exit 0
           fi
+
+          BASE_TEXT=$(cat "$REPORT_PATH")
+
+          # add one blank line before the trailing line so it doesn't glue to Cypress summary
+          if [ -n "$ARTIFACT_URL" ]; then
+            FINAL_TEXT="${BASE_TEXT}\n\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
+          else
+            FINAL_TEXT="${BASE_TEXT}\n\nJob passed — no artifacts."
+          fi
+
           curl -sS -X POST -H "Content-Type: application/json" \
             --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
             "$SLACK_WEBHOOK_URL"
