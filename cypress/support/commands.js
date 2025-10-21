@@ -23,32 +23,8 @@ Cypress.Commands.add("loginToVioletStg", () => {
     }
   });
 
-  // function visitWithRetry(retry = false) {
-  //   cy.visit(url, {
-  //     timeout: 120000,
-  //     failOnStatusCode: false,
-  //   }).then(
-  //     () => {
-  //       cy.log("Page loaded successfully");
-  //     },
-  //     (err) => {
-  //       cy.log("Initial visit failed:", err.message);
-  //       if (!retry) {
-  //         cy.wait(1000); // Wait before retry
-  //         cy.log("Retrying visit with reload...");
-  //         cy.reload({ timeout: 60000 });
-  //         visitWithRetry(true);
-  //       } else {
-  //         throw err;
-  //       }
-  //     }
-  //   );
-  // }
-
-  // visitWithRetry();
-
   cy.visit(url, {
-    timeout: 100000,
+    timeout: 5000,
   });
 
   cy.contains("Sign in with email", { timeout: 60000 }).click();
