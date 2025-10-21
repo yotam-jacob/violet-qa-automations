@@ -1,8 +1,11 @@
 const { defineConfig } = require("cypress");
+const fs = require("fs");
+const path = require("path");
 
 const SLACK_WEBHOOK_URL =
   "https://hooks.slack.com/services/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";
 const SEP = "────────────────────────────────";
+
 const envLabel = (u) =>
   ((h) =>
     h.includes("staging")
@@ -17,7 +20,7 @@ const suiteName = (f) =>
     .replace(/\.cy\.(j|t)sx?$/i, "")
     .replace(/\.spec\.(j|t)sx?$/i, "")
     .replace(/\.(j|t)sx?$/i, "")
-    .split(/[._\-/]+/)
+    .split(/[._\\-/]+/)
     .filter(Boolean)
     .map((s) => s[0].toUpperCase() + s.slice(1))
     .join(" ");
@@ -26,13 +29,7 @@ const ghRepo = () =>
 const ghRun = () =>
   process.env.GITHUB_RUN_ID
     ? `https://github.com/${ghRepo()}/actions/runs/${process.env.GITHUB_RUN_ID}`
-    : "<GITHUB_RUN_URL_PLACEHOLDER>";
-const ghArtifact = (name) =>
-  process.env.GITHUB_RUN_ID
-    ? `https://github.com/${ghRepo()}/actions/runs/${
-        process.env.GITHUB_RUN_ID
-      }/artifacts?name=${encodeURIComponent(name)}`
-    : `<GITHUB_ARTIFACT_${name.toUpperCase()}_URL_PLACEHOLDER>`;
+    : "";
 
 module.exports = defineConfig({
   component: { devServer: { framework: "react", bundler: "vite" } },
@@ -66,7 +63,13 @@ module.exports = defineConfig({
       );
 
       on("after:run", async (r) => {
-        if (!SLACK_WEBHOOK_URL) return;
+        const isGH = !!(
+          process.env.GITHUB_ACTIONS || process.env.GITHUB_RUN_ID
+        );
+        const reportPath =
+          process.env.SLACK_REPORT_PATH ||
+          path.join(process.cwd(), "slack_report.txt");
+
         const {
           totalTests,
           totalPassed,
@@ -82,23 +85,14 @@ module.exports = defineConfig({
           mins = Math.floor(totalDuration / 6e4),
           secs = Math.round((totalDuration % 6e4) / 1e3),
           failed = totalFailed > 0,
-          emoji = failed ? "❌" : "✅",
-          isGH = !!(process.env.GITHUB_ACTIONS || process.env.GITHUB_RUN_ID);
+          emoji = failed ? "❌" : "✅";
 
         const lines = [
           SEP,
           `${emoji} *QA Automations Report — ${label}* — ${totalPassed}/${totalTests} passed (${passRate}%) • ${mins}m ${secs}s`,
           SEP,
           isGH
-            ? `GitHub Job: <${ghRun()}|Open Job>\n${
-                failed
-                  ? `Artifacts (videos): <${ghArtifact(
-                      "cypress-videos"
-                    )}|Open>\nArtifacts (screenshots): <${ghArtifact(
-                      "cypress-screenshots"
-                    )}|Open>`
-                  : `Job passed — no artifacts.`
-              }`
+            ? `GitHub Job: <${ghRun()}|Open Job>`
             : `Local test run — no job or artifacts.`,
           SEP,
           "",
@@ -137,11 +131,18 @@ module.exports = defineConfig({
           SEP,
           `Cypress: ${cypressVersion} • Browser: ${browserName} ${browserVersion} • Node: ${process.version}`
         );
-        await fetch(SLACK_WEBHOOK_URL, {
-          method: "POST",
-          headers: { "Content-Type": "application/json" },
-          body: JSON.stringify({ text: lines.join("\n") }),
-        });
+
+        // Write the report so the workflow can append artifact link & post
+        fs.writeFileSync(reportPath, lines.join("\n"));
+
+        // Only send directly when running locally
+        if (!isGH && SLACK_WEBHOOK_URL) {
+          await fetch(SLACK_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: lines.join("\n") }),
+          });
+        }
       });
 
       return config;
