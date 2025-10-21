@@ -18,17 +18,26 @@ jobs:
           node-version: '22.14.0'
           cache: npm
 
-      # Install EXACT Chrome version (matches your local)
-      - name: Setup Chrome 141.0.7390.108
+      # Install Chrome 141.x from Known Good Versions (closest to your local 141.0.7390.108)
+      - name: Setup Chrome 141.x
         uses: browser-actions/setup-chrome@v1
         with:
-          chrome-version: '141.0.7390.108'
+          chrome-version: '141'   # use the KGV 141 line
 
       - name: Show versions (sanity check)
         run: |
-          google-chrome --version || chrome --version || true
+          set -e
+          google-chrome --version || chrome --version
           node -v
           npx cypress --version
+
+      # Hard-check that runner is on Chrome 141.* (fail early if not)
+      - name: Assert Chrome major version
+        run: |
+          set -e
+          VER="$(google-chrome --version || chrome --version)"
+          echo "Detected: $VER"
+          echo "$VER" | grep -E ' 141\.'
 
       - name: Install dependencies
         run: npm ci --no-audit --no-fund
@@ -38,7 +47,7 @@ jobs:
         with:
           browser: chrome
           spec: cypress/tests/violet_app/sanity/sanity.cy.js
-          install: false   # npm ci already ran
+          install: false
 
       - name: Upload videos
         if: failure()
