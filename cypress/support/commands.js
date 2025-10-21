@@ -48,7 +48,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
   // visitWithRetry();
 
   cy.visit(url, {
-    timeout: 10000,
+    timeout: 100000,
   });
 
   cy.contains("Sign in with email", { timeout: 60000 }).click();

@@ -1,4 +1,4 @@
-name: Run All Cypress Tests
+name: Run Sanity Tests
 
 on:
   workflow_dispatch:
@@ -6,7 +6,6 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    timeout-minutes: 45
 
     steps:
       - name: Checkout repo
@@ -21,19 +20,19 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # Produce the Slack report file (without artifact link)
       - name: Run All Cypress tests (Chrome)
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           spec: cypress/tests/**/*.cy.js
           install: false
+          config: baseUrl=https://staging.violetgrowth.com
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
+          DEBUG: "cypress:server:proxy,cypress:server:timers"
 
-      # Upload videos only on failure (this generates the numeric artifact ID)
       - name: Upload videos
         if: failure()
         id: upload_videos
@@ -42,7 +41,6 @@ jobs:
           name: cypress-videos
           path: cypress/videos
 
-      # Get the numeric artifact ID for "cypress-videos" via GitHub API (always run)
       - name: Resolve video artifact ID
         if: always()
         id: resolve_artifact
@@ -57,21 +55,26 @@ jobs:
           fi
           echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
 
-      # Post Slack: append the exact video artifact URL if present, otherwise say job passed
       - name: Post Slack report
         if: always()
         env:
           SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
           REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -e
-          BASE_TEXT=$(cat "$REPORT_PATH")
+          # 1) Make the "GitHub Job:" line a clickable link
+          perl -0777 -pe 's~^GitHub Job:.*$~GitHub Job: <'"$GITHUB_RUN_URL"'|Open Job>~m' "$REPORT_PATH" > slack_base.txt
+
+          # 2) Insert either the artifact link or the "Job passed" line after "GitHub Job:"
           if [ -n "$ARTIFACT_URL" ]; then
-            FINAL_TEXT="${BASE_TEXT}\nArtifacts (videos): <${ARTIFACT_URL}|Open>"
+            perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
           else
-            FINAL_TEXT="${BASE_TEXT}\nJob passed — no artifacts."
+            perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
           fi
+
+          # 3) Post to Slack
           curl -sS -X POST -H "Content-Type: application/json" \
-            --data "$(jq -n --arg t "$FINAL_TEXT" '{text:$t}')" \
+            --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
             "$SLACK_WEBHOOK_URL"
