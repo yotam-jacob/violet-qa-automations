@@ -1,4 +1,4 @@
-name: Run Sanity Tests
+name: Run Sanity Tests - backup
 
 on:
   workflow_dispatch:
