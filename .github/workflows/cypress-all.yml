@@ -1,4 +1,4 @@
-name: Run All Tests
+name: Run All Tests - backup
 
 on:
   workflow_dispatch:
@@ -20,50 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # --- Health Check for staging environment ---
-      - name: Warm up & health check
+      - name: Run All Cypress tests
         run: |
-          set -e
-          URL="https://staging.violetgrowth.com/login?from=/"
-          echo "Warming up $URL"
-          for i in {1..20}; do
-            echo "Attempt $i/20 - HEAD"
-            if curl -4 -sS -I --max-time 10 "$URL" | head -n1 | grep -q "200\|204\|301\|302"; then
-              echo "HEAD success"
-            else
-              echo "HEAD not OK, sleeping..."
-              sleep 5
-              continue
-            fi
-
-            echo "Attempt $i/20 - GET"
-            if curl -4 -sS --max-time 15 -H 'Cache-Control: no-cache' "$URL&_e2e=1" > /dev/null; then
-              echo "GET success"
-              exit 0
-            fi
-            echo "GET not OK, sleeping..."
-            sleep 5
-          done
-          echo "Health check failed for $URL"
-          exit 1
-
-      - name: Run Sanity Cypress tests
-        run: |
-          npx cypress run \
-            --browser chrome \
-            --headless \
-            --spec "cypress/tests/**/*.cy.js" \
-            --config "baseUrl=https://staging.violetgrowth.com/login?from=/,pageLoadTimeout=120000,defaultCommandTimeout=20000,requestTimeout=15000,responseTimeout=30000,retries={runMode:2,openMode:0},numTestsKeptInMemory=0,video=false,viewportWidth=1280,viewportHeight=900" \
-            -- \
-            --disable-dev-shm-usage \
-            --no-sandbox \
-            --disable-gpu \
-            --disable-setuid-sandbox \
-            --disable-infobars \
-            --disable-http2 \
-            --no-proxy-server \
-            --window-size=1280,900 \
-            --user-agent="Mozilla/5.0 (X11; Linux x86_64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/119.0.0.0 Safari/537.36"
+          npx cypress run --browser chrome --spec "cypress/tests/**/*.cy.js" --config baseUrl=https://staging.violetgrowth.com/login?from=/
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
@@ -101,12 +60,17 @@ jobs:
           GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
         run: |
           set -e
+          # 1) Make the "GitHub Job:" line a clickable link
           perl -0777 -pe 's~^GitHub Job:.*$~GitHub Job: <'"$GITHUB_RUN_URL"'|Open Job>~m' "$REPORT_PATH" > slack_base.txt
+
+          # 2) Insert either the artifact link or the "Job passed" line after "GitHub Job:"
           if [ -n "$ARTIFACT_URL" ]; then
             perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
           else
             perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
           fi
+
+          # 3) Post to Slack
           curl -sS -X POST -H "Content-Type: application/json" \
             --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
             "$SLACK_WEBHOOK_URL"

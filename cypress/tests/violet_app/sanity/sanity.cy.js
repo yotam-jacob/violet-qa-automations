@@ -2,7 +2,6 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Sanity Test Suite", () => {
   beforeEach(() => {
-    cy.wait(10000);
     cy.loginToVioletStg();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
