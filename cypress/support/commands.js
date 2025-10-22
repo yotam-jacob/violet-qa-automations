@@ -10,7 +10,7 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletStg", () => {
-  const url = "https://staging.violetgrowth.com/";
+  const url = "https://staging.violetgrowth.com/login?from=/";
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
@@ -24,7 +24,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
   });
 
   cy.visit(url, {
-    timeout: 25000,
+    timeout: 45000,
   });
 
   cy.contains("Sign in with email", { timeout: 60000 }).click();
