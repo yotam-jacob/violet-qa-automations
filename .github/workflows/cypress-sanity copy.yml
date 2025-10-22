@@ -22,7 +22,7 @@ jobs:
 
       - name: Run Sanity Cypress tests
         run: |
-          npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js" --config baseUrl=https://staging.violetgrowth.com
+          npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js" --config baseUrl=https://staging.violetgrowth.com/login?from=/
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
