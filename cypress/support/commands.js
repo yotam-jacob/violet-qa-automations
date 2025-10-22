@@ -9,7 +9,7 @@
 // ***********************************************
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
-Cypress.Commands.add("loginToVioletStg", () => {
+Cypress.Commands.add("loginToVioletStg-backup", () => {
   const url = "https://staging.violetgrowth.com/login?from=/";
 
   // Suppress specific known error from your app
@@ -49,6 +49,52 @@ Cypress.Commands.add("loginToVioletStg", () => {
 
   cy.url({ timeout: 35000 }).should("include", "/qa");
 
+  cy.contains("KPI Trendlines", { timeout: 40000 }).click();
+});
+
+Cypress.Commands.add("loginToVioletStg", () => {
+  const url = "https://staging.violetgrowth.com/login?from=/";
+
+  // ignore that known benign error
+  Cypress.on("uncaught:exception", (err) => {
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    )
+      return false;
+  });
+
+  // 1) QUICK PREFLIGHT so CI doesn't hang on cy.visit()
+  cy.request({
+    url,
+    method: "GET",
+    retryOnNetworkFailure: true,
+    failOnStatusCode: false,
+    headers: { "Cache-Control": "no-cache" },
+    timeout: 15000,
+  });
+
+  // 2) VISIT (don’t rely on global load; just proceed to DOM checks)
+  cy.visit(url, { failOnStatusCode: false, timeout: 60000 });
+
+  // 3) Continue your existing flow
+  cy.contains("Sign in with email", { timeout: 60000 }).click();
+
+  cy.contains("Email Address")
+    .parent()
+    .find("input")
+    .type("yotamjacob@walla.co.il");
+  cy.contains("Continue", { timeout: 30000 }).click();
+
+  cy.get('input[type="password"]', { timeout: 30000 })
+    .should("be.visible")
+    .type("Eggrolls1246!");
+  cy.contains("Sign In").click();
+
+  cy.url({ timeout: 45000 }).should("not.include", "/login");
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+  cy.url({ timeout: 35000 }).should("include", "/qa");
   cy.contains("KPI Trendlines", { timeout: 40000 }).click();
 });
 
