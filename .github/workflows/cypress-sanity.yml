@@ -21,11 +21,11 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      # --- NEW: Warm up & Health Check (HEAD + GET, IPv4, retries) ---
+      # --- Health Check for staging environment ---
       - name: Warm up & health check
         run: |
           set -e
-          URL="https://staging.violetgrowth.com"
+          URL="https://staging.violetgrowth.com/login?from=/"
           echo "Warming up $URL"
           for i in {1..20}; do
             echo "Attempt $i/20 - HEAD"
@@ -38,7 +38,7 @@ jobs:
             fi
 
             echo "Attempt $i/20 - GET"
-            if curl -4 -sS --max-time 15 -H 'Cache-Control: no-cache' "$URL/?_e2e=1" > /dev/null; then
+            if curl -4 -sS --max-time 15 -H 'Cache-Control: no-cache' "$URL&_e2e=1" > /dev/null; then
               echo "GET success"
               exit 0
             fi
@@ -54,7 +54,7 @@ jobs:
             --browser chrome \
             --headless \
             --spec "cypress/tests/violet_app/sanity/sanity.cy.js" \
-            --config "baseUrl=https://staging.violetgrowth.com,pageLoadTimeout=120000,defaultCommandTimeout=20000,requestTimeout=15000,responseTimeout=30000,retries={runMode:2,openMode:0},numTestsKeptInMemory=0,video=false,viewportWidth=1280,viewportHeight=900" \
+            --config "baseUrl=https://staging.violetgrowth.com/login?from=/,pageLoadTimeout=120000,defaultCommandTimeout=20000,requestTimeout=15000,responseTimeout=30000,retries={runMode:2,openMode:0},numTestsKeptInMemory=0,video=false,viewportWidth=1280,viewportHeight=900" \
             -- \
             --disable-dev-shm-usage \
             --no-sandbox \
