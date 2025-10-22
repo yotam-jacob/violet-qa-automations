@@ -7,7 +7,7 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     container:
-      image: cypress/included:13.6.6
+      image: cypress/included:14.4.1
 
     steps:
       - name: Checkout repo
@@ -16,13 +16,16 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v3
         with:
-          node-version: "22"
+          node-version: "22.14.0"
 
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Cypress analytics tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics.cy.js"
+      - name: Run Cypress analytics1 tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics1.cy.js"
+
+      - name: Run Cypress analytics2 tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics2.cy.js"
 
       - name: Upload videos
         if: failure()
