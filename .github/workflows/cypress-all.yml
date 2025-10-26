@@ -1,4 +1,4 @@
-name: Run All Tests - backup
+name: Run All Tests
 
 on:
   workflow_dispatch:
@@ -20,9 +20,9 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run All Cypress tests
+      - name: Run All tests
         run: |
-          npx cypress run --browser chrome --spec "cypress/tests/**/*.cy.js" --config baseUrl=https://staging.violetgrowth.com/login?from=/
+          npx cypress run --browser chrome --spec "cypress/tests/**/*.cy.js"
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
