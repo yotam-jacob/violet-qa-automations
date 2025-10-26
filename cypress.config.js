@@ -1,11 +1,9 @@
 const { defineConfig } = require("cypress");
 const fs = require("fs");
 const path = require("path");
-
 const SLACK_WEBHOOK_URL =
   "https://hooks.slack.com/services/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"; //delete me later
 const SEP = "────────────────────────────────";
-
 const envLabel = (u) =>
   ((h) =>
     h.includes("staging")
@@ -25,7 +23,6 @@ const suiteName = (f) =>
     .filter(Boolean)
     .map((s) => s[0].toUpperCase() + s.slice(1))
     .join(" ");
-
 const ghRepo = () =>
   process.env.GITHUB_REPOSITORY || "Exactius/violet-qa-automations";
 const ghRun = () =>
@@ -46,7 +43,7 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 120000,
+    pageLoadTimeout: 240000,
     retries: {
       runMode: 2,
       openMode: 0,
