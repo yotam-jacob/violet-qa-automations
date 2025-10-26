@@ -43,9 +43,9 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 15000,
+    pageLoadTimeout: 10000,
     retries: {
-      runMode: 4,
+      runMode: 5,
       openMode: 0,
     },
     setupNodeEvents(on, config) {
