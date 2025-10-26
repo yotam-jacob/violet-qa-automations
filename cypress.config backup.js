@@ -14,7 +14,7 @@ module.exports = defineConfig({
   videoCompression: false,
 
   e2e: {
-    baseUrl: "https://dev.violetgrowth.com",
+    baseUrl: "https://staging.violetgrowth.com/login?from=/",
     specPattern: "cypress/tests/violet_app/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
@@ -38,9 +38,7 @@ module.exports = defineConfig({
           launchOptions.args.push("--no-sandbox");
           launchOptions.args.push("--disable-gpu");
           launchOptions.args.push("--disable-dev-shm-usage");
-          launchOptions.args.push(
-            '--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"'
-          );
+          launchOptions.args.push("--js-flags=--max_old_space_size=4096");
         }
         return launchOptions;
       });
