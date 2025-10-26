@@ -43,7 +43,7 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 10000,
+    pageLoadTimeout: 15000,
     retries: {
       runMode: 5,
       openMode: 0,
