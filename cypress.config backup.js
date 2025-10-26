@@ -20,9 +20,9 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 15000,
+    pageLoadTimeout: 240000,
     retries: {
-      runMode: 4,
+      runMode: 2,
       openMode: 0,
     },
     setupNodeEvents(on, config) {
@@ -38,9 +38,7 @@ module.exports = defineConfig({
           launchOptions.args.push("--no-sandbox");
           launchOptions.args.push("--disable-gpu");
           launchOptions.args.push("--disable-dev-shm-usage");
-          launchOptions.args.push(
-            '--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"'
-          );
+          launchOptions.args.push("--js-flags=--max_old_space_size=4096");
         }
         return launchOptions;
       });
