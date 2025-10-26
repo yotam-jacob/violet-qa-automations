@@ -20,7 +20,7 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Sanity Cypress tests
+      - name: Run Features Cypress tests
         run: |
           npx cypress run --browser chrome --spec "cypress/tests/violet_app/features/features.cy.js"
         env:
