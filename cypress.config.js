@@ -14,7 +14,7 @@ module.exports = defineConfig({
   videoCompression: false,
 
   e2e: {
-    baseUrl: "https://dev.violetgrowth.com",
+    baseUrl: "https://staging.violetgrowth.com/login?from=/",
     specPattern: "cypress/tests/violet_app/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
