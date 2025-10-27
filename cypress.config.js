@@ -41,16 +41,34 @@ module.exports = defineConfig({
     specPattern: "cypress/tests/violet_app/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
+    defaultCommandTimeout: 30000, //temp
+    requestTimeout: 60000, //temp
+    responseTimeout: 60000, //temp
+    pageLoadTimeout: 180000, //temp
+    chromeWebSecurity: false, //temp
     screenshotOnRunFailure: false,
     videoCompression: false,
     retries: {
-      runMode: 10,
+      runMode: 3,
       openMode: 0,
     },
     setupNodeEvents(on, config) {
+      on("task", {
+        //temp
+        log(msg) {
+          console.log("APP LOG >>>", msg);
+          return null;
+        },
+      });
+
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.family === "chromium") {
-          //leave empty for now
+          launchOptions.args.push("--disable-dev-shm-usage");
+          launchOptions.args.push("--disable-gpu");
+          launchOptions.args.push("--no-sandbox");
+          launchOptions.args.push("--disable-setuid-sandbox");
+          launchOptions.args.push("--ignore-certificate-errors");
+          launchOptions.args.push("--disable-web-security");
         }
         return launchOptions;
       });

@@ -20,16 +20,20 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Connectivity check (debug)
+      - name: Run CI Smoke Debug (Electron first)
         run: |
-          echo "Checking reachability..."
-          curl -I --max-time 10 https://staging.violetgrowth.com || echo "curl failed"
-          curl -I --max-time 10 https://staging.violetgrowth.com/login || echo "curl /login failed"
+          npx cypress run \
+            --browser electron \
+            --headed false \
+            --spec "cypress/tests/debug/smoke_debug.cy.js" \
+            --config video=true,screenshotOnRunFailure=true,pageLoadTimeout=180000,chromeWebSecurity=false
 
-      - name: Run Analytics tests
+      - name: Run CI Smoke Debug (Chrome fallback)
         run: |
-          npx cypress run --browser chrome \
-            --spec "cypress/tests/violet_app/analytics/*1.cy.js" \
+          npx cypress run \
+            --browser chrome \
+            --headed false \
+            --spec "cypress/tests/debug/smoke_debug.cy.js" \
             -- \
             --no-sandbox \
             --disable-setuid-sandbox \
@@ -37,6 +41,10 @@ jobs:
             --disable-gpu \
             --ignore-certificate-errors \
             --disable-web-security
+
+      - name: Run Analytics tests
+        run: |
+          npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/*1.cy.js"
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
