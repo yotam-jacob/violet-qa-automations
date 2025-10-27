@@ -25,7 +25,7 @@ jobs:
         #   npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/*1.cy.js"
 
         run: |
-            npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/*1.cy.js" --config video=false --no-sandbox --disable-dev-shm-usage --disable-gpu --js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"
+            npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/*1.cy.js" --config video=false --disable-dev-shm-usage --disable-gpu --js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
