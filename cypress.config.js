@@ -38,7 +38,7 @@ module.exports = defineConfig({
   videoCompression: false,
   e2e: {
     baseUrl: "https://staging.violetgrowth.com/login?from=/",
-    specPattern: "cypress/tests/violet_app/**/*.js",
+    specPattern: "cypress/tests/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
     defaultCommandTimeout: 30000, //temp
