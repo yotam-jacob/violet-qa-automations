@@ -25,6 +25,15 @@ Cypress.Commands.add("loginToVioletStg", () => {
 
   cy.visit(url, {});
 
+  cy.url().then((u) => { //delete me later
+    cy.log("AFTER VISIT URL: " + u);
+  });
+
+  cy.document().then((doc) => { //delete me later
+    const htmlSnippet = doc.documentElement.innerHTML.slice(0, 2000);
+    cy.log("AFTER VISIT HTML START: " + htmlSnippet);
+  });
+
   cy.contains("Sign in with email", { timeout: 5000 }).click();
 
   cy.contains("Email Address")

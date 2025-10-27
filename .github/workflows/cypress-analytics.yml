@@ -20,12 +20,15 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Check connectivity
-        run: curl -I https://staging.violetgrowth.com
+      - name: Connectivity check (debug)
+        run: |
+          echo "Checking reachability..."
+          curl -I --max-time 10 https://staging.violetgrowth.com || echo "curl failed"
+          curl -I --max-time 10 https://staging.violetgrowth.com/login || echo "curl /login failed"
 
       - name: Run Analytics tests
         run: |
-          npx cypress run --browser electron \
+          npx cypress run --browser chrome \
             --spec "cypress/tests/violet_app/analytics/*1.cy.js" \
             -- \
             --no-sandbox \
