@@ -45,7 +45,7 @@ module.exports = defineConfig({
     videoCompression: false,
     pageLoadTimeout: 60000,
     retries: {
-      runMode: 5,
+      runMode: 2,
       openMode: 0,
     },
     setupNodeEvents(on, config) {
