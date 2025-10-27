@@ -41,11 +41,6 @@ module.exports = defineConfig({
     specPattern: "cypress/tests/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
-    defaultCommandTimeout: 30000, //temp
-    requestTimeout: 60000, //temp
-    responseTimeout: 60000, //temp
-    pageLoadTimeout: 180000, //temp
-    chromeWebSecurity: false, //temp
     screenshotOnRunFailure: false,
     videoCompression: false,
     retries: {
@@ -53,14 +48,6 @@ module.exports = defineConfig({
       openMode: 0,
     },
     setupNodeEvents(on, config) {
-      on("task", {
-        //temp
-        log(msg) {
-          console.log("APP LOG >>>", msg);
-          return null;
-        },
-      });
-
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.family === "chromium") {
           launchOptions.args.push("--disable-dev-shm-usage");
