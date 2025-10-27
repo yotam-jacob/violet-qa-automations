@@ -27,7 +27,6 @@ jobs:
         run: |
             npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/*1.cy.js" \
             --config video=false \
-            --headed=false \
             --no-sandbox \
             --disable-dev-shm-usage
         env:
