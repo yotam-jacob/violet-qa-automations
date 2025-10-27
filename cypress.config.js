@@ -43,18 +43,14 @@ module.exports = defineConfig({
     viewportHeight: 1080,
     screenshotOnRunFailure: false,
     videoCompression: false,
-    pageLoadTimeout: 120000,
     retries: {
-      runMode: 2,
+      runMode: 10,
       openMode: 0,
     },
     setupNodeEvents(on, config) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.family === "chromium") {
-          // launchOptions.args.push("--no-sandbox");
-          // launchOptions.args.push("--disable-gpu");
-          // launchOptions.args.push("--disable-dev-shm-usage");
-          // launchOptions.args.push('--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"');
+          //leave empty for now
         }
         return launchOptions;
       });
