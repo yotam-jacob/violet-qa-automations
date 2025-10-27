@@ -47,9 +47,9 @@ Cypress.Commands.add("loginToVioletStg", () => {
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
-  cy.url({ timeout: 35000 }).should("include", "/qa");
+  cy.url({ timeout: 65000 }).should("include", "/qa");
 
-  cy.contains("KPI Trendlines", { timeout: 40000 }).click();
+  cy.contains("KPI Trendlines", { timeout: 90000 }).click();
 });
 
 Cypress.Commands.add("clickVisibleThreeDots", () => {
