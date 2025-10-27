@@ -1,20 +1,26 @@
 ────────────────────────────────
-✅ *QA Automations Report — Staging* — 9/9 passed (100%) • 4m 41s
+✅ *QA Automations Report — Staging* — 15/15 passed (100%) • 9m 1s
 ────────────────────────────────
 Local test run — no job or artifacts.
 ────────────────────────────────
 
-*Test Suite - Sanity (sanity.cy.js)*
+*Test Suite - Analytics1 (analytics1.cy.js)*
 ────────────────────────────────
-  1. ✅ should log in successfully and redirect to the QA partners page
-  2. ✅ should navigate to Appointments Tracker via SOL Reports menu
-  3. ✅ should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
-  4. ✅ User can open and close the sidebar menu
-  5. ✅ User can logoff and log back in
-  6. ✅ Save current view, set as default and then remove it
-  7. ✅ User can create a public view
-  8. ✅ Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager
-  9. ✅ Make sure the global annoucement says this is a test global announcement
+  1. ✅ GTM Events Validation › tests three_dots_default event payload
+  2. ✅ GTM Events Validation › tests three_dots_public event payload
+  3. ✅ GTM Events Validation › tests report_click event payload
+  4. ✅ GTM Events Validation › tests report_load event payload
+  5. ✅ GTM Events Validation › tests actions_menu_click event payload
+  6. ✅ GTM Events Validation › tests views_menu_click_reset event payload
+  7. ✅ GTM Events Validation › tests share_menu_click event payload
+  8. ✅ GTM Events Validation › tests download_menu_click event payload
+  9. ✅ GTM Events Validation › tests filter_picked event payload
+  10. ✅ GTM Events Validation › tests save_view_modal_clicks_cancel event payload
+  11. ✅ GTM Events Validation › tests views_menu_click event payload
+  12. ✅ GTM Events Validation › tests views_menu_click_rename event payload
+  13. ✅ GTM Events Validation › tests views_menu_click_delete event payload
+  14. ✅ GTM Events Validation › tests sidebar toggle event payload
+  15. ✅ GTM Events Validation › tests insight_thumb_rating event payload
 
 ────────────────────────────────
 Cypress: 14.4.1 • Browser: chrome 141.0.7390.123 • Node: v22.14.0
