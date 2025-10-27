@@ -51,10 +51,10 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
         if (browser.family === "chromium") {
-          launchOptions.args.push("--no-sandbox");
-          launchOptions.args.push("--disable-gpu");
-          launchOptions.args.push("--disable-dev-shm-usage");
-          launchOptions.args.push('--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"');
+          // launchOptions.args.push("--no-sandbox");
+          // launchOptions.args.push("--disable-gpu");
+          // launchOptions.args.push("--disable-dev-shm-usage");
+          // launchOptions.args.push('--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"');
         }
         return launchOptions;
       });
