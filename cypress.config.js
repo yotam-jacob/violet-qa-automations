@@ -50,11 +50,40 @@ module.exports = defineConfig({
     },
     setupNodeEvents(on, config) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
+        // if (browser.family === "chromium") {
+        //   launchOptions.args.push("--no-sandbox");
+        //   launchOptions.args.push("--disable-gpu");
+        //   launchOptions.args.push("--disable-dev-shm-usage");
+        //   launchOptions.args.push(
+        //     '--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"'
+        //   );
+        // }
         if (browser.family === "chromium") {
-          launchOptions.args.push("--no-sandbox");
-          launchOptions.args.push("--disable-gpu");
-          launchOptions.args.push("--disable-dev-shm-usage");
-          launchOptions.args.push('--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"');
+          launchOptions.args.push(
+            "--no-sandbox", // required in many CI environments
+            "--disable-dev-shm-usage", // fixes /dev/shm space issues
+            "--disable-gpu", // disables GPU hardware acceleration
+            "--disable-software-rasterizer", // avoids headless GPU errors
+            "--disable-extensions", // disables Chrome extensions
+            "--disable-background-networking",
+            "--disable-background-timer-throttling",
+            "--disable-breakpad",
+            "--disable-client-side-phishing-detection",
+            "--disable-default-apps",
+            "--disable-hang-monitor",
+            "--disable-popup-blocking",
+            "--disable-prompt-on-repost",
+            "--disable-sync",
+            "--disable-translate",
+            "--metrics-recording-only",
+            "--no-first-run",
+            "--safebrowsing-disable-auto-update",
+            "--enable-automation",
+            "--password-store=basic",
+            "--use-mock-keychain",
+            '--js-flags="--max_old_space_size=1024 --max_semi_space_size=1024"',
+            "--window-size=1920,1080"
+          );
         }
         return launchOptions;
       });
