@@ -25,8 +25,7 @@ jobs:
 
       - name: Run Analytics tests
         run: |
-          npx cypress run --browser chrome \
-            --headed false \
+          npx cypress run --browser electron \
             --spec "cypress/tests/violet_app/analytics/*1.cy.js" \
             -- \
             --no-sandbox \
