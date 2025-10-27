@@ -14,27 +14,20 @@ Cypress.Commands.add("loginToVioletStg", () => {
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
-    if (
-      err.message.includes(
-        "Invariant: attempted to hard navigate to the same URL"
-      )
-    ) {
-      return false;
-    }
+    // if (
+    //   err.message.includes(
+    //     "Invariant: attempted to hard navigate to the same URL"
+    //   )
+    // ) {
+    //   return false;
+    // }
   });
 
-  cy.visit(url, {});
-
-  cy.url().then((u) => { //delete me later
-    cy.log("AFTER VISIT URL: " + u);
+  cy.visit("https://staging.violetgrowth.com/login?from=/", {
+    timeout: 120000,
   });
 
-  cy.document().then((doc) => { //delete me later
-    const htmlSnippet = doc.documentElement.innerHTML.slice(0, 2000);
-    cy.log("AFTER VISIT HTML START: " + htmlSnippet);
-  });
-
-  cy.contains("Sign in with email", { timeout: 5000 }).click();
+  cy.contains("Sign in with email", { timeout: 15000 }).click();
 
   cy.contains("Email Address")
     .parent()
