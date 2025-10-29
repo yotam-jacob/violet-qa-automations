@@ -2,7 +2,7 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Sanity Test Suite", () => {
   beforeEach(() => {
-    cy.loginToVioletDev();
+    cy.loginToVioletStg();
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
@@ -216,22 +216,22 @@ describe("Sanity Test Suite", () => {
     cy.clickOnDeleteViewAndVerify();
   });
 
-  // it("Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager", () => {
-  //   // Navigate to the Violet staging URL with the ?qa-role=true parameter
-  //   cy.visit(
-  //     "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendline?qa-role=true"
-  //   );
-  //   // Wait for the role selection modal to appear wit hthe headline "Yotam, we’d love to know your role"
-  //   cy.contains("Yotam, we’d love to know your role", {
-  //     timeout: 40000,
-  //   }).should("be.visible");
-  //   // Select "Customer Success" from the "Work Department" dropdown
-  //   cy.contains("Customer Success").click();
-  //   // Select "Customer Success Manager" from the "Work Role" dropdown
-  //   cy.contains("Customer Success Manager").click();
-  //   // Click "Submit" button
-  //   cy.contains("button", "Submit").click();
-  // });
+  it("Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager", () => {
+    // Navigate to the Violet staging URL with the ?qa-role=true parameter
+    cy.visit(
+      "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendline?qa-role=true"
+    );
+    // Wait for the role selection modal to appear wit hthe headline "Yotam, we’d love to know your role"
+    cy.contains("Yotam, we’d love to know your role", {
+      timeout: 40000,
+    }).should("be.visible");
+    // Select "Customer Success" from the "Work Department" dropdown
+    cy.contains("Customer Success").click();
+    // Select "Customer Success Manager" from the "Work Role" dropdown
+    cy.contains("Customer Success Manager").click();
+    // Click "Submit" button
+    cy.contains("button", "Submit").click();
+  });
 
   it("Make sure the global annoucement says this is a test global announcement", () => {
     cy.contains("this is a test global announcement", {

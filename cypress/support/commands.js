@@ -10,7 +10,7 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletStg", () => {
-  const url = "https://staging.violetgrowth.com/login?from=/";
+  const url = "https://staging.violetgrowth.com";
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
@@ -23,7 +23,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
     }
   });
 
-  cy.visit("https://staging.violetgrowth.com/login?from=/", {
+  cy.visit(url, {
     timeout: 120000,
   });
 
@@ -116,7 +116,6 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  cy.wait(1000);
   cy.contains("Views", { timeout: 50000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
