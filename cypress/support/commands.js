@@ -14,16 +14,59 @@ Cypress.Commands.add("loginToVioletStg", () => {
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
-    // if (
-    //   err.message.includes(
-    //     "Invariant: attempted to hard navigate to the same URL"
-    //   )
-    // ) {
-    //   return false;
-    // }
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
   });
 
   cy.visit("https://staging.violetgrowth.com/login?from=/", {
+    timeout: 120000,
+  });
+
+  cy.contains("Sign in with email", { timeout: 15000 }).click();
+
+  cy.contains("Email Address")
+    .parent()
+    .find("input")
+    .type("yotamjacob@walla.co.il");
+
+  cy.contains("Continue", { timeout: 30000 }).click();
+
+  cy.get('input[type="password"]', { timeout: 30000 })
+    .should("be.visible")
+    .type("Eggrolls1246!");
+  cy.wait(1000);
+
+  cy.contains("Sign In").click();
+  cy.wait(3000);
+
+  cy.url().should("not.include", "/login", { timeout: 40000 });
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+
+  cy.url({ timeout: 65000 }).should("include", "/qa");
+
+  cy.contains("KPI Trendlines", { timeout: 90000 }).click();
+});
+
+Cypress.Commands.add("loginToVioletDev", () => {
+  const url = "https://dev.violetgrowth.com/login?from=/";
+
+  // Suppress specific known error from your app
+  Cypress.on("uncaught:exception", (err) => {
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
+  });
+
+  cy.visit(url, {
     timeout: 120000,
   });
 
