@@ -1,34 +1,72 @@
-name: Matrix — Cypress Sanity (Versions × Browsers)
+name: Debug — Cypress Sanity Matrix
 
 on:
   workflow_dispatch:
 
 jobs:
   cypress-matrix:
+    runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
+          # Cypress 14.x lanes (Node 20)
           - cypress: "14.5.4"
             node: "20"
             browser: "chrome"
+            headed: ""
+            plt: "120000"
+            label: "c14-chrome-headless-120s"
+          - cypress: "14.5.4"
+            node: "20"
+            browser: "chrome"
+            headed: "--headed"
+            plt: "0"               # do not wait for 'load' event
+            label: "c14-chrome-headed-plt0"
           - cypress: "14.5.4"
             node: "20"
             browser: "firefox"
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "chrome"
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "firefox"
+            headed: ""
+            plt: "0"
+            label: "c14-firefox-headless-plt0"
+          - cypress: "14.5.4"
+            node: "20"
+            browser: "electron"
+            headed: ""
+            plt: "120000"
+            label: "c14-electron-headless-120s"
 
-    runs-on: ubuntu-latest
+          # Cypress 15.x lanes (Node 22)
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "chrome"
+            headed: ""
+            plt: "0"
+            label: "c15-chrome-headless-plt0"
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "chrome"
+            headed: "--headed"
+            plt: "120000"
+            label: "c15-chrome-headed-120s"
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "firefox"
+            headed: ""
+            plt: "120000"
+            label: "c15-firefox-headless-120s"
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "electron"
+            headed: ""
+            plt: "0"
+            label: "c15-electron-headless-plt0"
 
     steps:
-      - name: Checkout repo
+      - name: Checkout
         uses: actions/checkout@v4
 
-      - name: Use Node.js ${{ matrix.node }}
+      - name: Use Node ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -38,7 +76,7 @@ jobs:
       - name: Pin Cypress ${{ matrix.cypress }}
         run: npm i -D cypress@${{ matrix.cypress }}
 
-      - name: Install dependencies
+      - name: Install deps (allow peer conflicts)
         run: npm ci --legacy-peer-deps
 
       - name: Show versions
@@ -47,22 +85,10 @@ jobs:
           npm -v
           npx cypress --version
 
-      - name: Run Sanity Spec on ${{ matrix.browser }} (Cypress ${{ matrix.cypress }})
-        run: npx cypress run --browser ${{ matrix.browser }} --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-        env:
-          CYPRESS_baseUrl: https://staging.violetgrowth.com
-          CYPRESS_pageLoadTimeout: 120000
-          SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-          GITHUB_REPOSITORY: ${{ github.repository }}
-          GITHUB_RUN_ID: ${{ github.run_id }}
-          DEBUG: "cypress:server:proxy,cypress:server:timers"
-
-      - name: Upload videos
-        if: failure()
-        id: upload_videos
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos-${{ matrix.cypress }}-${{ matrix.browser }}
-          path: cypress/videos
-          if-no-files-found: ignore
-          retention-days: 7
+      - name: Run sanity — ${{ matrix.label }}
+        run: >
+          npx cypress run
+          --browser ${{ matrix.browser }}
+          ${{ matrix.headed }}
+          --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
+          --config baseUrl=https://staging.violetgrowth.com,pageLoadTimeout=${{ matrix.plt }}
