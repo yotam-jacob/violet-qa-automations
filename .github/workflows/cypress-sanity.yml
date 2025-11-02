@@ -52,26 +52,26 @@ jobs:
           fi
           echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
 
-      - name: Post Slack report
-        if: always()
-        env:
-          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-          REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-          ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
-          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-        run: |
-          set -e
-          # 1) Make the "GitHub Job:" line a clickable link
-          perl -0777 -pe 's~^GitHub Job:.*$~GitHub Job: <'"$GITHUB_RUN_URL"'|Open Job>~m' "$REPORT_PATH" > slack_base.txt
+      # - name: Post Slack report
+      #   if: always()
+      #   env:
+      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+      #     REPORT_PATH: ${{ github.workspace }}/slack_report.txt
+      #     ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
+      #     GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+      #   run: |
+      #     set -e
+      #     # 1) Make the "GitHub Job:" line a clickable link
+      #     perl -0777 -pe 's~^GitHub Job:.*$~GitHub Job: <'"$GITHUB_RUN_URL"'|Open Job>~m' "$REPORT_PATH" > slack_base.txt
 
-          # 2) Insert either the artifact link or the "Job passed" line after "GitHub Job:"
-          if [ -n "$ARTIFACT_URL" ]; then
-            perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
-          else
-            perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
-          fi
+      #     # 2) Insert either the artifact link or the "Job passed" line after "GitHub Job:"
+      #     if [ -n "$ARTIFACT_URL" ]; then
+      #       perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
+      #     else
+      #       perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
+      #     fi
 
-          # 3) Post to Slack
-          curl -sS -X POST -H "Content-Type: application/json" \
-            --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
-            "$SLACK_WEBHOOK_URL"
+      #     # 3) Post to Slack
+      #     curl -sS -X POST -H "Content-Type: application/json" \
+      #       --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
+      #       "$SLACK_WEBHOOK_URL"

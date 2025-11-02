@@ -37,6 +37,13 @@ module.exports = defineConfig({
   videosFolder: "cypress/videos",
   videoCompression: false,
   e2e: {
+    blockHosts: [
+      "*googletagmanager.com",
+      "*google-analytics.com",
+      "*hotjar.com",
+      "*segment.com",
+      "*intercom.io",
+    ],
     baseUrl: "https://staging.violetgrowth.com/login?from=/",
     specPattern: "cypress/tests/**/*.js",
     viewportWidth: 1920,
