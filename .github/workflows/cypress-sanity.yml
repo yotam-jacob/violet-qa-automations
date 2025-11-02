@@ -29,6 +29,7 @@ jobs:
           CYPRESS_baseUrl: https://staging.violetgrowth.com
           CYPRESS_browser: chrome
           CYPRESS_pageLoadTimeout: 120000
+          CYPRESS_headed: true
 
       - name: Upload videos
         if: failure()

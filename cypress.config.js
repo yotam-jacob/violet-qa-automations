@@ -35,20 +35,22 @@ module.exports = defineConfig({
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
-  videoCompression: false,
+  chromeWebSecurity: false, ///
+  experimentalModifyObstructiveThirdPartyCode: true, ///
   e2e: {
     blockHosts: [
+      ///
       "*googletagmanager.com",
       "*google-analytics.com",
       "*hotjar.com",
       "*segment.com",
       "*intercom.io",
     ],
-    baseUrl: "https://staging.violetgrowth.com/login?from=/",
+    baseUrl: "https://staging.violetgrowth.com",
     specPattern: "cypress/tests/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
-    screenshotOnRunFailure: false,
+    screenshotOnRunFailure: true,
     videoCompression: false,
     retries: {
       runMode: 0,
@@ -56,14 +58,13 @@ module.exports = defineConfig({
     },
     setupNodeEvents(on, config) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
-        // if (browser.family === "chromium") { //these causes the browser not to load
-        //   launchOptions.args.push("--disable-dev-shm-usage");
-        //   launchOptions.args.push("--disable-gpu");
-        //   launchOptions.args.push("--no-sandbox");
-        //   launchOptions.args.push("--disable-setuid-sandbox");
-        //   launchOptions.args.push("--ignore-certificate-errors");
-        //   launchOptions.args.push("--disable-web-security");
-        // }
+        if (browser.family === "chromium") {
+          //these causes the browser not to load
+          launchOptions.args.push(
+            "--disable-blink-features=AutomationControlled"
+          );
+          launchOptions.args.push("--window-size=1280,800");
+        }
         return launchOptions;
       });
 
