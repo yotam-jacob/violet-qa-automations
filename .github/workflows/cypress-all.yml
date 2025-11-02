@@ -22,7 +22,7 @@ jobs:
 
       - name: Run All tests
         run: |
-          npx cypress run --browser chrome --spec "cypress/tests/**/*.cy.js"
+          npm test
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}

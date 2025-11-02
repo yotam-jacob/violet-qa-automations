@@ -44,7 +44,7 @@ module.exports = defineConfig({
     screenshotOnRunFailure: false,
     videoCompression: false,
     retries: {
-      runMode: 2,
+      runMode: 0,
       openMode: 0,
     },
     setupNodeEvents(on, config) {

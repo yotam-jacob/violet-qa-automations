@@ -11,7 +11,7 @@
   "description": "",
   "devDependencies": {
     "browserstack-cypress-cli": "^1.32.7",
-    "cypress": "^14.4.1",
+    "cypress": "^15.5.0",
     "cypress-fail-fast": "^7.1.1",
     "cypress-real-events": "^1.14.0",
     "cypress-xpath": "^2.0.1"

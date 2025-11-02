@@ -1,4 +1,5 @@
 import { gtmExpectedEvents } from "/cypress/fixtures/gtmEventsPayloads.js";
+
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
