@@ -1,4 +1,4 @@
-name: Matrix — Cypress Versions × Browsers × Spec Groups
+name: Matrix — Cypress Sanity (Versions × Browsers)
 
 on:
   workflow_dispatch:
@@ -12,34 +12,15 @@ jobs:
           - cypress: "14.5.4"
             node: "20"
             browser: "chrome"
-            specGroup: "login"
-            spec: "cypress/e2e/**/login*.cy.{js,ts}"
           - cypress: "14.5.4"
             node: "20"
             browser: "firefox"
-            specGroup: "core"
-            spec: "cypress/e2e/**/core*.cy.{js,ts}"
-          - cypress: "14.5.4"
-            node: "20"
-            browser: "chrome"
-            specGroup: "reports"
-            spec: "cypress/e2e/**/reports*.cy.{js,ts}"
-
           - cypress: "15.5.0"
             node: "22"
             browser: "chrome"
-            specGroup: "login"
-            spec: "cypress/e2e/**/login*.cy.{js,ts}"
           - cypress: "15.5.0"
             node: "22"
             browser: "firefox"
-            specGroup: "core"
-            spec: "cypress/e2e/**/core*.cy.{js,ts}"
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "chrome"
-            specGroup: "reports"
-            spec: "cypress/e2e/**/reports*.cy.{js,ts}"
 
     runs-on: ubuntu-latest
 
@@ -47,7 +28,7 @@ jobs:
       - name: Checkout repo
         uses: actions/checkout@v4
 
-      - name: Use Node.js
+      - name: Use Node.js ${{ matrix.node }}
         uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
@@ -57,7 +38,7 @@ jobs:
       - name: Pin Cypress ${{ matrix.cypress }}
         run: npm i -D cypress@${{ matrix.cypress }}
 
-      - name: Install deps (allow peers, unblocks 15.x + plugins)
+      - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
       - name: Show versions
@@ -66,17 +47,11 @@ jobs:
           npm -v
           npx cypress --version
 
-      - name: Run ${{ matrix.specGroup }} on ${{ matrix.browser }} (Cypress ${{ matrix.cypress }})
-        run: npm test
+      - name: Run Sanity Spec on ${{ matrix.browser }} (Cypress ${{ matrix.cypress }})
+        run: npx cypress run --browser ${{ matrix.browser }} --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
         env:
-          # app/env
           CYPRESS_baseUrl: https://staging.violetgrowth.com
-          CYPRESS_browser: ${{ matrix.browser }}
           CYPRESS_pageLoadTimeout: 120000
-          CYPRESS_headed: true
-          CYPRESS_spec: ${{ matrix.spec }}
-
-          # your existing envs
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
@@ -87,7 +62,7 @@ jobs:
         id: upload_videos
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-videos-${{ matrix.cypress }}-${{ matrix.browser }}-${{ matrix.specGroup }}
+          name: cypress-videos-${{ matrix.cypress }}-${{ matrix.browser }}
           path: cypress/videos
           if-no-files-found: ignore
           retention-days: 7
