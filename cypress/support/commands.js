@@ -23,6 +23,14 @@ Cypress.Commands.add("loginToVioletStg", () => {
     }
   });
 
+  // quick WAF/bot-guard probe:
+  cy.request({ url: "/", failOnStatusCode: false })
+    .its("status")
+    .should("be.oneOf", [200, 304]);
+
+  // visit without waiting for the document 'load' event:
+  cy.visit("/", { timeout: 0 });
+
   cy.visit(url, {
     timeout: 120000,
   });

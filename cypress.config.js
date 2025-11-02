@@ -36,7 +36,6 @@ module.exports = defineConfig({
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   chromeWebSecurity: false, ///
-  experimentalModifyObstructiveThirdPartyCode: true, ///
   e2e: {
     blockHosts: [
       ///
@@ -58,12 +57,18 @@ module.exports = defineConfig({
     },
     setupNodeEvents(on, config) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
-        if (browser.family === "chromium") {
-          //these causes the browser not to load
-          launchOptions.args.push(
-            "--disable-blink-features=AutomationControlled"
-          );
-          launchOptions.args.push("--window-size=1280,800");
+        if (browser.name === 'chrome') {
+          launchOptions.args.push('--disable-blink-features=AutomationControlled');
+          launchOptions.args.push('--no-sandbox', '--disable-setuid-sandbox');
+          launchOptions.args.push('--window-size=1280,800');
+          launchOptions.args.push('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
+        }
+        if (browser.name === 'firefox') {
+          // Make Firefox look like a real user
+          launchOptions.preferences ||= {};
+          launchOptions.preferences['general.useragent.override'] =
+            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0';
+          launchOptions.args = (launchOptions.args || []).concat(['-width', '1280', '-height', '800']);
         }
         return launchOptions;
       });

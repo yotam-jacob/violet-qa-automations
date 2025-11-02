@@ -1,94 +1,40 @@
-name: Debug — Cypress Sanity Matrix
+name: Debug — Sanity (headed + UA spoof)
 
 on:
   workflow_dispatch:
 
 jobs:
-  cypress-matrix:
+  sanity:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
       matrix:
         include:
-          # Cypress 14.x lanes (Node 20)
-          - cypress: "14.5.4"
-            node: "20"
+          - node: "22"
+            cypress: "15.5.0"
             browser: "chrome"
-            headed: ""
-            plt: "120000"
-            label: "c14-chrome-headless-120s"
-          - cypress: "14.5.4"
-            node: "20"
-            browser: "chrome"
-            headed: "--headed"
-            plt: "0"               # do not wait for 'load' event
-            label: "c14-chrome-headed-plt0"
-          - cypress: "14.5.4"
-            node: "20"
+            label: "chrome-headed-plt0"
+          - node: "22"
+            cypress: "15.5.0"
             browser: "firefox"
-            headed: ""
-            plt: "0"
-            label: "c14-firefox-headless-plt0"
-          - cypress: "14.5.4"
-            node: "20"
-            browser: "electron"
-            headed: ""
-            plt: "120000"
-            label: "c14-electron-headless-120s"
-
-          # Cypress 15.x lanes (Node 22)
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "chrome"
-            headed: ""
-            plt: "0"
-            label: "c15-chrome-headless-plt0"
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "chrome"
-            headed: "--headed"
-            plt: "120000"
-            label: "c15-chrome-headed-120s"
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "firefox"
-            headed: ""
-            plt: "120000"
-            label: "c15-firefox-headless-120s"
-          - cypress: "15.5.0"
-            node: "22"
-            browser: "electron"
-            headed: ""
-            plt: "0"
-            label: "c15-electron-headless-plt0"
+            label: "firefox-headed-plt0"
 
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Use Node ${{ matrix.node }}
-        uses: actions/setup-node@v4
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
         with:
           node-version: ${{ matrix.node }}
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - name: Pin Cypress ${{ matrix.cypress }}
-        run: npm i -D cypress@${{ matrix.cypress }}
+      - run: npm i -D cypress@${{ matrix.cypress }}
+      - run: npm ci --legacy-peer-deps
 
-      - name: Install deps (allow peer conflicts)
-        run: npm ci --legacy-peer-deps
-
-      - name: Show versions
-        run: |
-          node -v
-          npm -v
-          npx cypress --version
-
+      # headed run under virtual display prevents many bot heuristics
       - name: Run sanity — ${{ matrix.label }}
         run: >
-          npx cypress run
+          xvfb-run -a npx cypress run
+          --headed
           --browser ${{ matrix.browser }}
-          ${{ matrix.headed }}
           --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-          --config baseUrl=https://staging.violetgrowth.com,pageLoadTimeout=${{ matrix.plt }}
+          --config baseUrl=https://staging.violetgrowth.com,pageLoadTimeout=0,retries={'runMode':1,'openMode':0}
