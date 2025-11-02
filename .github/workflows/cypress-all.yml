@@ -21,8 +21,7 @@ jobs:
         run: npm ci
 
       - name: Run All tests
-        run: |
-          npm test
+        run: npm test
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
