@@ -18,11 +18,10 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run Sanity Cypress tests
-        run: |
-          npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
         env:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
