@@ -25,16 +25,15 @@ jobs:
           --headed
           --browser firefox
           --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-          --config baseUrl=https://staging.violetgrowth.com,
-                  pageLoadTimeout=120000,
-                  userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0",
-                  video=true
         env:
-          # if you later use programmatic login, wire secrets here:
-          CYPRESS_STG_EMAIL: ${{ secrets.STG_EMAIL }}
-          CYPRESS_STG_PASSWORD: ${{ secrets.STG_PASSWORD }}
+          CYPRESS_baseUrl: https://staging.violetgrowth.com
+          CYPRESS_pageLoadTimeout: 120000
+          CYPRESS_video: true
+          CYPRESS_userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0
+          # optional if you later switch to programmatic login:
+          # CYPRESS_STG_EMAIL: ${{ secrets.STG_EMAIL }}
+          # CYPRESS_STG_PASSWORD: ${{ secrets.STG_PASSWORD }}
 
-      # Upload videos if the run failed
       - name: Upload Cypress videos
         if: failure()
         uses: actions/upload-artifact@v4
@@ -44,7 +43,6 @@ jobs:
           if-no-files-found: ignore
           retention-days: 7
 
-      # (Optional) Upload screenshots if the run failed
       - name: Upload Cypress screenshots
         if: failure()
         uses: actions/upload-artifact@v4
