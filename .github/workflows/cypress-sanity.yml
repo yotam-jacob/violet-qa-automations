@@ -6,10 +6,8 @@ on:
 jobs:
   sanity:
     runs-on: ubuntu-latest
-
     steps:
       - uses: actions/checkout@v4
-
       - uses: actions/setup-node@v4
         with:
           node-version: 22
@@ -25,29 +23,4 @@ jobs:
           --headed
           --browser firefox
           --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-        env:
-          CYPRESS_baseUrl: https://staging.violetgrowth.com
-          CYPRESS_pageLoadTimeout: 120000
-          CYPRESS_video: true
-          CYPRESS_userAgent: Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0
-          # optional if you later switch to programmatic login:
-          # CYPRESS_STG_EMAIL: ${{ secrets.STG_EMAIL }}
-          # CYPRESS_STG_PASSWORD: ${{ secrets.STG_PASSWORD }}
-
-      - name: Upload Cypress videos
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-videos-firefox
-          path: cypress/videos
-          if-no-files-found: ignore
-          retention-days: 7
-
-      - name: Upload Cypress screenshots
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: cypress-screenshots-firefox
-          path: cypress/screenshots
-          if-no-files-found: ignore
-          retention-days: 7
+          
