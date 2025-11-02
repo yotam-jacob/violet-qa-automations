@@ -18,7 +18,7 @@ jobs:
           cache: npm
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run All tests
         run: npm test
@@ -67,7 +67,6 @@ jobs:
             perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
           else
             perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
-          fi
 
           # 3) Post to Slack
           curl -sS -X POST -H "Content-Type: application/json" \
