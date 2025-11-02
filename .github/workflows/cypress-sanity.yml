@@ -1,4 +1,4 @@
-name: Debug — Sanity (headed + UA spoof)
+name: Debug — Sanity (FF headed)
 
 on:
   workflow_dispatch:
@@ -6,35 +6,23 @@ on:
 jobs:
   sanity:
     runs-on: ubuntu-latest
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - node: "22"
-            cypress: "15.5.0"
-            browser: "chrome"
-            label: "chrome-headed-plt0"
-          - node: "22"
-            cypress: "15.5.0"
-            browser: "firefox"
-            label: "firefox-headed-plt0"
-
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-node@v4
         with:
-          node-version: ${{ matrix.node }}
+          node-version: 22
           cache: npm
           cache-dependency-path: package-lock.json
 
-      - run: npm i -D cypress@${{ matrix.cypress }}
+      - run: npm i -D cypress@15.5.0
       - run: npm ci --legacy-peer-deps
 
-      # headed run under virtual display prevents many bot heuristics
-      - name: Run sanity — ${{ matrix.label }}
+      - name: Run sanity (Firefox headed)
         run: >
           xvfb-run -a npx cypress run
           --headed
-          --browser ${{ matrix.browser }}
+          --browser firefox
           --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
-          --config baseUrl=https://staging.violetgrowth.com,pageLoadTimeout=0,retries={'runMode':1,'openMode':0}
+          --config baseUrl=https://staging.violetgrowth.com,
+                  pageLoadTimeout=120000,
+                  userAgent="Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0"
