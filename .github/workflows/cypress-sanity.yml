@@ -26,6 +26,9 @@ jobs:
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
+          CYPRESS_baseUrl: https://staging.violetgrowth.com
+          CYPRESS_browser: chrome
+          CYPRESS_pageLoadTimeout: 120000
 
       - name: Upload videos
         if: failure()
