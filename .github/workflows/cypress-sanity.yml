@@ -1,10 +1,46 @@
-name: Run Sanity Tests
+name: Matrix — Cypress Versions × Browsers × Spec Groups
 
 on:
   workflow_dispatch:
 
 jobs:
-  cypress-run:
+  cypress-matrix:
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - cypress: "14.5.4"
+            node: "20"
+            browser: "chrome"
+            specGroup: "login"
+            spec: "cypress/e2e/**/login*.cy.{js,ts}"
+          - cypress: "14.5.4"
+            node: "20"
+            browser: "firefox"
+            specGroup: "core"
+            spec: "cypress/e2e/**/core*.cy.{js,ts}"
+          - cypress: "14.5.4"
+            node: "20"
+            browser: "chrome"
+            specGroup: "reports"
+            spec: "cypress/e2e/**/reports*.cy.{js,ts}"
+
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "chrome"
+            specGroup: "login"
+            spec: "cypress/e2e/**/login*.cy.{js,ts}"
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "firefox"
+            specGroup: "core"
+            spec: "cypress/e2e/**/core*.cy.{js,ts}"
+          - cypress: "15.5.0"
+            node: "22"
+            browser: "chrome"
+            specGroup: "reports"
+            spec: "cypress/e2e/**/reports*.cy.{js,ts}"
+
     runs-on: ubuntu-latest
 
     steps:
@@ -14,30 +50,47 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: ${{ matrix.node }}
           cache: npm
+          cache-dependency-path: package-lock.json
 
-      - name: Install dependencies
+      - name: Pin Cypress ${{ matrix.cypress }}
+        run: npm i -D cypress@${{ matrix.cypress }}
+
+      - name: Install deps (allow peers, unblocks 15.x + plugins)
         run: npm ci --legacy-peer-deps
 
-      - name: Run Sanity Cypress tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
+      - name: Show versions
+        run: |
+          node -v
+          npm -v
+          npx cypress --version
+
+      - name: Run ${{ matrix.specGroup }} on ${{ matrix.browser }} (Cypress ${{ matrix.cypress }})
+        run: npm test
         env:
+          # app/env
+          CYPRESS_baseUrl: https://staging.violetgrowth.com
+          CYPRESS_browser: ${{ matrix.browser }}
+          CYPRESS_pageLoadTimeout: 120000
+          CYPRESS_headed: true
+          CYPRESS_spec: ${{ matrix.spec }}
+
+          # your existing envs
           SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
           GITHUB_REPOSITORY: ${{ github.repository }}
           GITHUB_RUN_ID: ${{ github.run_id }}
-          CYPRESS_baseUrl: https://staging.violetgrowth.com
-          CYPRESS_browser: chrome
-          CYPRESS_pageLoadTimeout: 120000
-          CYPRESS_headed: true
+          DEBUG: "cypress:server:proxy,cypress:server:timers"
 
       - name: Upload videos
         if: failure()
         id: upload_videos
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-videos
+          name: cypress-videos-${{ matrix.cypress }}-${{ matrix.browser }}-${{ matrix.specGroup }}
           path: cypress/videos
+          if-no-files-found: ignore
+          retention-days: 7
 
       - name: Resolve video artifact ID
         if: always()
@@ -46,33 +99,28 @@ jobs:
           set -e
           ARTIFACT_ID=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
             https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts \
-            | jq -r '.artifacts[] | select(.name=="cypress-videos") | .id' | head -n1)
+            | jq -r '.artifacts[] | select(.name | startswith("cypress-videos-")) | .id' | head -n1)
           if [ -z "$ARTIFACT_ID" ] || [ "$ARTIFACT_ID" = "null" ]; then
             echo "artifact_url=" >> $GITHUB_OUTPUT
             exit 0
           fi
           echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
 
-      # - name: Post Slack report
-      #   if: always()
-      #   env:
-      #     SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
-      #     REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-      #     ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
-      #     GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
-      #   run: |
-      #     set -e
-      #     # 1) Make the "GitHub Job:" line a clickable link
-      #     perl -0777 -pe 's~^GitHub Job:.*$~GitHub Job: <'"$GITHUB_RUN_URL"'|Open Job>~m' "$REPORT_PATH" > slack_base.txt
-
-      #     # 2) Insert either the artifact link or the "Job passed" line after "GitHub Job:"
-      #     if [ -n "$ARTIFACT_URL" ]; then
-      #       perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
-      #     else
-      #       perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
-      #     fi
-
-      #     # 3) Post to Slack
-      #     curl -sS -X POST -H "Content-Type: application/json" \
-      #       --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
-      #       "$SLACK_WEBHOOK_URL"
+      - name: Post Slack report
+        if: always()
+        env:
+          SLACK_WEBHOOK_URL: ${{ secrets.SLACK_WEBHOOK_URL }}
+          REPORT_PATH: ${{ github.workspace }}/slack_report.txt
+          ARTIFACT_URL: ${{ steps.resolve_artifact.outputs.artifact_url }}
+          GITHUB_RUN_URL: https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          set -e
+          perl -0777 -pe 's~^GitHub Job:.*$~GitHub Job: <'"$GITHUB_RUN_URL"'|Open Job>~m' "$REPORT_PATH" > slack_base.txt
+          if [ -n "$ARTIFACT_URL" ]; then
+            perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Artifacts (videos): <'"$ARTIFACT_URL"'|Open>\n~m' slack_base.txt > slack_final.txt
+          else
+            perl -0777 -pe 's~^(GitHub Job:.*\n)~$1Job passed — no artifacts.\n~m' slack_base.txt > slack_final.txt
+          fi
+          curl -sS -X POST -H "Content-Type: application/json" \
+            --data "$(jq -n --rawfile t slack_final.txt '{text:$t}')" \
+            "$SLACK_WEBHOOK_URL"
