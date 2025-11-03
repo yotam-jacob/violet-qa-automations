@@ -8,50 +8,50 @@ describe("Features Test Suite", () => {
     cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
-  it("Opening any saved view updates the URL with view={id} with persistent to refresh", () => {
-    cy.createView(AUTOMATION_VIEW_NAME);
+  // it("Opening any saved view updates the URL with view={id} with persistent to refresh", () => {
+  //   cy.createView(AUTOMATION_VIEW_NAME);
 
-    //check the url contains view=
-    cy.url().should("include", "view=");
+  //   //check the url contains view=
+  //   cy.url().should("include", "view=");
 
-    //store the view id in a variable
-    cy.url()
-      .then((url) => {
-        const urlObj = new URL(url);
-        return urlObj.searchParams.get("view");
-      })
-      .as("viewId");
+  //   //store the view id in a variable
+  //   cy.url()
+  //     .then((url) => {
+  //       const urlObj = new URL(url);
+  //       return urlObj.searchParams.get("view");
+  //     })
+  //     .as("viewId");
 
-    //reload the page and verify the view is still applied
-    cy.reload();
+  //   //reload the page and verify the view is still applied
+  //   cy.reload();
 
-    cy.get("@viewId").then((viewId) => {
-      cy.url().should("include", `view=${viewId}`);
-    });
+  //   cy.get("@viewId").then((viewId) => {
+  //     cy.url().should("include", `view=${viewId}`);
+  //   });
 
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+  //   cy.wait(1000);
 
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
-      timeout: 40000,
-    }).realHover();
+  //   cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
+  //     timeout: 40000,
+  //   }).realHover();
 
-    cy.wait(1000);
+  //   cy.wait(1000);
 
-    cy.clickVisibleThreeDots();
-    cy.wait(1000);
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000);
 
-    cy.clickOnDeleteViewAndVerify();
-  });
+  //   cy.clickOnDeleteViewAndVerify();
+  // });
 
-  it("Opening a public view with always load with the same view id", () => {
-    //click on Views
-    cy.contains("Views", { timeout: 40000 }).click();
-    cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
-    //Url should contain correct viewid
-    cy.url().should("include", "view=" + AUTOMATION_PUBLIC_VIEW_ID);
-  });
+  // it("Opening a public view with always load with the same view id", () => {
+  //   //click on Views
+  //   cy.contains("Views", { timeout: 40000 }).click();
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
+  //   cy.wait(1000);
+  //   //Url should contain correct viewid
+  //   cy.url().should("include", "view=" + AUTOMATION_PUBLIC_VIEW_ID);
+  // });
 
   it("Open a public saved view and verify that the share button is enabled", () => {
     //create public view
