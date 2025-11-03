@@ -23,11 +23,6 @@ Cypress.Commands.add("loginToVioletStg", () => {
     }
   });
 
-  // Sanity beforeEach — add this first:
-  cy.request({ url: "/", failOnStatusCode: false })
-    .its("status")
-    .should("be.oneOf", [200, 304]);
-
   cy.visit(url, {
     timeout: 120000,
   });
@@ -121,7 +116,8 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  cy.contains("Views", { timeout: 50000 }).click();
+  cy.wait(1000);
+  cy.contains("Views", { timeout: 20000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();

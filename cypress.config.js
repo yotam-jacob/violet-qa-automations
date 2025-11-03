@@ -35,16 +35,7 @@ module.exports = defineConfig({
   video: true,
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
-  chromeWebSecurity: false, ///
   e2e: {
-    blockHosts: [
-      ///
-      "*googletagmanager.com",
-      "*google-analytics.com",
-      "*hotjar.com",
-      "*segment.com",
-      "*intercom.io",
-    ],
     baseUrl: "https://staging.violetgrowth.com",
     specPattern: "cypress/tests/**/*.js",
     viewportWidth: 1920,
@@ -57,104 +48,97 @@ module.exports = defineConfig({
     },
     setupNodeEvents(on, config) {
       on("before:browser:launch", (browser = {}, launchOptions) => {
-        if (browser.name === 'chrome') {
-          launchOptions.args.push('--disable-blink-features=AutomationControlled');
-          launchOptions.args.push('--no-sandbox', '--disable-setuid-sandbox');
-          launchOptions.args.push('--window-size=1280,800');
-          launchOptions.args.push('--user-agent=Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/121.0.0.0 Safari/537.36');
-        }
-        if (browser.name === 'firefox') {
-          // Make Firefox look like a real user
-          launchOptions.preferences ||= {};
-          launchOptions.preferences['general.useragent.override'] =
-            'Mozilla/5.0 (Windows NT 10.0; Win64; x64; rv:115.0) Gecko/20100101 Firefox/115.0';
-          launchOptions.args = (launchOptions.args || []).concat(['-width', '1280', '-height', '800']);
+        if (browser.family === "chromium") {
+          launchOptions.args.push("--no-sandbox");
+          launchOptions.args.push("--disable-gpu");
+          launchOptions.args.push("--disable-dev-shm-usage");
+          launchOptions.args.push("--js-flags=--max_old_space_size=4096");
         }
         return launchOptions;
       });
 
-      // on("after:run", async (r) => {
-      //   const isGH = !!(
-      //     process.env.GITHUB_ACTIONS || process.env.GITHUB_RUN_ID
-      //   );
-      //   const reportPath =
-      //     process.env.SLACK_REPORT_PATH ||
-      //     path.join(process.cwd(), "slack_report.txt");
+      on("after:run", async (r) => {
+        const isGH = !!(
+          process.env.GITHUB_ACTIONS || process.env.GITHUB_RUN_ID
+        );
+        const reportPath =
+          process.env.SLACK_REPORT_PATH ||
+          path.join(process.cwd(), "slack_report.txt");
 
-      //   const {
-      //     totalTests,
-      //     totalPassed,
-      //     totalFailed,
-      //     totalDuration,
-      //     cypressVersion,
-      //     browserName,
-      //     browserVersion,
-      //     runs,
-      //   } = r;
-      //   const label = envLabel(config.baseUrl),
-      //     passRate = Math.round((totalPassed / totalTests) * 100) || 0,
-      //     mins = Math.floor(totalDuration / 6e4),
-      //     secs = Math.round((totalDuration % 6e4) / 1e3),
-      //     failed = totalFailed > 0,
-      //     emoji = failed ? "❌" : "✅";
+        const {
+          totalTests,
+          totalPassed,
+          totalFailed,
+          totalDuration,
+          cypressVersion,
+          browserName,
+          browserVersion,
+          runs,
+        } = r;
+        const label = envLabel(config.baseUrl),
+          passRate = Math.round((totalPassed / totalTests) * 100) || 0,
+          mins = Math.floor(totalDuration / 6e4),
+          secs = Math.round((totalDuration % 6e4) / 1e3),
+          failed = totalFailed > 0,
+          emoji = failed ? "❌" : "✅";
 
-      //   const lines = [
-      //     SEP,
-      //     `${emoji} *QA Automations Report — ${label}* — ${totalPassed}/${totalTests} passed (${passRate}%) • ${mins}m ${secs}s`,
-      //     SEP,
-      //     isGH
-      //       ? `GitHub Job: <${ghRun()}|Open Job>`
-      //       : `Local test run — no job or artifacts.`,
-      //     SEP,
-      //     "",
-      //   ];
+        const lines = [
+          SEP,
+          `${emoji} *QA Automations Report — ${label}* — ${totalPassed}/${totalTests} passed (${passRate}%) • ${mins}m ${secs}s`,
+          SEP,
+          isGH
+            ? `GitHub Job: <${ghRun()}|Open Job>`
+            : `Local test run — no job or artifacts.`,
+          SEP,
+          "",
+        ];
 
-      //   for (const run of runs) {
-      //     const file = (run.spec.name || "").split("/").pop(),
-      //       nice = suiteName(file),
-      //       tests = (run.tests || []).filter((t) =>
-      //         ["passed", "failed", "skipped", "pending"].includes(
-      //           t.state || t.attempts?.slice(-1)?.[0]?.state
-      //         )
-      //       );
-      //     if (!tests.length) continue;
+        for (const run of runs) {
+          const file = (run.spec.name || "").split("/").pop(),
+            nice = suiteName(file),
+            tests = (run.tests || []).filter((t) =>
+              ["passed", "failed", "skipped", "pending"].includes(
+                t.state || t.attempts?.slice(-1)?.[0]?.state
+              )
+            );
+          if (!tests.length) continue;
 
-      //     lines.push(`*Test Suite - ${nice} (${file})*`, SEP);
-      //     tests.forEach((t, i) => {
-      //       const s = t.state || t.attempts?.slice(-1)?.[0]?.state,
-      //         prefix =
-      //           s === "passed"
-      //             ? "✅"
-      //             : s === "failed"
-      //             ? "❌"
-      //             : s === "skipped"
-      //             ? "⏭ Skipped:"
-      //             : "🟡 Pending:",
-      //         title = t.title
-      //           ? t.title.slice(1).join(" › ") || t.title.join(" › ")
-      //           : "Unnamed test";
-      //       lines.push(`  ${i + 1}. ${prefix} ${title}`);
-      //     });
-      //     lines.push("");
-      //   }
+          lines.push(`*Test Suite - ${nice} (${file})*`, SEP);
+          tests.forEach((t, i) => {
+            const s = t.state || t.attempts?.slice(-1)?.[0]?.state,
+              prefix =
+                s === "passed"
+                  ? "✅"
+                  : s === "failed"
+                  ? "❌"
+                  : s === "skipped"
+                  ? "⏭ Skipped:"
+                  : "🟡 Pending:",
+              title = t.title
+                ? t.title.slice(1).join(" › ") || t.title.join(" › ")
+                : "Unnamed test";
+            lines.push(`  ${i + 1}. ${prefix} ${title}`);
+          });
+          lines.push("");
+        }
 
-      //   lines.push(
-      //     SEP,
-      //     `Cypress: ${cypressVersion} • Browser: ${browserName} ${browserVersion} • Node: ${process.version}`
-      //   );
+        lines.push(
+          SEP,
+          `Cypress: ${cypressVersion} • Browser: ${browserName} ${browserVersion} • Node: ${process.version}`
+        );
 
-      //   // Write the report so the workflow can append artifact link & post
-      //   fs.writeFileSync(reportPath, lines.join("\n"));
+        // Write the report so the workflow can append artifact link & post
+        fs.writeFileSync(reportPath, lines.join("\n"));
 
-      //   // Only send directly when running locally
-      //   if (!isGH && SLACK_WEBHOOK_URL) {
-      //     await fetch(SLACK_WEBHOOK_URL, {
-      //       method: "POST",
-      //       headers: { "Content-Type": "application/json" },
-      //       body: JSON.stringify({ text: lines.join("\n") }),
-      //     });
-      //   }
-      // });
+        // Only send directly when running locally
+        if (!isGH && SLACK_WEBHOOK_URL) {
+          await fetch(SLACK_WEBHOOK_URL, {
+            method: "POST",
+            headers: { "Content-Type": "application/json" },
+            body: JSON.stringify({ text: lines.join("\n") }),
+          });
+        }
+      });
 
       return config;
     },
