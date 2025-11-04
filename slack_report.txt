@@ -1,5 +1,5 @@
 ────────────────────────────────
-❌ *QA Automations Report — Staging* — 45/72 passed (63%) • 31m 6s
+✅ *QA Automations Report — Staging* — 72/72 passed (100%) • 42m 42s
 ────────────────────────────────
 Local test run — no job or artifacts.
 ────────────────────────────────
@@ -52,41 +52,8 @@ Local test run — no job or artifacts.
   4. ✅ Click share on a public saved view and ensure it copies the current viewId URL
   5. ✅ Private views disable share and prompts the user to make it public before sharing including a warning text
   6. ✅ Unfiltered views disable share and prompts the user to save it as new before sharing including a warning text
-  7. ❌ Deleting a saved view will revert to current default view
-  8. ❌ Deleting a saved view will revert to unfiltered view
-
-*Test Suite - Errors (errors.cy.js)*
-────────────────────────────────
-  1. ✅ shows 404 page when navigating to a non-existent route
-
-*Test Suite - Regression (regression.cy.js)*
-────────────────────────────────
-  1. ❌ User can rename a view
-  2. ❌ User can reset the current view by clicking on the reset button
-  3. ⏭ Skipped: User can share a view through the share button
-  4. ⏭ Skipped: User can download a view as a PDF file
-  5. ⏭ Skipped: User can download a view as a Crosstab file
-  6. ⏭ Skipped: User can open the login troubleshoot from the login screen
-  7. ⏭ Skipped: User can see the company trademark
-  8. ⏭ Skipped: Non Admin Users cannot access the manage page
-  9. ⏭ Skipped: Space logo will change according to the space selected
-  10. ⏭ Skipped: measures and asserts homepage load time is acceptable
-  11. ⏭ Skipped: verifies the window inner size matches the expected viewport
-  12. ⏭ Skipped: User can navigte to Exactius company page from the login screen
-  13. ⏭ Skipped: Warning message should not appear when deleting an unused default view
-  14. ⏭ Skipped: Hovering over a dashboard name will hide the announcement icon
-  15. ⏭ Skipped: Create a default view and then refresh - view is still default
-  16. ⏭ Skipped: Navigating between a space with saved view to a different space should not load that saved view
-  17. ⏭ Skipped: View id should be removed when navigating to Looker Report
-  18. ⏭ Skipped: View name should not support blank spaces
-  19. ⏭ Skipped: Default view deletion warning appears even when no one is using that view as their default
-  20. ⏭ Skipped: User can copy the overview from the drivers reports
-  21. ⏭ Skipped: User can change the business and time unit in insight reports
-  22. ⏭ Skipped: User can change the business and time unit in drivers reports
-
-*Test Suite - Security (security.cy.js)*
-────────────────────────────────
-  1. ❌ should not execute script when submitted into input fields
+  7. ✅ Deleting a saved view will revert to current default view
+  8. ✅ Deleting a saved view will revert to unfiltered view
 
 *Test Suite - Sanity (sanity.cy.js)*
 ────────────────────────────────
@@ -95,10 +62,43 @@ Local test run — no job or artifacts.
   3. ✅ should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
   4. ✅ User can open and close the sidebar menu
   5. ✅ User can logoff and log back in
-  6. ❌ Save current view, set as default and then remove it
-  7. ❌ User can create a public view
+  6. ✅ Save current view, set as default and then remove it
+  7. ✅ User can create a public view
   8. ✅ Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager
   9. ✅ Make sure the global annoucement says this is a test global announcement
+
+*Test Suite - Errors (errors.cy.js)*
+────────────────────────────────
+  1. ✅ shows 404 page when navigating to a non-existent route
+
+*Test Suite - Regression (regression.cy.js)*
+────────────────────────────────
+  1. ✅ User can rename a view
+  2. ✅ User can reset the current view by clicking on the reset button
+  3. ✅ User can share a view through the share button
+  4. ✅ User can download a view as a PDF file
+  5. ✅ User can download a view as a Crosstab file
+  6. ✅ User can open the login troubleshoot from the login screen
+  7. ✅ User can see the company trademark
+  8. ✅ Non Admin Users cannot access the manage page
+  9. ✅ Space logo will change according to the space selected
+  10. ✅ measures and asserts homepage load time is acceptable
+  11. ✅ verifies the window inner size matches the expected viewport
+  12. ✅ User can navigte to Exactius company page from the login screen
+  13. ✅ Warning message should not appear when deleting an unused default view
+  14. ✅ Hovering over a dashboard name will hide the announcement icon
+  15. ✅ Create a default view and then refresh - view is still default
+  16. ✅ Navigating between a space with saved view to a different space should not load that saved view
+  17. ✅ View id should be removed when navigating to Looker Report
+  18. ✅ View name should not support blank spaces
+  19. ✅ Default view deletion warning appears even when no one is using that view as their default
+  20. ✅ User can copy the overview from the drivers reports
+  21. ✅ User can change the business and time unit in insight reports
+  22. ✅ User can change the business and time unit in drivers reports
+
+*Test Suite - Security (security.cy.js)*
+────────────────────────────────
+  1. ✅ should not execute script when submitted into input fields
 
 ────────────────────────────────
 Cypress: 15.5.0 • Browser: electron 138.0.7204.251 • Node: v22.14.0
