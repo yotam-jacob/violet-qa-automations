@@ -21,7 +21,7 @@ jobs:
         run: npm ci --legacy-peer-deps
 
       - name: Run All Cypress tests
-        run: npm test
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/tests/*/*.cy.js"
         # env:
         #   SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
         #   GITHUB_REPOSITORY: ${{ github.repository }}
