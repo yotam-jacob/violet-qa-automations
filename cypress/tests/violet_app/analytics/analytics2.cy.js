@@ -130,53 +130,53 @@ describe("analytics Test Suite", () => {
       );
     });
 
-    // it("tests article_list_lexicon_click event payload", () => {
-    //   cy.contains("Help", { timeout: 40000 }).click();
-    //   cy.contains("Help Center", { timeout: 40000 }).click();
-    //   cy.contains("Lexicon", { timeout: 40000 }).click();
+    it("tests article_list_lexicon_click event payload", () => {
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.contains("Help Center", { timeout: 40000 }).click();
+      cy.contains("Lexicon", { timeout: 40000 }).click();
 
-    //   cy.validateGtmEvent(
-    //     "article_list_lexicon_click",
-    //     gtmExpectedEvents.article_list_lexicon_click,
-    //     consoleMessages
-    //   );
-    // });
+      cy.validateGtmEvent(
+        "article_list_lexicon_click",
+        gtmExpectedEvents.article_list_lexicon_click,
+        consoleMessages
+      );
+    });
 
-    // it("tests expand_collection_click event payload", () => {
-    //   cy.contains("Help", { timeout: 40000 }).click();
-    //   cy.wait(1000);
-    //   cy.contains("Lexicon", { timeout: 40000 }).click();
-    //   cy.wait(1000);
+    it("tests expand_collection_click event payload", () => {
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(1000);
+      cy.contains("Lexicon", { timeout: 40000 }).click();
+      cy.wait(1000);
 
-    //   cy.contains("Table of Raw Metrics", { timeout: 40000 }).click();
-    //   cy.wait(1000);
+      cy.contains("Sourced Metrics", { timeout: 40000 }).click();
+      cy.wait(1000);
 
-    //   cy.validateGtmEvent(
-    //     "expand_collection_click",
-    //     gtmExpectedEvents.expand_collection_click,
-    //     consoleMessages
-    //   );
-    // });
+      cy.validateGtmEvent(
+        "expand_collection_click",
+        gtmExpectedEvents.expand_collection_click,
+        consoleMessages
+      );
+    });
 
-    // it("tests expand_term_click event payload", () => {
-    //   cy.contains("Help", { timeout: 40000 }).click();
-    //   cy.wait(1000);
+    it("tests expand_term_click event payload", () => {
+      cy.contains("Help", { timeout: 40000 }).click();
+      cy.wait(1000);
 
-    //   cy.contains("Lexicon", { timeout: 40000 }).click();
-    //   cy.wait(1000);
+      cy.contains("Lexicon", { timeout: 40000 }).click();
+      cy.wait(1000);
 
-    //   cy.contains("Table of Raw Metrics", { timeout: 40000 }).click();
-    //   cy.wait(1000);
+      cy.contains("Sourced Metrics", { timeout: 40000 }).click();
+      cy.wait(1000);
 
-    //   cy.contains("Clicks", { timeout: 40000 }).click();
-    //   cy.wait(1000);
+      cy.contains("12M Active HH Orders", { timeout: 40000 }).click();
+      cy.wait(1000);
 
-    //   cy.validateGtmEvent(
-    //     "expand_term_click",
-    //     gtmExpectedEvents.expand_term_click,
-    //     consoleMessages
-    //   );
-    // });
+      cy.validateGtmEvent(
+        "expand_term_click",
+        gtmExpectedEvents.expand_term_click,
+        consoleMessages
+      );
+    });
 
     it("tests category_article_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();

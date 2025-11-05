@@ -40,6 +40,7 @@ module.exports = defineConfig({
     specPattern: "cypress/tests/**/*.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
+    experimentalSessionAndOrigin: true,
     screenshotOnRunFailure: true,
     videoCompression: false,
     retries: {
