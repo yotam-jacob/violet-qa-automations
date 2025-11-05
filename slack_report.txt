@@ -1,8 +1,16 @@
 ────────────────────────────────
-✅ *QA Automations Report — Staging* — 72/72 passed (100%) • 42m 42s
+❌ *QA Automations Report — Staging* — 78/80 passed (98%) • 45m 44s
 ────────────────────────────────
 Local test run — no job or artifacts.
 ────────────────────────────────
+
+*Test Suite - Codex Tests (codex_tests.cy.js)*
+────────────────────────────────
+  1. ✅ Authentication & Session Security › requires authentication for partner dashboards
+  2. ✅ Authentication & Session Security › invalidates the session after logout
+  3. ✅ Authentication & Session Security › avoids loading insecure asset URLs
+  4. ✅ Navigation & Accessibility › keeps user assistance reachable from the help menu
+  5. ✅ Performance Signals › keeps initial load time within acceptable bounds
 
 *Test Suite - Analytics1 (analytics1.cy.js)*
 ────────────────────────────────
@@ -31,41 +39,13 @@ Local test run — no job or artifacts.
   5. ✅ GTM Events Validation › tests drawer_close_click event payload
   6. ✅ GTM Events Validation › tests save_view_modal_clicks_save event payload
   7. ✅ GTM Events Validation › tests contact_support_modal_close event payload
-  8. ✅ GTM Events Validation › tests category_article_click event payload
-  9. ✅ GTM Events Validation › tests category_click event payload
-  10. ✅ GTM Events Validation › tests remove_view_modal_click_cancel event payload
-  11. ✅ GTM Events Validation › tests remove_view_modal_click_remove event payload
-
-*Test Suite - Features (features.cy.js)*
-────────────────────────────────
-  1. ✅ User has only 2 enabled view options using a non filtered view
-  2. ✅ Delete public view message confirmation test
-  3. ✅ User can use other users public view as its default view with consistency to reload, and return to previous state
-  4. ✅ User can create a private view and the access a tooltip with correct time
-  5. ✅ User can review the tooltip metada of public views from other users
-
-*Test Suite - Share Saved Views By URL (share-saved-views-by-URL.cy.js)*
-────────────────────────────────
-  1. ✅ Opening any saved view updates the URL with view={id} with persistent to refresh
-  2. ✅ Opening a public view with always load with the same view id
-  3. ✅ Open a public saved view and verify that the share button is enabled
-  4. ✅ Click share on a public saved view and ensure it copies the current viewId URL
-  5. ✅ Private views disable share and prompts the user to make it public before sharing including a warning text
-  6. ✅ Unfiltered views disable share and prompts the user to save it as new before sharing including a warning text
-  7. ✅ Deleting a saved view will revert to current default view
-  8. ✅ Deleting a saved view will revert to unfiltered view
-
-*Test Suite - Sanity (sanity.cy.js)*
-────────────────────────────────
-  1. ✅ should log in successfully and redirect to the QA partners page
-  2. ✅ should navigate to Appointments Tracker via SOL Reports menu
-  3. ✅ should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
-  4. ✅ User can open and close the sidebar menu
-  5. ✅ User can logoff and log back in
-  6. ✅ Save current view, set as default and then remove it
-  7. ✅ User can create a public view
-  8. ✅ Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager
-  9. ✅ Make sure the global annoucement says this is a test global announcement
+  8. ✅ GTM Events Validation › tests article_list_lexicon_click event payload
+  9. ❌ GTM Events Validation › tests expand_collection_click event payload
+  10. ❌ GTM Events Validation › tests expand_term_click event payload
+  11. ✅ GTM Events Validation › tests category_article_click event payload
+  12. ✅ GTM Events Validation › tests category_click event payload
+  13. ✅ GTM Events Validation › tests remove_view_modal_click_cancel event payload
+  14. ✅ GTM Events Validation › tests remove_view_modal_click_remove event payload
 
 *Test Suite - Errors (errors.cy.js)*
 ────────────────────────────────
@@ -99,6 +79,37 @@ Local test run — no job or artifacts.
 *Test Suite - Security (security.cy.js)*
 ────────────────────────────────
   1. ✅ should not execute script when submitted into input fields
+
+*Test Suite - Sanity (sanity.cy.js)*
+────────────────────────────────
+  1. ✅ should log in successfully and redirect to the QA partners page
+  2. ✅ should navigate to Appointments Tracker via SOL Reports menu
+  3. ✅ should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify
+  4. ✅ User can open and close the sidebar menu
+  5. ✅ User can logoff and log back in
+  6. ✅ Save current view, set as default and then remove it
+  7. ✅ User can create a public view
+  8. ✅ Navigate to Violet staging again with the parameter ?qa-role=true to open the role modal, then select work department Customer Success and work role Customer Success Manager
+  9. ✅ Make sure the global annoucement says this is a test global announcement
+
+*Test Suite - Features (features.cy.js)*
+────────────────────────────────
+  1. ✅ User has only 2 enabled view options using a non filtered view
+  2. ✅ Delete public view message confirmation test
+  3. ✅ User can use other users public view as its default view with consistency to reload, and return to previous state
+  4. ✅ User can create a private view and the access a tooltip with correct time
+  5. ✅ User can review the tooltip metada of public views from other users
+
+*Test Suite - Share Saved Views By URL (share-saved-views-by-URL.cy.js)*
+────────────────────────────────
+  1. ✅ Opening any saved view updates the URL with view={id} with persistent to refresh
+  2. ✅ Opening a public view with always load with the same view id
+  3. ✅ Open a public saved view and verify that the share button is enabled
+  4. ✅ Click share on a public saved view and ensure it copies the current viewId URL
+  5. ✅ Private views disable share and prompts the user to make it public before sharing including a warning text
+  6. ✅ Unfiltered views disable share and prompts the user to save it as new before sharing including a warning text
+  7. ✅ Deleting a saved view will revert to current default view
+  8. ✅ Deleting a saved view will revert to unfiltered view
 
 ────────────────────────────────
 Cypress: 15.5.0 • Browser: electron 138.0.7204.251 • Node: v22.14.0

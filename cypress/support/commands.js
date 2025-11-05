@@ -9,12 +9,10 @@
 // ***********************************************
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
-const VIOLET_EMAIL = "yotamjacob@walla.co.il";
-const VIOLET_PASSWORD = "Eggrolls1246!";
-const STAGING_BASE_URL = "https://staging.violetgrowth.com";
-const DEV_BASE_URL = "https://dev.violetgrowth.com/login?from=/";
+Cypress.Commands.add("loginToVioletStg", () => {
+  const url = "https://staging.violetgrowth.com";
 
-const suppressKnownNavigationError = () => {
+  // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
     if (
       err.message.includes(
@@ -24,13 +22,9 @@ const suppressKnownNavigationError = () => {
       return false;
     }
   });
-};
 
-const loginThroughEmailFlow = (baseUrl) => {
-  suppressKnownNavigationError();
-
-  cy.visit(baseUrl, {
-    timeout: 120000,
+  cy.visit(url, {
+    timeout: 15000,
   });
 
   cy.contains("Sign in with email", { timeout: 55000 }).click();
@@ -38,13 +32,13 @@ const loginThroughEmailFlow = (baseUrl) => {
   cy.contains("Email Address")
     .parent()
     .find("input")
-    .type(VIOLET_EMAIL);
+    .type("yotamjacob@walla.co.il");
 
   cy.contains("Continue", { timeout: 30000 }).click();
 
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
-    .type(VIOLET_PASSWORD);
+    .type("Eggrolls1246!");
   cy.wait(1000);
 
   cy.contains("Sign In").click();
@@ -52,53 +46,53 @@ const loginThroughEmailFlow = (baseUrl) => {
 
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
+
   cy.url({ timeout: 65000 }).should("include", "/qa");
+
   cy.contains("KPI Trendlines", { timeout: 90000 }).click();
-};
-
-const createCachedLoginCommand = ({
-  commandName,
-  baseUrl,
-  sessionId,
-  postLoginUrl,
-  visitOptions = {},
-}) => {
-  Cypress.Commands.add(commandName, (options = {}) => {
-    const { forceRefresh = false } = options;
-
-    if (forceRefresh) {
-      cy.session.clearAllSavedSessions();
-    }
-
-    cy.session(
-      sessionId,
-      () => {
-        loginThroughEmailFlow(baseUrl);
-      },
-      {
-        cacheAcrossSpecs: true,
-      }
-    );
-
-    cy.visit(postLoginUrl, visitOptions);
-    cy.get("#__next", { timeout: 45000 }).should("exist");
-  });
-};
-
-createCachedLoginCommand({
-  commandName: "loginToVioletStg",
-  baseUrl: STAGING_BASE_URL,
-  sessionId: "violet-staging-session",
-  postLoginUrl: `${STAGING_BASE_URL}/partners/qa/reports/kpi-trendlines`,
-  visitOptions: { timeout: 120000 },
 });
 
-createCachedLoginCommand({
-  commandName: "loginToVioletDev",
-  baseUrl: DEV_BASE_URL,
-  sessionId: "violet-dev-session",
-  postLoginUrl: "https://dev.violetgrowth.com/partners/qa/reports/kpi-trendlines",
-  visitOptions: { timeout: 120000 },
+Cypress.Commands.add("loginToVioletDev", () => {
+  const url = "https://dev.violetgrowth.com/login?from=/";
+
+  // Suppress specific known error from your app
+  Cypress.on("uncaught:exception", (err) => {
+    if (
+      err.message.includes(
+        "Invariant: attempted to hard navigate to the same URL"
+      )
+    ) {
+      return false;
+    }
+  });
+
+  cy.visit(url, {
+    timeout: 120000,
+  });
+
+  cy.contains("Sign in with email", { timeout: 15000 }).click();
+
+  cy.contains("Email Address")
+    .parent()
+    .find("input")
+    .type("yotamjacob@walla.co.il");
+
+  cy.contains("Continue", { timeout: 30000 }).click();
+
+  cy.get('input[type="password"]', { timeout: 30000 })
+    .should("be.visible")
+    .type("Eggrolls1246!");
+  cy.wait(1000);
+
+  cy.contains("Sign In").click();
+  cy.wait(3000);
+
+  cy.url().should("not.include", "/login", { timeout: 40000 });
+  cy.get("#__next", { timeout: 35000 }).should("exist");
+
+  cy.url({ timeout: 65000 }).should("include", "/qa");
+
+  cy.contains("KPI Trendlines", { timeout: 90000 }).click();
 });
 
 Cypress.Commands.add("clickVisibleThreeDots", () => {
