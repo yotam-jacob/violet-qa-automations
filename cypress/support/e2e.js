@@ -64,6 +64,12 @@ const serializeArg = (arg) => {
 };
 
 Cypress.on("window:before:load", (win) => {
+  consoleBuffer.push({
+    level: "info",
+    timestamp: new Date().toISOString(),
+    messages: [`Console capture attached for ${win.location.href}`],
+  });
+
   consoleLevels.forEach((level) => {
     const original = win.console[level] && win.console[level].bind(win.console);
     win.console[level] = (...args) => {
@@ -108,11 +114,11 @@ Cypress.on("window:before:load", (win) => {
   });
 });
 
-const supportsHar = Cypress.browser?.family === "chromium";
+const supportsHar = () => Cypress.browser?.family === "chromium";
 
 beforeEach(() => {
   consoleBuffer.length = 0;
-  if (supportsHar) {
+  if (supportsHar()) {
     cy.recordHar();
   }
 });
@@ -123,14 +129,32 @@ afterEach(function () {
   const testTitle = titlePath.join(" > ") || "Unnamed test";
   const consoleEntries = consoleBuffer.splice(0);
 
-  const saveHarPromise = supportsHar
-    ? cy.saveHar({ fileName: `${fileSlug}.har` })
+  const ensureConsoleContent =
+    consoleEntries.length === 0
+      ? [
+          {
+            level: "info",
+            timestamp: new Date().toISOString(),
+            messages: ["No console output captured for this test run."],
+          },
+        ]
+      : consoleEntries;
+
+  const saveHarPromise = supportsHar()
+    ? cy
+        .saveHar({ fileName: `${fileSlug}.har` })
+        .then((harPath) =>
+          cy.task("convertHarToJson", {
+            harPath,
+            fileName: `${fileSlug}-network.json`,
+          })
+        )
     : cy.wrap(null);
 
   return saveHarPromise.then(() =>
     cy.task("saveConsoleLogEntries", {
       fileName: `${fileSlug}-console.json`,
-      entries: consoleEntries,
+      entries: ensureConsoleContent,
       meta: {
         spec: Cypress.spec?.name || "unknown-spec",
         test: testTitle,

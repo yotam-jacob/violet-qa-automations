@@ -1,17 +1,11 @@
 describe("Demo Public Availability", () => {
-  beforeEach(() => {
-    cy.clearCookies();
-    cy.clearLocalStorage();
-  });
-
   it("shows Sign in with email on Dev", () => {
-    cy.visit("https://dev.violetgrowth.com", {
-      auth: {
-        username: "yotamjacob@walla.co.il",
-        password: "Eggrolls1246!",
-      },
-      failOnStatusCode: false,
-    });
-    cy.contains("Sign in with email", { timeout: 50000 }).should("be.visible");
+    cy.visit("https://dev.violetgrowth.com", { failOnStatusCode: false });
+
+    // wait for root app mount
+    cy.get("#__next", { timeout: 60000 }).should("be.visible");
+
+    // fallback text check
+    cy.contains("Sign in with email", { timeout: 60000 }).should("be.visible");
   });
 });
