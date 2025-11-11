@@ -2,8 +2,8 @@ name: Run Codex Public Logins
 
 on:
   workflow_dispatch:
-  schedule:
-    - cron: "0 1-23/2 * * *"
+  # schedule:
+  #   - cron: "0 1-23/2 * * *"
 
 jobs:
   cypress-run:
