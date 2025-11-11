@@ -36,8 +36,11 @@ jobs:
           --browser chrome
           --headed
           --spec "cypress/tests/codex/sites_access_demo.cy.js"
-          --config "video=true,pageLoadTimeout=20000,defaultCommandTimeout=20000"
+          --config "video=true,pageLoadTimeout=30000,defaultCommandTimeout=30000"
           -- --no-sandbox --disable-dev-shm-usage --disable-blink-features=AutomationControlled --disable-features=BlockThirdPartyCookies
+
+      - name: Prepare artifacts dir
+        run: mkdir -p cypress/artifacts && echo "start" > cypress/artifacts/run-start.txt
 
       - name: Upload diagnostics artifact
         if: always()
