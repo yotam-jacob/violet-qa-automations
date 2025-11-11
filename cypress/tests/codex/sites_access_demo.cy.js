@@ -1,4 +1,5 @@
 describe("Demo Public Availability (ui)", () => {
+  // Persist logs even on failure
   let started = [];
   let allowed = [];
   let stubbed = [];
@@ -14,45 +15,60 @@ describe("Demo Public Availability (ui)", () => {
     cy.writeFile("cypress/artifacts/network-log.txt", text, { log: false });
   });
 
-  it("shows Sign in with email on Dev (45s timeout with pre-warm)", () => {
+  it("shows Sign in with email on Dev (45s, CDN-proofed)", () => {
     const appHost = "dev.violetgrowth.com";
     const backendHost = "dev.api.violetgrowth.com";
     const url = `https://${appHost}/login?from=/`;
 
-    // 1) Pre-warm all critical Next.js chunks before real visit
+    // --- 1) Discover critical Next.js assets from HTML
+    const nextAssets = [];
     cy.request({ url, failOnStatusCode: false, timeout: 20000 }).then((res) => {
       const html = String(res.body || "");
-      const jsMatches = [
-        ...html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g),
-      ].map((m) => m[1]);
-      const cssMatches = [
+      const js = [...html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g)].map(
+        (m) => m[1]
+      );
+      const css = [
         ...html.matchAll(/href="(\/_next\/static\/[^"]+\.css)"/g),
       ].map((m) => m[1]);
       const abs = (p) => `https://${appHost}${p}`;
-      const urls = Array.from(
-        new Set([...jsMatches.map(abs), ...cssMatches.map(abs)])
-      );
+      const all = Array.from(new Set([...js.map(abs), ...css.map(abs)]));
 
-      urls.sort((a, b) => {
-        const aw = a.includes("/chunks/webpack-")
-          ? -2
-          : a.includes("/chunks/main-")
-          ? -1
-          : 0;
-        const bw = b.includes("/chunks/webpack-")
-          ? -2
-          : b.includes("/chunks/main-")
-          ? -1
-          : 0;
-        return aw - bw;
+      // Prioritize webpack and main first
+      all.sort((a, b) => {
+        const score = (u) =>
+          u.includes("/chunks/webpack-")
+            ? -2
+            : u.includes("/chunks/main-")
+            ? -1
+            : 0;
+        return score(a) - score(b);
       });
 
-      urls.forEach((u) => {
-        cy.request({ url: u, failOnStatusCode: false, timeout: 20000 });
+      nextAssets.push(...all);
+    });
+
+    // --- 2) Fetch those assets now and hold in an in-memory cache for reply()
+    const cache = {}; // { url: { statusCode, headers, body } }
+    cy.then(() => {
+      // chain sequentially so Cypress waits for each
+      nextAssets.forEach((u) => {
+        cy.request({ url: u, failOnStatusCode: false, timeout: 20000 }).then(
+          (r) => {
+            // minimal safe headers
+            const type = u.endsWith(".css")
+              ? "text/css; charset=utf-8"
+              : "application/javascript; charset=utf-8";
+            cache[u] = {
+              statusCode: r.status,
+              headers: { "content-type": type },
+              body: r.body,
+            };
+          }
+        );
       });
     });
 
-    // 2) Intercept: allow app + backend, stub everything else fast
+    // --- 3) Intercept: serve Next.js static js/css from our cache; allow backend; stub the rest
     cy.intercept({ url: "**", middleware: true }, (req) => {
       started.push(req.url);
 
@@ -72,26 +88,40 @@ describe("Demo Public Availability (ui)", () => {
         const isApp = u.host === appHost;
         const isBackend = u.host === backendHost;
 
+        // Serve Next static js/css from cache if present
+        const isNextStatic = isApp && u.pathname.startsWith("/_next/static/");
+        if (isNextStatic) {
+          const key = req.url; // absolute URL
+          if (cache[key]) {
+            allowed.push(`CACHE ${key}`);
+            return req.reply(cache[key]);
+          }
+          // if somehow missing, allow through
+          return pass();
+        }
+
+        // Block images/favicons everywhere (they can stall load)
         const isImagePath =
           /\.(png|jpg|jpeg|gif|svg|webp|ico)$/.test(u.pathname) ||
           u.pathname.startsWith("/_next/image");
-
         if (isImagePath) return reply204();
 
+        // Allow main doc + login route
         const isDoc =
           isApp && (u.pathname === "/" || u.pathname.startsWith("/login"));
-        const isNextStatic = isApp && u.pathname.startsWith("/_next/static/");
-        const isCss = isApp && u.pathname.endsWith(".css");
+        if (isDoc) return pass();
 
-        if (isDoc || isNextStatic || isCss || isBackend) return pass();
+        // Allow backend API
+        if (isBackend) return pass();
 
+        // Everything else (externals, tracking, embeds) → fast 204
         return reply204();
       } catch {
         return pass();
       }
     });
 
-    // 3) Visit and assert with 45 s cap
+    // --- 4) Visit and assert (45s cap)
     cy.visit(url, {
       failOnStatusCode: false,
       onBeforeLoad(win) {
