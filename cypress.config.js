@@ -35,16 +35,20 @@ module.exports = defineConfig({
     setupNodeEvents(on, config) {
       installHarPlugin(on, config);
 
-      on("before:browser:launch", (browser, launchOptions) => {
+      on("before:browser:launch", (browser = {}, launchOptions) => {
+        if (browser.family === "chromium") {
+          ensureBrowserFlags(browser, launchOptions);
+        }
+
         if (browser.name === "chrome") {
           launchOptions.args.push("--user-agent=Mozilla/5.0");
           launchOptions.args.push(
             "--disable-blink-features=AutomationControlled"
           );
-          // For some CI runners:
           launchOptions.args.push("--no-sandbox");
           launchOptions.args.push("--disable-dev-shm-usage");
         }
+
         return launchOptions;
       });
 
