@@ -108,9 +108,13 @@ Cypress.on("window:before:load", (win) => {
   });
 });
 
+const supportsHar = Cypress.browser?.family === "chromium";
+
 beforeEach(() => {
   consoleBuffer.length = 0;
-  cy.recordHar();
+  if (supportsHar) {
+    cy.recordHar();
+  }
 });
 
 afterEach(function () {
@@ -119,16 +123,18 @@ afterEach(function () {
   const testTitle = titlePath.join(" > ") || "Unnamed test";
   const consoleEntries = consoleBuffer.splice(0);
 
-  return cy
-    .saveHar({ fileName: `${fileSlug}.har` })
-    .then(() =>
-      cy.task("saveConsoleLogEntries", {
-        fileName: `${fileSlug}-console.json`,
-        entries: consoleEntries,
-        meta: {
-          spec: Cypress.spec?.name || "unknown-spec",
-          test: testTitle,
-        },
-      })
-    );
+  const saveHarPromise = supportsHar
+    ? cy.saveHar({ fileName: `${fileSlug}.har` })
+    : cy.wrap(null);
+
+  return saveHarPromise.then(() =>
+    cy.task("saveConsoleLogEntries", {
+      fileName: `${fileSlug}-console.json`,
+      entries: consoleEntries,
+      meta: {
+        spec: Cypress.spec?.name || "unknown-spec",
+        test: testTitle,
+      },
+    })
+  );
 });
