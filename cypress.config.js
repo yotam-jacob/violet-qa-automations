@@ -6,5 +6,7 @@ module.exports = defineConfig({
     supportFile: "cypress/support/e2e.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
+    video: true,
+    videosFolder: "cypress/videos",
   },
 });
