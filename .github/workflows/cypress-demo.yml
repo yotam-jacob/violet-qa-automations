@@ -8,50 +8,16 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      - uses: actions/checkout@v4
+      - name: Checkout repo
+        uses: actions/checkout@v4
 
-      - uses: actions/setup-node@v4
+      - name: Use Node.js
+        uses: actions/setup-node@v4
         with:
-          node-version: "20" # safer with most Cypress plugins
+          node-version: "22"
 
-      - name: Install deps (root)
+      - name: Install dependencies
         run: npm ci --legacy-peer-deps
 
-      - name: Run Cypress (headed Chrome)
-        uses: cypress-io/github-action@v6
-        with:
-          browser: chrome
-          headed: true
-          spec: cypress/tests/codex/sites_access_demo.cy.js
-          install-command: npm ci --legacy-peer-deps
-          config: |
-            video=false,
-            pageLoadTimeout=90000,
-            defaultCommandTimeout=20000,
-            retries={"runMode":2,"openMode":0}
-        env:
-          CYPRESS_baseUrl: https://dev.violetgrowth.com
-
-      - name: Upload screenshots on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: demo-screenshots
-          path: cypress/screenshots
-          if-no-files-found: ignore
-
-      - name: Upload videos on failure
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: demo-videos
-          path: cypress/videos
-          if-no-files-found: ignore
-
-      - name: Upload Cypress logs
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: demo-logs
-          path: log
-          if-no-files-found: ignore
+      - name: Run Demo Cypress tests
+        run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js"
