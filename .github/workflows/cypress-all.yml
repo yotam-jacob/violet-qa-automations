@@ -6,6 +6,11 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
+    env:
+      CYPRESS_APP_HOST: staging.violetgrowth.com
+      CYPRESS_BACKEND_HOST: api.portal.exacti.us
+      NPM_CONFIG_LEGACY_PEER_DEPS: "true" # needed for exactius-cypress-tests repo
+      CYPRESS_EXTRA_ALLOW_HOSTS: public.tableau.com,online.tableau.com,cdn.violetgrowth.com,storage.googleapis.com,a.clarity.ms,client.crisp.chat,www.google-analytics.com,b7lqhwwc.apicdn.sanity.io,prod-useast-b.online.tableau.com,prod.telemetry.tableausoftware.com,www.googletagmanager.com,www.clarity.ms,scripts.clarity.ms,lh3.googleusercontent.com,kejbdjndbnbjgmefkgdddjlbokphdefk,fonts.gstatic.com,fonts.googleapis.com,d6lttq8hqy2mc.cloudfront.net,cross-domain-cookie-check.netlify.app,client.relay.crisp.chat,app-cdn.clickup.com,accounts.google.com
 
     steps:
       - name: Checkout repo
@@ -14,26 +19,22 @@ jobs:
       - name: Use Node.js
         uses: actions/setup-node@v4
         with:
-          node-version: "22"
-          cache: npm
+          node-version: "20"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
-      - name: Run All Cypress tests
+      - name: Run All Cypress test
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/*/*.cy.js"
-        # env:
-        #   SLACK_REPORT_PATH: ${{ github.workspace }}/slack_report.txt
-        #   GITHUB_REPOSITORY: ${{ github.repository }}
-        #   GITHUB_RUN_ID: ${{ github.run_id }}
 
-      - name: Upload videos
+
+      - name: Upload videos (on failure)
         if: failure()
-        id: upload_videos
         uses: actions/upload-artifact@v4
         with:
-          name: cypress-videos
+          name: demo-videos
           path: cypress/videos
+          if-no-files-found: ignore
 
       # - name: Resolve video artifact ID
       #   if: always()
