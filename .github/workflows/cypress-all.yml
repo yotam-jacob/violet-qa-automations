@@ -10,7 +10,7 @@ jobs:
       CYPRESS_APP_HOST: staging.violetgrowth.com
       CYPRESS_BACKEND_HOST: api.portal.exacti.us
       NPM_CONFIG_LEGACY_PEER_DEPS: "true" # needed for exactius-cypress-tests repo
-      CYPRESS_EXTRA_ALLOW_HOSTS: public.tableau.com,online.tableau.com,cdn.violetgrowth.com,storage.googleapis.com,a.clarity.ms,client.crisp.chat,www.google-analytics.com,b7lqhwwc.apicdn.sanity.io,prod-useast-b.online.tableau.com,prod.telemetry.tableausoftware.com,www.googletagmanager.com,www.clarity.ms,scripts.clarity.ms,lh3.googleusercontent.com,kejbdjndbnbjgmefkgdddjlbokphdefk,fonts.gstatic.com,fonts.googleapis.com,d6lttq8hqy2mc.cloudfront.net,cross-domain-cookie-check.netlify.app,client.relay.crisp.chat,app-cdn.clickup.com,accounts.google.com,c.clarity.ms,o.clarity.ms
+      CYPRESS_EXTRA_ALLOW_HOSTS: public.tableau.com,online.tableau.com,cdn.violetgrowth.com,storage.googleapis.com,a.clarity.ms,client.crisp.chat,www.google-analytics.com,b7lqhwwc.apicdn.sanity.io,prod-useast-b.online.tableau.com,prod.telemetry.tableausoftware.com,www.googletagmanager.com,www.clarity.ms,scripts.clarity.ms,lh3.googleusercontent.com,kejbdjndbnbjgmefkgdddjlbokphdefk,fonts.gstatic.com,fonts.googleapis.com,d6lttq8hqy2mc.cloudfront.net,cross-domain-cookie-check.netlify.app,client.relay.crisp.chat,app-cdn.clickup.com,accounts.google.com,c.clarity.ms,o.clarity.ms,c.bing.com,
 
     steps:
       - name: Checkout repo
