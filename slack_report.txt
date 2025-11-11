@@ -1,12 +1,12 @@
 ────────────────────────────────
-✅ *QA Automations Report — Staging* — 1/1 passed (100%) • 0m 4s
+❌ *QA Automations Report — Staging* — 0/1 passed (0%) • 0m 47s
 ────────────────────────────────
 Local test run — no job or artifacts.
 ────────────────────────────────
 
 *Test Suite - Sites Access Demo (sites_access_demo.cy.js)*
 ────────────────────────────────
-  1. ✅ shows Sign in with email on Dev
+  1. ❌ shows Sign in with email on Staging
 
 ────────────────────────────────
 Cypress: 15.5.0 • Browser: chrome 142.0.7444.135 • Node: v22.14.0

@@ -186,9 +186,6 @@ Cypress.Commands.add(
   }
 );
 
-// Minimal, opt-in CDN-proof visit for Next.js apps
-// Usage: cy.cdnVisit("/login?from=/")
-
 Cypress.Commands.add("cdnVisit", (pathOrUrl, options = {}) => {
   const appHost = Cypress.env("APP_HOST"); // e.g. dev.violetgrowth.com
   const backendHost = Cypress.env("BACKEND_HOST"); // e.g. dev.api.violetgrowth.com
