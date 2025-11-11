@@ -17,7 +17,7 @@ jobs:
           node-version: "22"
 
       - name: Install dependencies
-        run: npm ci
+        run: npm ci --legacy-peer-deps
 
       - name: Run Demo Cypress tests
         run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js"
