@@ -1,4 +1,4 @@
-name: Run Demo Tests
+name: Run Regression Tests
 
 on:
   workflow_dispatch:
@@ -10,6 +10,7 @@ jobs:
       CYPRESS_APP_HOST: staging.violetgrowth.com
       CYPRESS_BACKEND_HOST: api.portal.exacti.us
       NPM_CONFIG_LEGACY_PEER_DEPS: "true" # needed for exactius-cypress-tests repo
+      CYPRESS_EXTRA_ALLOW_HOSTS: public.tableau.com,online.tableau.com,cdn.violetgrowth.com,storage.googleapis.com,a.clarity.ms,client.crisp.chat,www.google-analytics.com,b7lqhwwc.apicdn.sanity.io,prod-useast-b.online.tableau.com,prod.telemetry.tableausoftware.com,www.googletagmanager.com,www.clarity.ms,scripts.clarity.ms,lh3.googleusercontent.com,kejbdjndbnbjgmefkgdddjlbokphdefk,fonts.gstatic.com,fonts.googleapis.com,d6lttq8hqy2mc.cloudfront.net,cross-domain-cookie-check.netlify.app,client.relay.crisp.chat,app-cdn.clickup.com,accounts.google.com,c.clarity.ms,o.clarity.ms
 
     steps:
       - name: Checkout repo
@@ -23,9 +24,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Demo Cypress UI test
-        run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js"
-
+      - name: Run Regression Cypress test
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/*.cy.js"
 
       - name: Upload videos (on failure)
         if: failure()
@@ -35,19 +35,19 @@ jobs:
           path: cypress/videos
           if-no-files-found: ignore
 
-      - name: Resolve video artifact ID
-        if: always()
-        id: resolve_artifact
-        run: |
-          set -e
-          ARTIFACT_ID=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
-            https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts \
-            | jq -r '.artifacts[] | select(.name=="cypress-videos") | .id' | head -n1)
-          if [ -z "$ARTIFACT_ID" ] || [ "$ARTIFACT_ID" = "null" ]; then
-            echo "artifact_url=" >> $GITHUB_OUTPUT
-            exit 0
-          fi
-          echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
+      # - name: Resolve video artifact ID
+      #   if: always()
+      #   id: resolve_artifact
+      #   run: |
+      #     set -e
+      #     ARTIFACT_ID=$(curl -s -H "Authorization: Bearer ${{ github.token }}" \
+      #       https://api.github.com/repos/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts \
+      #       | jq -r '.artifacts[] | select(.name=="cypress-videos") | .id' | head -n1)
+      #     if [ -z "$ARTIFACT_ID" ] || [ "$ARTIFACT_ID" = "null" ]; then
+      #       echo "artifact_url=" >> $GITHUB_OUTPUT
+      #       exit 0
+      #     fi
+      #     echo "artifact_url=https://github.com/${{ github.repository }}/actions/runs/${{ github.run_id }}/artifacts/${ARTIFACT_ID}" >> $GITHUB_OUTPUT
 
       # - name: Post Slack report
       #   if: always()
