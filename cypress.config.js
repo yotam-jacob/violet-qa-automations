@@ -36,6 +36,10 @@ module.exports = defineConfig({
   videosFolder: "cypress/videos",
   e2e: {
     baseUrl: "https://staging.violetgrowth.com",
+    retries: {
+      runMode: 2,
+      openMode: 0,
+    },
     specPattern: "cypress/tests/**/*.js",
     supportFile: "cypress/support/e2e.js",
     viewportWidth: 1920,
