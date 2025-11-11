@@ -140,18 +140,7 @@ afterEach(function () {
         ]
       : consoleEntries;
 
-  const saveHarPromise = supportsHar()
-    ? cy
-        .saveHar({ fileName: `${fileSlug}.har` })
-        .then((harPath) =>
-          cy.task("convertHarToJson", {
-            harPath,
-            fileName: `${fileSlug}-network.json`,
-          })
-        )
-    : cy.wrap(null);
-
-  return saveHarPromise.then(() =>
+  const writeConsoleLog = () =>
     cy.task("saveConsoleLogEntries", {
       fileName: `${fileSlug}-console.json`,
       entries: ensureConsoleContent,
@@ -159,6 +148,21 @@ afterEach(function () {
         spec: Cypress.spec?.name || "unknown-spec",
         test: testTitle,
       },
-    })
-  );
+    });
+
+  if (supportsHar()) {
+    return cy.saveHar({ fileName: `${fileSlug}.har` }).then(
+      () => writeConsoleLog(),
+      (error) => {
+        Cypress.log({
+          name: "HAR",
+          message: `Failed to save HAR: ${error?.message || error}`,
+          consoleProps: () => ({ error }),
+        });
+        return writeConsoleLog();
+      }
+    );
+  }
+
+  return writeConsoleLog();
 });

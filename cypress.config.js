@@ -73,35 +73,6 @@ module.exports = defineConfig({
           fs.writeFileSync(filePath, JSON.stringify(payload, null, 2), "utf8");
           return filePath;
         },
-        convertHarToJson({ harPath, fileName }) {
-          if (!harPath) {
-            throw new Error("convertHarToJson task requires harPath");
-          }
-
-          const resolvedHarPath = path.isAbsolute(harPath)
-            ? harPath
-            : path.join(process.cwd(), harPath);
-
-          if (!fs.existsSync(resolvedHarPath)) {
-            throw new Error(`HAR file not found at: ${resolvedHarPath}`);
-          }
-
-          const harContent = fs.readFileSync(resolvedHarPath, "utf8");
-          const harJson = JSON.parse(harContent);
-
-          const outputDir = path.join(process.cwd(), "log/network");
-          fs.mkdirSync(outputDir, { recursive: true });
-
-          const targetName =
-            fileName ||
-            `${path.basename(resolvedHarPath, path.extname(resolvedHarPath))}.json`;
-          const targetPath = path.join(outputDir, targetName);
-
-          fs.writeFileSync(targetPath, JSON.stringify(harJson, null, 2), "utf8");
-
-          fs.unlinkSync(resolvedHarPath);
-          return targetPath;
-        },
       });
       return config;
     },
