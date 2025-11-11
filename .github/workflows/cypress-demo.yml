@@ -12,17 +12,18 @@ jobs:
 
       - uses: actions/setup-node@v4
         with:
-          node-version: "22"
+          node-version: "20" # safer with most Cypress plugins
 
-      - name: Install dependencies
+      - name: Install deps (root)
         run: npm ci --legacy-peer-deps
 
-      - name: Run Cypress (headed Chrome, tuned timeouts)
+      - name: Run Cypress (headed Chrome)
         uses: cypress-io/github-action@v6
         with:
           browser: chrome
           headed: true
           spec: cypress/tests/codex/sites_access_demo.cy.js
+          install-command: npm ci --legacy-peer-deps
           config: |
             video=false,
             pageLoadTimeout=90000,
