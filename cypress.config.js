@@ -37,6 +37,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: "https://staging.violetgrowth.com",
     specPattern: "cypress/tests/**/*.js",
+    supportFile: "cypress/support/e2e.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
     screenshotOnRunFailure: true,
