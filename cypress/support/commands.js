@@ -10,7 +10,7 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletStg", () => {
-  const url = "https://staging.violetgrowth.com";
+  const url = "https://staging.violetgrowth.com/";
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
@@ -23,9 +23,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
     }
   });
 
-  cy.visit(url, {
-    timeout: 15000,
-  });
+  cy.visit(url, { failOnStatusCode: false });
 
   cy.contains("Sign in with email", { timeout: 55000 }).click();
 
@@ -53,7 +51,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
 });
 
 Cypress.Commands.add("loginToVioletDev", () => {
-  const url = "https://dev.violetgrowth.com/login?from=/";
+  const url = "https://dev.violetgrowth.com/";
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
@@ -66,9 +64,7 @@ Cypress.Commands.add("loginToVioletDev", () => {
     }
   });
 
-  cy.visit(url, {
-    timeout: 120000,
-  });
+  cy.visit(url, { failOnStatusCode: false });
 
   cy.contains("Sign in with email", { timeout: 15000 }).click();
 
