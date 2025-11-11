@@ -6,8 +6,8 @@ on:
 jobs:
   cypress-run:
     runs-on: ubuntu-latest
-    env:
-      NPM_CONFIG_LEGACY_PEER_DEPS: "true"
+    # env:
+    #   NPM_CONFIG_LEGACY_PEER_DEPS: "true"
 
     steps:
       - name: Checkout repo
@@ -22,11 +22,8 @@ jobs:
         run: npm ci
 
       - name: Run Demo Cypress UI test
-        run: >
-          npx cypress run
-          --browser chrome
-          --spec "cypress/tests/codex/sites_access_demo.cy.js"
-          --config "video=true,pageLoadTimeout=45000,defaultCommandTimeout=45000"
+        run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js"
+
 
       - name: Upload videos (on failure)
         if: failure()
@@ -34,12 +31,4 @@ jobs:
         with:
           name: demo-videos
           path: cypress/videos
-          if-no-files-found: ignore
-
-      - name: Upload screenshots (on failure)
-        if: failure()
-        uses: actions/upload-artifact@v4
-        with:
-          name: demo-screenshots
-          path: cypress/screenshots
           if-no-files-found: ignore
