@@ -5,8 +5,6 @@ module.exports = defineConfig({
   videosFolder: 'cypress/videos',
   pageLoadTimeout: 45000,
   defaultCommandTimeout: 45000,
-  chromeWebSecurity: false,
-  experimentalModifyObstructiveCode: true,
   e2e: {
     specPattern: 'cypress/tests/**/*.cy.js',
     supportFile: 'cypress/support/e2e.js',
