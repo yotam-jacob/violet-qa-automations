@@ -7,6 +7,7 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     env:
+      NPM_CONFIG_LEGACY_PEER_DEPS: "true" # needed for exactius-cypress-tests repo
       CYPRESS_APP_HOST: dev.violetgrowth.com
       CYPRESS_BACKEND_HOST: dev.api.violetgrowth.com
       CYPRESS_CDN_PROOF: "true"
