@@ -1,5 +1,4 @@
 const { defineConfig } = require("cypress");
-const installLogsPrinter = require("cypress-terminal-report/src/installLogsPrinter");
 const {
   install: installHarPlugin,
   ensureBrowserFlags,
@@ -19,6 +18,10 @@ module.exports = defineConfig({
   screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
 
+  env: {
+    hars_folders: "log/network",
+  },
+
   e2e: {
     baseUrl: "https://dev.violetgrowth.com",
     specPattern: "cypress/tests/**/*.cy.js",
@@ -27,15 +30,6 @@ module.exports = defineConfig({
     screenshotOnRunFailure: false,
 
     setupNodeEvents(on, config) {
-      installLogsPrinter(on, {
-        printLogsToConsole: "always",
-        printLogsToFile: "always",
-        outputRoot: "log",
-        outputTarget: {
-          "cypress-terminal-report/console.log": "txt",
-        },
-      });
-
       installHarPlugin(on, config);
 
       on("before:browser:launch", (browser = {}, launchOptions) => {
@@ -49,7 +43,6 @@ module.exports = defineConfig({
           return null;
         },
       });
-
       return config;
     },
   },

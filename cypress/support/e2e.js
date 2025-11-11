@@ -42,10 +42,15 @@ Cypress.on("uncaught:exception", (err) => {
 
 require("cypress-xpath");
 
+const sanitizeFileName = (value) =>
+  value.replace(/[^a-z0-9-_]+/gi, "-").replace(/^-+|-+$/g, "") || "network-log";
+
 beforeEach(() => {
   cy.recordHar();
 });
 
-afterEach(() => {
-  cy.saveHar();
+afterEach(function () {
+  const titlePath = this.currentTest?.titlePath?.() || [];
+  const fileSlug = sanitizeFileName(titlePath.join("__") || `test-${Date.now()}`);
+  cy.saveHar({ fileName: `${fileSlug}.har` });
 });
