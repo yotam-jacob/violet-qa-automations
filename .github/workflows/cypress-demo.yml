@@ -7,7 +7,6 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     env:
-      # keep npm from failing on peer dep clashes
       NPM_CONFIG_LEGACY_PEER_DEPS: "true"
 
     steps:
@@ -31,23 +30,21 @@ jobs:
           curl -sSI "https://dev.violetgrowth.com/login?from=/" \
             | grep -Ei '^(HTTP/|server:|location:|x-frame-options:|content-security-policy:)'
 
-      # runs the diagnostics spec that writes cypress/artifacts/diagnostics-login-body.html
-      - name: Run diagnostics spec (save HTML snippet, log status/markers)
+      - name: Run diagnostics spec
         run: >
           npx cypress run
           --browser chrome
           --headed
           --spec "cypress/tests/diagnostics/diagnostics.cy.js"
-          --config "video=false,pageLoadTimeout=90000,defaultCommandTimeout=20000,retries={runMode:2,openMode:0}"
+          --config "video=false,pageLoadTimeout=90000,defaultCommandTimeout=20000"
 
-      # your demo test
       - name: Run Demo Cypress tests
         run: >
           npx cypress run
           --browser chrome
           --headed
           --spec "cypress/tests/codex/sites_access_demo.cy.js"
-          --config "video=false,pageLoadTimeout=90000,defaultCommandTimeout=20000,retries={runMode:2,openMode:0}"
+          --config "video=false,pageLoadTimeout=90000,defaultCommandTimeout=20000"
           -- --no-sandbox --disable-dev-shm-usage --disable-blink-features=AutomationControlled --disable-features=BlockThirdPartyCookies
 
       - name: Upload diagnostics artifact
