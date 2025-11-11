@@ -1,4 +1,6 @@
 const { defineConfig } = require("cypress");
+const fs = require("fs");
+const path = require("path");
 const {
   install: installHarPlugin,
   ensureBrowserFlags,
@@ -41,6 +43,23 @@ module.exports = defineConfig({
         logToTerminal(msg) {
           console.log(msg);
           return null;
+        },
+        saveConsoleLogEntries({ fileName, entries = [], meta = {} }) {
+          const outputDir = path.join(process.cwd(), "log/console");
+          fs.mkdirSync(outputDir, { recursive: true });
+
+          const targetFile =
+            fileName ||
+            `console-${Date.now()}-${Math.random().toString(36).slice(2)}.json`;
+          const filePath = path.join(outputDir, targetFile);
+
+          const payload = {
+            meta,
+            entries,
+          };
+
+          fs.writeFileSync(filePath, JSON.stringify(payload, null, 2), "utf8");
+          return filePath;
         },
       });
       return config;
