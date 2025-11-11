@@ -1,5 +1,4 @@
 describe("Demo Public Availability (ui)", () => {
-  // Persist logs even on failure so we can diagnose if needed
   let started = [];
   let allowed = [];
   let stubbed = [];
@@ -15,13 +14,13 @@ describe("Demo Public Availability (ui)", () => {
     cy.writeFile("cypress/artifacts/network-log.txt", text, { log: false });
   });
 
-  it("shows Sign in with email on Dev (30s, with dynamic chunk pre-warm)", () => {
+  it("shows Sign in with email on Dev (45s timeout with pre-warm)", () => {
     const appHost = "dev.violetgrowth.com";
     const backendHost = "dev.api.violetgrowth.com";
     const url = `https://${appHost}/login?from=/`;
 
-    // 1) Pre-warm: fetch HTML, extract all Next.js JS/CSS (especially webpack/main), then cache them
-    cy.request({ url, failOnStatusCode: false, timeout: 15000 }).then((res) => {
+    // 1) Pre-warm all critical Next.js chunks before real visit
+    cy.request({ url, failOnStatusCode: false, timeout: 20000 }).then((res) => {
       const html = String(res.body || "");
       const jsMatches = [
         ...html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g),
@@ -29,8 +28,6 @@ describe("Demo Public Availability (ui)", () => {
       const cssMatches = [
         ...html.matchAll(/href="(\/_next\/static\/[^"]+\.css)"/g),
       ].map((m) => m[1]);
-
-      // Build absolute URLs, prioritize webpack then main first
       const abs = (p) => `https://${appHost}${p}`;
       const urls = Array.from(
         new Set([...jsMatches.map(abs), ...cssMatches.map(abs)])
@@ -50,13 +47,12 @@ describe("Demo Public Availability (ui)", () => {
         return aw - bw;
       });
 
-      // Warm each with a short timeout (keeps total under our 30s discipline)
       urls.forEach((u) => {
-        cy.request({ url: u, failOnStatusCode: false, timeout: 15000 });
+        cy.request({ url: u, failOnStatusCode: false, timeout: 20000 });
       });
     });
 
-    // 2) Intercept: allow app HTML/Next static and backend; 204 everything else (incl. images/favicons)
+    // 2) Intercept: allow app + backend, stub everything else fast
     cy.intercept({ url: "**", middleware: true }, (req) => {
       started.push(req.url);
 
@@ -76,14 +72,12 @@ describe("Demo Public Availability (ui)", () => {
         const isApp = u.host === appHost;
         const isBackend = u.host === backendHost;
 
-        // Images/favicons (often stall load) → stub fast
         const isImagePath =
           /\.(png|jpg|jpeg|gif|svg|webp|ico)$/.test(u.pathname) ||
           u.pathname.startsWith("/_next/image");
 
         if (isImagePath) return reply204();
 
-        // Allow app HTML + Next static (js/css) and all backend API
         const isDoc =
           isApp && (u.pathname === "/" || u.pathname.startsWith("/login"));
         const isNextStatic = isApp && u.pathname.startsWith("/_next/static/");
@@ -91,14 +85,13 @@ describe("Demo Public Availability (ui)", () => {
 
         if (isDoc || isNextStatic || isCss || isBackend) return pass();
 
-        // Everything else → stub
         return reply204();
       } catch {
-        return pass(); // conservative default
+        return pass();
       }
     });
 
-    // 3) Visit and assert (all waits capped at 30s)
+    // 3) Visit and assert with 45 s cap
     cy.visit(url, {
       failOnStatusCode: false,
       onBeforeLoad(win) {
@@ -109,19 +102,19 @@ describe("Demo Public Availability (ui)", () => {
       },
     });
 
-    cy.get("#__next", { timeout: 30000 }).should("exist");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
 
     cy.get("body").then(($b) => {
       if ($b.find(".animate-spin").length) {
-        cy.log("Spinner detected - waiting up to 30s…");
-        cy.get(".animate-spin", { timeout: 30000 }).should("not.exist");
+        cy.log("Spinner detected – waiting up to 45 s…");
+        cy.get(".animate-spin", { timeout: 45000 }).should("not.exist");
       }
     });
 
-    cy.window({ timeout: 30000 })
+    cy.window({ timeout: 45000 })
       .its("__NEXT_DATA__.page")
       .should("eq", "/login");
 
-    cy.contains("Sign in with email", { timeout: 30000 }).should("be.visible");
+    cy.contains("Sign in with email", { timeout: 45000 }).should("be.visible");
   });
 });

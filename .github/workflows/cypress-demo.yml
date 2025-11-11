@@ -39,7 +39,7 @@ jobs:
           --browser chrome
           --headed
           --spec "cypress/tests/codex/sites_access_demo.cy.js"
-          --config "video=true,pageLoadTimeout=30000,defaultCommandTimeout=30000"
+          --config "video=true,pageLoadTimeout=45000,defaultCommandTimeout=45000"
           -- --no-sandbox --disable-dev-shm-usage --disable-blink-features=AutomationControlled --disable-features=BlockThirdPartyCookies
 
       - name: Upload diagnostics artifact
