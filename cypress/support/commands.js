@@ -10,7 +10,7 @@
 import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 Cypress.Commands.add("loginToVioletStg", () => {
-  const url = "https://staging.violetgrowth.com/";
+  // const url = "https://staging.violetgrowth.com/";
 
   // Suppress specific known error from your app
   Cypress.on("uncaught:exception", (err) => {
@@ -23,7 +23,7 @@ Cypress.Commands.add("loginToVioletStg", () => {
     }
   });
 
-  cy.visit(url, { failOnStatusCode: false });
+  // cy.visit(url, { failOnStatusCode: false });
 
   cy.contains("Sign in with email", { timeout: 55000 }).click();
 
@@ -186,34 +186,181 @@ Cypress.Commands.add(
   }
 );
 
+// Cypress.Commands.add("cdnVisit", (pathOrUrl, options = {}) => {
+//   const appHost = Cypress.env("APP_HOST"); // e.g. dev.violetgrowth.com
+//   const backendHost = Cypress.env("BACKEND_HOST"); // e.g. dev.api.violetgrowth.com
+
+//   if (!appHost) throw new Error("CYPRESS_APP_HOST not set");
+
+//   const toAbs = (u) =>
+//     typeof u === "string" && u.startsWith("http")
+//       ? u
+//       : `https://${appHost}${String(u).startsWith("/") ? "" : "/"}${u}`;
+
+//   const pageUrl = toAbs(pathOrUrl);
+//   const cache = {}; // url -> { statusCode, headers, body }
+
+//   // 1) Discover Next.js static assets for this page
+//   cy.request({ url: pageUrl, failOnStatusCode: false, timeout: 20000 }).then(
+//     (res) => {
+//       const html = String(res.body || "");
+//       const js = [...html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g)].map(
+//         (m) => m[1]
+//       );
+//       const css = [
+//         ...html.matchAll(/href="(\/_next\/static\/[^"]+\.css)"/g),
+//       ].map((m) => m[1]);
+//       const abs = (p) => `https://${appHost}${p}`;
+//       const assets = Array.from(
+//         new Set([...js.map(abs), ...css.map(abs)])
+//       ).sort((a, b) => {
+//         const rank = (u) =>
+//           u.includes("/chunks/webpack-")
+//             ? -2
+//             : u.includes("/chunks/main-")
+//             ? -1
+//             : 0;
+//         return rank(a) - rank(b);
+//       });
+
+//       // 2) Prefetch and cache those assets
+//       assets.forEach((u) => {
+//         cy.request({ url: u, failOnStatusCode: false, timeout: 20000 }).then(
+//           (r) => {
+//             const type = u.endsWith(".css")
+//               ? "text/css; charset=utf-8"
+//               : "application/javascript; charset=utf-8";
+//             cache[u] = {
+//               statusCode: r.status,
+//               headers: { "content-type": type },
+//               body: r.body,
+//             };
+//           }
+//         );
+//       });
+//     }
+//   );
+
+//   // 3) Intercepts for the real visit
+//   cy.then(() => {
+//     cy.intercept({ url: "**", middleware: true }, (req) => {
+//       try {
+//         const u = new URL(req.url);
+//         const isApp = u.host === appHost;
+//         const isBackend = backendHost && u.host === backendHost;
+
+//         // Serve Next.js static js/css from our cache
+//         if (isApp && u.pathname.startsWith("/_next/static/")) {
+//           if (cache[req.url]) return req.reply(cache[req.url]);
+//           return req.continue();
+//         }
+
+//         // Allow backend API
+//         if (isBackend) return req.continue();
+
+//         // Keep load fast: block images and favicons anywhere
+//         const isImg =
+//           /\.(png|jpg|jpeg|gif|svg|webp|ico)$/.test(u.pathname) ||
+//           u.pathname.startsWith("/_next/image");
+//         if (isImg) return req.reply({ statusCode: 204, body: "" });
+
+//         // Allow app HTML/resources; stub everything else (externals)
+//         if (isApp) return req.continue();
+//         return req.reply({ statusCode: 204, body: "" });
+//       } catch {
+//         return req.continue();
+//       }
+//     });
+//   });
+
+//   // 4) Real visit
+//   return cy.visit(pageUrl, {
+//     failOnStatusCode: false,
+//     ...options,
+//     onBeforeLoad(win) {
+//       Object.defineProperty(win.navigator, "webdriver", { get: () => false });
+//       if (typeof options.onBeforeLoad === "function") options.onBeforeLoad(win);
+//     },
+//   });
+// });
+
+// Opt-in CDN-proof visit for Next.js apps + allowlist for external hosts (e.g., Tableau)
+// Usage:
+//   cy.allowHosts('public.tableau.com', 'online.tableau.com') // before navigation that needs them
+//   cy.cdnVisit('/some/page')
+// Opt-in CDN-proof visit for Next.js + allowlist for external hosts (e.g., Tableau, image CDNs)
+// Usage in specs:
+//   cy.cdnVisit('/route')     // all rules below apply
+// Global env (cypress.env.json or CI env):
+//   APP_HOST: staging.violetgrowth.com
+//   BACKEND_HOST: api.portal.exacti.us
+//   STATIC_HOST: (optional; defaults to APP_HOST if not set)
+//   EXTRA_ALLOW_HOSTS: comma-separated list, e.g. "public.tableau.com,online.tableau.com,cdn.example.com"
+
+const suffixMatch = (host, pattern) => {
+  if (!pattern) return false;
+  if (pattern.startsWith("*.")) {
+    const base = pattern.slice(2);
+    return host === base || host.endsWith(`.${base}`);
+  }
+  return host === pattern;
+};
+
 Cypress.Commands.add("cdnVisit", (pathOrUrl, options = {}) => {
-  const appHost = Cypress.env("APP_HOST"); // e.g. dev.violetgrowth.com
-  const backendHost = Cypress.env("BACKEND_HOST"); // e.g. dev.api.violetgrowth.com
+  const appHost = Cypress.env("APP_HOST");
+  const backendHost = Cypress.env("BACKEND_HOST");
+  const staticHost = Cypress.env("STATIC_HOST") || appHost;
+  const extraAllow = (Cypress.env("EXTRA_ALLOW_HOSTS") || "")
+    .split(",")
+    .map((s) => s.trim())
+    .filter(Boolean);
 
   if (!appHost) throw new Error("CYPRESS_APP_HOST not set");
 
   const toAbs = (u) =>
-    typeof u === "string" && u.startsWith("http")
+    typeof u === "string" && /^https?:\/\//i.test(u)
       ? u
       : `https://${appHost}${String(u).startsWith("/") ? "" : "/"}${u}`;
 
   const pageUrl = toAbs(pathOrUrl);
-  const cache = {}; // url -> { statusCode, headers, body }
+  const cache = {}; // absolute-url -> { statusCode, headers, body }
 
-  // 1) Discover Next.js static assets for this page
+  // 1) Discover Next.js static assets (absolute & relative)
   cy.request({ url: pageUrl, failOnStatusCode: false, timeout: 20000 }).then(
     (res) => {
       const html = String(res.body || "");
-      const js = [...html.matchAll(/src="(\/_next\/static\/[^"]+\.js)"/g)].map(
-        (m) => m[1]
-      );
-      const css = [
-        ...html.matchAll(/href="(\/_next\/static\/[^"]+\.css)"/g),
-      ].map((m) => m[1]);
-      const abs = (p) => `https://${appHost}${p}`;
+      const srcHrefs = [
+        ...html.matchAll(/<script[^>]+src="([^"]+)"/gi),
+        ...html.matchAll(/<link[^>]+href="([^"]+)"/gi),
+      ]
+        .map((m) => m[1])
+        .filter(Boolean)
+        .map((u) => {
+          try {
+            return new URL(u, `https://${appHost}`).toString();
+          } catch {
+            return null;
+          }
+        })
+        .filter(Boolean);
+
       const assets = Array.from(
-        new Set([...js.map(abs), ...css.map(abs)])
-      ).sort((a, b) => {
+        new Set(
+          srcHrefs.filter((u) => {
+            try {
+              const url = new URL(u);
+              return (
+                url.pathname.startsWith("/_next/static/") &&
+                (url.pathname.endsWith(".js") || url.pathname.endsWith(".css"))
+              );
+            } catch {
+              return false;
+            }
+          })
+        )
+      );
+
+      assets.sort((a, b) => {
         const rank = (u) =>
           u.includes("/chunks/webpack-")
             ? -2
@@ -248,23 +395,35 @@ Cypress.Commands.add("cdnVisit", (pathOrUrl, options = {}) => {
         const u = new URL(req.url);
         const isApp = u.host === appHost;
         const isBackend = backendHost && u.host === backendHost;
+        const isStatic =
+          u.host === staticHost && u.pathname.startsWith("/_next/static/");
+        const isExtraAllowed = extraAllow.some((p) => suffixMatch(u.host, p));
 
-        // Serve Next.js static js/css from our cache
-        if (isApp && u.pathname.startsWith("/_next/static/")) {
-          if (cache[req.url]) return req.reply(cache[req.url]);
+        // Serve Next static js/css from cache (works if STATIC_HOST != APP_HOST)
+        if (isStatic) {
+          const key = req.url;
+          if (cache[key]) return req.reply(cache[key]);
           return req.continue();
         }
 
-        // Allow backend API
+        // Always allow backend API
         if (isBackend) return req.continue();
 
-        // Keep load fast: block images and favicons anywhere
-        const isImg =
-          /\.(png|jpg|jpeg|gif|svg|webp|ico)$/.test(u.pathname) ||
-          u.pathname.startsWith("/_next/image");
-        if (isImg) return req.reply({ statusCode: 204, body: "" });
+        // Allow extra allowed hosts fully (incl. images/css/js) — e.g., Tableau, image CDN
+        if (isExtraAllowed) return req.continue();
 
-        // Allow app HTML/resources; stub everything else (externals)
+        // Keep load fast: stub images/favicons ONLY if the host is not app or extra-allowed
+        const isImg =
+          /\.(png|jpe?g|gif|svg|webp|ico)$/i.test(u.pathname) ||
+          u.pathname.startsWith("/_next/image");
+
+        if (isImg && !isApp) {
+          // allow images from extra-allowed hosts; stub others
+          if (!isExtraAllowed) return req.reply({ statusCode: 204, body: "" });
+          return req.continue();
+        }
+
+        // Allow app HTML/resources; stub other externals
         if (isApp) return req.continue();
         return req.reply({ statusCode: 204, body: "" });
       } catch {

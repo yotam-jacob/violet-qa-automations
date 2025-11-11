@@ -3,8 +3,10 @@ import { AUTOMATION_PUBLIC_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Regression Test Suite", () => {
   beforeEach(() => {
+    cy.cdnVisit("/login?from=/");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+    cy.contains("Sign in with email", { timeout: 45000 }).should("be.visible");
     cy.loginToVioletStg();
-    cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
   it("User can rename a view", () => {

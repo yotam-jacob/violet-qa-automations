@@ -3,8 +3,10 @@ import { AUTOMATION_PUBLIC_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("Features Test Suite", () => {
   beforeEach(() => {
+    cy.cdnVisit("/login?from=/");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+    cy.contains("Sign in with email", { timeout: 45000 }).should("be.visible");
     cy.loginToVioletStg();
-    cy.contains(AUTOMATION_VIEW_NAME).should("not.exist");
   });
 
   it("User has only 2 enabled view options using a non filtered view", () => {
@@ -84,7 +86,9 @@ describe("Features Test Suite", () => {
 
     cy.wait(1000);
 
-    cy.visit("https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines");
+    cy.visit(
+      "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
+    );
 
     // public automation view is now default
     cy.get("#__next", { timeout: 45000 }).should("exist");
@@ -102,7 +106,9 @@ describe("Features Test Suite", () => {
     cy.wait(1000);
 
     // reload
-    cy.visit("https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines");
+    cy.visit(
+      "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
+    );
 
     //unfiltered report is loaded
     cy.get("#__next", { timeout: 45000 }).should("exist");

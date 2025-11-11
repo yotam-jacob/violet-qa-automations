@@ -10,6 +10,7 @@ jobs:
       CYPRESS_APP_HOST: staging.violetgrowth.com
       CYPRESS_BACKEND_HOST: api.portal.exacti.us
       NPM_CONFIG_LEGACY_PEER_DEPS: "true" # needed for exactius-cypress-tests repo
+      CYPRESS_EXTRA_ALLOW_HOSTS: public.tableau.com,online.tableau.com
 
     steps:
       - name: Checkout repo

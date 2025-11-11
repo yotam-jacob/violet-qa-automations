@@ -3,6 +3,9 @@ import { AUTOMATION_VIEW_NAME } from "/cypress/support/constants.js";
 
 describe("analytics Test Suite", () => {
   beforeEach(() => {
+    cy.cdnVisit("/login?from=/");
+    cy.get("#__next", { timeout: 45000 }).should("exist");
+    cy.contains("Sign in with email", { timeout: 45000 }).should("be.visible");
     cy.loginToVioletStg();
   });
 
