@@ -1,10 +1,9 @@
 describe("Demo Public Availability (ui)", () => {
-  // collectors live outside the test so afterEach can always see them
+  // persist logs even on failure
   let allowed = [];
   let stubbed = [];
 
   afterEach(() => {
-    // always write a file, even if the test failed before assertions
     const text =
       "=== ALLOWED ===\n" +
       allowed.join("\n") +
@@ -13,28 +12,23 @@ describe("Demo Public Availability (ui)", () => {
     cy.writeFile("cypress/artifacts/network-log.txt", text, { log: false });
   });
 
-  it("shows Sign in with email on Dev (capture network)", () => {
-    const host = "dev.violetgrowth.com";
-    const url = `https://${host}/login?from=/`;
+  it("shows Sign in with email on Dev (fast 30s)", () => {
+    const appHost = "dev.violetgrowth.com";
+    const backendHost = "dev.api.violetgrowth.com";
+    const url = `https://${appHost}/login?from=/`;
 
-    // reset collectors at the start of the test
-    allowed = [];
-    stubbed = [];
-
-    // allowlist only your HTML + Next.js assets; stub everything else (fast 204)
+    // Allow only our app HTML/Next.js assets and backend API. Stub everything else to 204.
     cy.intercept({ url: "**", middleware: true }, (req) => {
       try {
         const u = new URL(req.url);
-        const isSameHost = u.host === host;
+        const isApp = u.host === appHost;
+        const isBackend = u.host === backendHost;
         const isDoc =
-          isSameHost &&
-          (u.pathname === "/" ||
-            u.pathname === "/login" ||
-            u.pathname === "/login/");
-        const isNextAsset = isSameHost && u.pathname.startsWith("/_next/");
-        const isOk = isDoc || isNextAsset;
+          isApp && (u.pathname === "/" || u.pathname.startsWith("/login"));
+        const isNextAsset = isApp && u.pathname.startsWith("/_next/");
+        const passThrough = isDoc || isNextAsset || isBackend;
 
-        if (isOk) {
+        if (passThrough) {
           req.on("after:response", (res) => {
             allowed.push(`${res.statusCode} ${res.url}`);
           });
@@ -58,9 +52,10 @@ describe("Demo Public Availability (ui)", () => {
       },
     });
 
-    // 30s hard cap everywhere
+    // root exists
     cy.get("#__next", { timeout: 30000 }).should("exist");
 
+    // spinner (if present) disappears within 30s
     cy.get("body").then(($b) => {
       if ($b.find(".animate-spin").length) {
         cy.log("Spinner detected - waiting up to 30s…");
@@ -68,10 +63,10 @@ describe("Demo Public Availability (ui)", () => {
       }
     });
 
+    // confirm Next.js routed to /login and then assert the UI
     cy.window({ timeout: 30000 })
       .its("__NEXT_DATA__.page")
       .should("eq", "/login");
-
     cy.contains("Sign in with email", { timeout: 30000 }).should("be.visible");
   });
 });
