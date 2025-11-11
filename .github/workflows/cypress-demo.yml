@@ -1,4 +1,4 @@
-name: Run Codex Public Tests
+name: Run Demo Tests
 
 on:
   workflow_dispatch:
@@ -9,18 +9,18 @@ jobs:
 
     steps:
       - name: Checkout repo
-        uses: actions/checkout@v4
+        uses: actions/checkout@v3
 
       - name: Use Node.js
-        uses: actions/setup-node@v4
+        uses: actions/setup-node@v3
         with:
           node-version: "22"
 
       - name: Install dependencies
-        run: npm ci --legacy-peer-deps
+        run: npm ci
 
       - name: Run Demo Cypress tests
-        run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js" --headed
+        run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js"
 
       - name: Upload videos
         if: failure()
