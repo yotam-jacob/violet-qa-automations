@@ -16,6 +16,7 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import "cypress-real-events/support";
+import "@neuralegion/cypress-har-generator/commands";
 
 Cypress.on("uncaught:exception", (err) => {
   if (err.message.includes("&")) {
@@ -40,3 +41,11 @@ Cypress.on("uncaught:exception", (err) => {
 });
 
 require("cypress-xpath");
+
+beforeEach(() => {
+  cy.recordHar();
+});
+
+afterEach(() => {
+  cy.saveHar();
+});
