@@ -1,11 +1,15 @@
+// cypress/tests/codex/sites_access_demo.cy.js
 describe("Demo Public Availability (ui)", () => {
-  // persist logs even on failure
+  // persistent logs even on failure
+  let started = [];
   let allowed = [];
   let stubbed = [];
 
   afterEach(() => {
     const text =
-      "=== ALLOWED ===\n" +
+      "=== STARTED ===\n" +
+      started.join("\n") +
+      "\n\n=== ALLOWED ===\n" +
       allowed.join("\n") +
       "\n\n=== STUBBED ===\n" +
       stubbed.join("\n");
@@ -17,28 +21,47 @@ describe("Demo Public Availability (ui)", () => {
     const backendHost = "dev.api.violetgrowth.com";
     const url = `https://${appHost}/login?from=/`;
 
-    // Allow only our app HTML/Next.js assets and backend API. Stub everything else to 204.
+    // Allow only: app HTML, Next.js JS/CSS, backend API.
+    // Stub quickly: EVERYTHING else, including all images (same-host and external).
     cy.intercept({ url: "**", middleware: true }, (req) => {
+      started.push(req.url);
+
+      const reply204 = () => {
+        stubbed.push(req.url);
+        req.reply({ statusCode: 204, body: "" });
+      };
+      const pass = () => {
+        req.on("after:response", (res) => {
+          allowed.push(`${res.statusCode} ${res.url}`);
+        });
+        req.continue();
+      };
+
       try {
         const u = new URL(req.url);
         const isApp = u.host === appHost;
         const isBackend = u.host === backendHost;
+
+        // block images/favicons everywhere (these often stall load)
+        const isImagePath =
+          /\.(png|jpg|jpeg|gif|svg|webp|ico)$/.test(u.pathname) ||
+          u.pathname.startsWith("/_next/image"); // Next optimizer
+
+        if (isImagePath) return reply204();
+
+        // allow HTML doc and any Next.js static assets (js/css) from app host
         const isDoc =
           isApp && (u.pathname === "/" || u.pathname.startsWith("/login"));
-        const isNextAsset = isApp && u.pathname.startsWith("/_next/");
-        const passThrough = isDoc || isNextAsset || isBackend;
+        const isNextStatic = isApp && u.pathname.startsWith("/_next/static/");
+        const isCss = isApp && u.pathname.endsWith(".css");
 
-        if (passThrough) {
-          req.on("after:response", (res) => {
-            allowed.push(`${res.statusCode} ${res.url}`);
-          });
-          req.continue();
-        } else {
-          stubbed.push(req.url);
-          req.reply({ statusCode: 204, body: "" });
-        }
+        // allow backend API
+        if (isDoc || isNextStatic || isCss || isBackend) return pass();
+
+        // everything else → fast 204
+        return reply204();
       } catch {
-        req.continue();
+        return pass(); // be conservative if URL parsing fails
       }
     });
 
@@ -52,10 +75,9 @@ describe("Demo Public Availability (ui)", () => {
       },
     });
 
-    // root exists
+    // 30s hard caps everywhere
     cy.get("#__next", { timeout: 30000 }).should("exist");
 
-    // spinner (if present) disappears within 30s
     cy.get("body").then(($b) => {
       if ($b.find(".animate-spin").length) {
         cy.log("Spinner detected - waiting up to 30s…");
@@ -63,10 +85,10 @@ describe("Demo Public Availability (ui)", () => {
       }
     });
 
-    // confirm Next.js routed to /login and then assert the UI
     cy.window({ timeout: 30000 })
       .its("__NEXT_DATA__.page")
       .should("eq", "/login");
+
     cy.contains("Sign in with email", { timeout: 30000 }).should("be.visible");
   });
 });
