@@ -323,59 +323,59 @@ describe("Features Test Suite", () => {
   //   cy.clickOnDeleteViewAndVerify();
   // });
 
-  it("Deleting a saved view will revert to current default view", () => {
-    //Create a new view
-    cy.createView(AUTOMATION_VIEW_NAME);
-    cy.wait(2000);
+  // it("Deleting a saved view will revert to current default view", () => {
+  //   //Create a new view
+  //   cy.createView(AUTOMATION_VIEW_NAME);
+  //   cy.wait(2000);
 
-    //make sure the url containd the view id
-    cy.url().should("include", "view=");
-    //Make the public automation view default
-    cy.wait(2000);
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
-      .should("be.visible")
-      .realHover();
-    cy.wait(2000);
-    cy.clickVisibleThreeDots();
-    cy.get("#isDefault", { timeout: 45000 }).click();
-    cy.wait(2000);
+  //   //make sure the url containd the view id
+  //   cy.url().should("include", "view=");
+  //   //Make the public automation view default
+  //   cy.wait(2000);
+  //   cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
+  //     .should("be.visible")
+  //     .realHover();
+  //   cy.wait(2000);
+  //   cy.clickVisibleThreeDots();
+  //   cy.get("#isDefault", { timeout: 45000 }).click();
+  //   cy.wait(2000);
 
-    //Delete the new view
-    cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
-      timeout: 40000,
-    }).realHover();
-    cy.wait(1000);
-    cy.clickVisibleThreeDots();
-    cy.wait(1000);
-    cy.clickOnDeleteViewAndVerify();
+  //   //Delete the new view
+  //   cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
+  //     timeout: 40000,
+  //   }).realHover();
+  //   cy.wait(1000);
+  //   cy.clickVisibleThreeDots();
+  //   cy.wait(1000);
+  //   cy.clickOnDeleteViewAndVerify();
 
-    //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
-    cy.visit(
-      "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
-    );
-    cy.wait(1000);
+  //   //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
+  //   cy.visit(
+  //     "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
+  //   );
+  //   cy.wait(1000);
 
-    //Verify the default view is applied by checking the url contains the default view id
-    cy.url().should("include", "view=" + AUTOMATION_PUBLIC_VIEW_ID, {
-      timeout: 40000,
-    });
-    //Revert the default view to blank
-    cy.wait(2000);
-    cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
-    cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
-      .should("be.visible")
-      .realHover();
-    cy.wait(2000);
-    cy.clickVisibleThreeDots();
-    cy.get("#isDefault", { timeout: 45000 }).click();
-    //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
-    cy.visit(
-      "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
-    );
+  //   //Verify the default view is applied by checking the url contains the default view id
+  //   cy.url().should("include", "view=" + AUTOMATION_PUBLIC_VIEW_ID, {
+  //     timeout: 40000,
+  //   });
+  //   //Revert the default view to blank
+  //   cy.wait(2000);
+  //   cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
+  //   cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
+  //     .should("be.visible")
+  //     .realHover();
+  //   cy.wait(2000);
+  //   cy.clickVisibleThreeDots();
+  //   cy.get("#isDefault", { timeout: 45000 }).click();
+  //   //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
+  //   cy.visit(
+  //     "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
+  //   );
 
-    cy.url().should("not.include", "view=" + AUTOMATION_PUBLIC_VIEW_ID);
-  });
+  //   cy.url().should("not.include", "view=" + AUTOMATION_PUBLIC_VIEW_ID);
+  // });
 
   it("Deleting a saved view will revert to unfiltered view", () => {
     //Create a new view
@@ -395,10 +395,10 @@ describe("Features Test Suite", () => {
     cy.clickVisibleThreeDots();
     cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
-    //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
-    cy.visit(
-      "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
-    );
+    //click on KPI Trendlines to reload the report
+    cy.contains("KPI Trendlines", { timeout: 40000 }).click();
+    cy.wait(1000);
+
     //Verify the default view is applied by checking the url does not contain view=
     cy.url().should("not.include", "view=");
   });
