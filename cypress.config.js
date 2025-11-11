@@ -28,7 +28,6 @@ module.exports = defineConfig({
 
     setupNodeEvents(on, config) {
       installLogsPrinter(on, {
-        collectTestLogs: true,
         printLogsToConsole: "always",
         printLogsToFile: "always",
         outputRoot: "log",
