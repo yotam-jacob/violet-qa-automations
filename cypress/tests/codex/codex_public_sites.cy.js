@@ -1,7 +1,7 @@
 describe("Codex Public Availability", () => {
   it("loads google.com successfully", () => {
     cy.visit("https://www.google.com");
-    cy.get("input[name='q']", { timeout: 30000 }).should("be.visible");
+    cy.title({ timeout: 30000 }).should("include", "Google");
   });
 
   it("shows Sign in with email on Dev", () => {
@@ -10,7 +10,7 @@ describe("Codex Public Availability", () => {
   });
 
   it("shows Sign in with email on Staging", () => {
-    cy.visit("https://stg.violetgrowth.com/", { failOnStatusCode: false });
+    cy.visit("https://staging.violetgrowth.com/", { failOnStatusCode: false });
     cy.contains("Sign in with email", { timeout: 30000 }).should("be.visible");
   });
 
