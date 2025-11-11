@@ -7,7 +7,9 @@ jobs:
   cypress-run:
     runs-on: ubuntu-latest
     env:
-      NPM_CONFIG_LEGACY_PEER_DEPS: "true" # needed for exactius-cypress-tests repo
+      CYPRESS_APP_HOST: dev.violetgrowth.com
+      CYPRESS_BACKEND_HOST: dev.api.violetgrowth.com
+      CYPRESS_CDN_PROOF: "true"
 
     steps:
       - name: Checkout repo
@@ -21,9 +23,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Demo Cypress UI test
-        run: npx cypress run --browser chrome --spec "cypress/tests/codex/sites_access_demo.cy.js"
-
+      - name: Run Cypress
+        run: npx cypress run --browser chrome
 
       - name: Upload videos (on failure)
         if: failure()

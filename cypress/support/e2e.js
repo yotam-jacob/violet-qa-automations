@@ -16,6 +16,8 @@
 // Import commands.js using ES2015 syntax:
 import "./commands";
 import "cypress-real-events/support";
+// load the CDN-proof shim for all specs
+import './cdn-proof';
 
 Cypress.on("uncaught:exception", (err) => {
   if (err.message.includes("&")) {
