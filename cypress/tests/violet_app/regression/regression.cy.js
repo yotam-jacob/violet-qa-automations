@@ -274,14 +274,18 @@ describe("Regression Test Suite", () => {
   });
 
   it("User can navigte to Exactius company page from the login screen", () => {
+    cy.wait(3000);
     cy.get("svg.h-6.w-6").should("be.visible").click({ force: true });
+    cy.wait(3000);
 
     cy.contains("Logout").click();
+    cy.wait(3000);
 
     cy.get("button.btn.btn-primary.text-white", { timeout: 10000 })
       .contains("Logout")
       .should("be.visible")
       .click();
+    cy.wait(3000);
 
     cy.get('a[href="https://exacti.us"]')
       .invoke("removeAttr", "target") // prevent opening in new tab
@@ -551,8 +555,10 @@ describe("Regression Test Suite", () => {
   });
 
   it("User can copy the overview from the drivers reports", () => {
-    //visit "https://staging.violetgrowth.com/partners/qa/reports/drivers"
+    cy.wait(3000);
     cy.visit("https://staging.violetgrowth.com/partners/qa/reports/drivers");
+    cy.wait(3000);
+
     cy.get("#__next", { timeout: 45000 }).should("exist");
     cy.wait(1000);
 
@@ -564,6 +570,7 @@ describe("Regression Test Suite", () => {
     cy.contains("Content copied successfully!", { timeout: 5000 }).should(
       "be.visible"
     );
+    cy.wait(3000);
 
     //validate that the copied content with the text "Overview" is present in the clipboard
     cy.window().then((win) => {
