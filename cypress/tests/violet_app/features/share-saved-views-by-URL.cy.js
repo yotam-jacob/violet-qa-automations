@@ -384,9 +384,11 @@ describe("Features Test Suite", () => {
 
     //make sure the url containd the view id
     cy.url().should("include", "view=");
+    cy.wait(2000);
 
     //Delete the new view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
+    cy.wait(2000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
@@ -395,6 +397,8 @@ describe("Features Test Suite", () => {
     cy.clickVisibleThreeDots();
     cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
+    cy.wait(2000);
+
     //click on KPI Trendlines to reload the report
     cy.contains("KPI Trendlines", { timeout: 40000 }).click();
     cy.wait(1000);
