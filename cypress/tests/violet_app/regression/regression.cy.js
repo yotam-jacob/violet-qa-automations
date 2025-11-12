@@ -11,44 +11,51 @@ describe("Regression Test Suite", () => {
 
   it("User can rename a view", () => {
     //Create new view
+    cy.wait(3000);
+
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
+    cy.wait(3000);
 
     cy.reload();
     //Rename the view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
+    cy.wait(3000);
 
     //Hover over the view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.contains("Rename view", { timeout: 40000 }).click();
+    cy.wait(3000);
 
     cy.get("input[value='Automation Test View']")
       .clear()
       .type("Automation Test View Renamed");
+    cy.wait(3000);
 
     cy.get("button.bg-main-primaryPurple").eq(0).click();
+    cy.wait(3000);
 
     cy.reload();
+    cy.wait(3000);
 
     cy.contains("Automation Test View Renamed", {
       timeout: 40000,
     })
       .should("be.visible")
       .click();
-    cy.wait(1000);
+    cy.wait(3000);
     //Delete the view
     cy.contains("div.w-full", "Automation Test View Renamed").realHover();
 
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.clickOnDeleteViewAndVerify();
   });
