@@ -25,7 +25,7 @@ jobs:
         run: npm ci
 
       - name: Run Regression Cypress test
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/*.cy.js"
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression.cy.js"
 
       - name: Upload videos (on failure)
         if: failure()
