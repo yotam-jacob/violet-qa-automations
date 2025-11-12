@@ -304,23 +304,26 @@ describe("Regression Test Suite", () => {
   it("Warning message should not appear when deleting an unused default view", () => {
     //Create new default view
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
+    cy.wait(3000);
 
     cy.reload();
+    cy.wait(3000);
+
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
       .click();
-    cy.wait(1000);
+    cy.wait(3000);
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(1000);
+    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
+    cy.wait(3000);
     // Delete the view
     cy.contains("Delete view", { timeout: 40000 }).click();
     cy.wait(3000);
@@ -328,6 +331,8 @@ describe("Regression Test Suite", () => {
     cy.contains("Some users have set this view", { timeout: 0 }).should(
       "not.be.visible"
     );
+    cy.wait(3000);
+
     cy.contains("button", "Remove", { timeout: 45000 }).click();
     cy.wait(3000);
     cy.reload();
