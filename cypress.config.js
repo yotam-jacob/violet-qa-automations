@@ -44,11 +44,6 @@ module.exports = defineConfig({
     supportFile: "cypress/support/e2e.js",
     viewportWidth: 1920,
     viewportHeight: 1080,
-    defaultCommandTimeout: 30000,
-    pageLoadTimeout: 30000, 
-    requestTimeout: 30000,
-    responseTimeout: 30000,
-    screenshotOnRunFailure: true,
     videoCompression: false,
     setupNodeEvents(on, config) {
       // on("after:run", async (r) => {
