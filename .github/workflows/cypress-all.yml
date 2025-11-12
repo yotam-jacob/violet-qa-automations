@@ -24,9 +24,37 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run All Cypress test
-        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/*/*.cy.js"
+      # 1. analytics1
+      - name: Run analytics1
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics1.cy.js"
 
+      # 2. analytics2
+      - name: Run analytics2
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/analytics/analytics2.cy.js"
+
+      # 3. features
+      - name: Run features
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/features/features.cy.js"
+
+      # 4. share-saved-views-by-URL
+      - name: Run share-saved-views-by-URL
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/features/share-saved-views-by-URL.cy.js"
+
+      # 5. regression-errors
+      - name: Run regression-errors
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/errors.cy.js"
+
+      # 6. regression
+      - name: Run regression
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression.cy.js"
+
+      # 7. security
+      - name: Run regression-security
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/security.cy.js"
+
+      # 8. sanity
+      - name: Run sanity
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
 
       - name: Upload videos (on failure)
         if: failure()
