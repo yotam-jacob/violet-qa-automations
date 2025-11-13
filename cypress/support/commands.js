@@ -213,7 +213,7 @@ Cypress.Commands.add("cdnVisit", (pathOrUrl, options = {}) => {
   const cache = {}; // absolute-url -> { statusCode, headers, body }
 
   // 1) Discover Next.js static assets (absolute & relative)
-  cy.request({ url: pageUrl, failOnStatusCode: false, timeout: 20000 }).then(
+  cy.request({ url: pageUrl, failOnStatusCode: false, timeout: 30000 }).then(
     (res) => {
       const html = String(res.body || "");
       const srcHrefs = [
