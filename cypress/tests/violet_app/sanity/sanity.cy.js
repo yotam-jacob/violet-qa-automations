@@ -8,6 +8,21 @@ describe("Sanity Test Suite", () => {
     cy.loginToVioletStg();
   });
 
+  it("Open the spaces dropdown and make sure it says Spaces and not Partners", () => {
+    //open the user dropdown menu by clicking on the user icon with tag alt="profile"
+    cy.get('div[class*="min-h-\\[28px\\]"]').click({ force: true });
+
+    cy.contains("Spaces", { timeout: 10000 }).should("be.visible");
+  });
+
+  it("checks the main favicon", () => {
+    cy.visit("/");
+
+    cy.get('head link[rel="icon"][href="/staging-favicon/favicon.ico"]').should(
+      "exist"
+    );
+  });
+
   it("should log in successfully and redirect to the QA partners page", () => {
     cy.url().should("include", "/partners/qa");
   });
