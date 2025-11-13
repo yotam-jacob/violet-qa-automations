@@ -2,6 +2,8 @@ name: Run Sanity Tests
 
 on:
   workflow_dispatch:
+  schedule:
+    - cron: "*/30 * * * *"  # every 30 minutes (in UTC)
 
 jobs:
   cypress-run:
