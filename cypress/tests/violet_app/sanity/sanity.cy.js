@@ -38,9 +38,8 @@ describe("Sanity Test Suite", () => {
   });
 
   it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
-    if (Cypress.browser.name === "firefox") {
-      cy.log("Skipping test on Firefox");
-      return;
+    if (Cypress.isBrowser("firefox")) {
+      this.skip(); // completely skip this test on Firefox (locally and in CI)
     }
     cy.wait(2000); //necessary for the page to load
 
