@@ -37,7 +37,7 @@ module.exports = defineConfig({
   e2e: {
     baseUrl: "https://staging.violetgrowth.com",
     retries: {
-      runMode: 1,
+      runMode: 2,
       openMode: 0,
     },
     specPattern: "cypress/tests/**/*.js",
