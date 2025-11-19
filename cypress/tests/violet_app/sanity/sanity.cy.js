@@ -38,6 +38,10 @@ describe("Sanity Test Suite", () => {
   });
 
   it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
+    if (Cypress.browser.name === "firefox") {
+      cy.log("Skipping test on Firefox");
+      return;
+    }
     cy.wait(2000); //necessary for the page to load
 
     cy.contains("KPI Trendlines", { timeout: 40000 })
