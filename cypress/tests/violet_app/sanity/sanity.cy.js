@@ -37,9 +37,9 @@ describe("Sanity Test Suite", () => {
     cy.url().should("include", "/reports/appointments-tracker");
   });
 
-  it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", () => {
+  it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", function () {
     if (Cypress.isBrowser("firefox")) {
-      this.skip(); // completely skip this test on Firefox (locally and in CI)
+      this.skip(); // Firefox fails to drag/hover reliably in CI, so skip entirely
     }
     cy.wait(2000); //necessary for the page to load
 
