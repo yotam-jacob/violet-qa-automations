@@ -1,4 +1,4 @@
-name: Run Sanity Tests (Safari)
+name: Run Sanity Tests (Electron)
 
 on:
   workflow_dispatch:
@@ -26,8 +26,8 @@ jobs:
       - name: Install dependencies
         run: npm ci
 
-      - name: Run Sanity Cypress test (Safari)
-        run: npx cypress run --browser safari --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
+      - name: Run Sanity Cypress test (Electron)
+        run: npx cypress run --browser electron --spec "cypress/tests/violet_app/sanity/sanity.cy.js"
 
       - name: Upload videos (on failure)
         if: failure()
