@@ -37,12 +37,15 @@ Cypress.Commands.add("loginToVioletStg", () => {
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
-  cy.wait(1000);
+  // cy.wait(1000);
 
-  cy.contains("Sign In").click();
-  cy.wait(3000);
+  cy.contains("Sign In", { timeout: 40000 }).click();
+  // cy.wait(3000);
+
+  cy.get("#__next", { timeout: 35000 }).should("exist");
 
   cy.url().should("not.include", "/login", { timeout: 40000 });
+
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
   cy.url({ timeout: 65000 }).should("include", "/qa");
@@ -78,10 +81,10 @@ Cypress.Commands.add("loginToVioletDev", () => {
   cy.get('input[type="password"]', { timeout: 30000 })
     .should("be.visible")
     .type("Eggrolls1246!");
-  cy.wait(1000);
+  // cy.wait(1000);
 
   cy.contains("Sign In").click();
-  cy.wait(3000);
+  // cy.wait(3000);
 
   cy.url().should("not.include", "/login", { timeout: 40000 });
   cy.get("#__next", { timeout: 35000 }).should("exist");
@@ -112,36 +115,41 @@ Cypress.Commands.add("clickVisibleThreeDots", () => {
 });
 
 Cypress.Commands.add("createView", (name, options = {}) => {
-  cy.wait(1000);
+  // cy.wait(1000);
   cy.contains("Views", { timeout: 30000 }).click();
   cy.contains("Save as New", { timeout: 40000 }).click();
   cy.get("#viewName", { includeShadowDom: true }).type(name);
   if (options.isDefault) cy.get("#isDefault", { timeout: 10000 }).click();
   if (options.isPublic) cy.get("#isPublic", { timeout: 10000 }).click();
-  cy.wait(1000);
+  // cy.wait(1000);
 
   cy.get('button[type="submit"]', { timeout: 20000 }).click();
-  cy.wait(1000);
+  // cy.wait(1000);
   cy.contains('"' + name + '"' + " saved successfully!", {
     timeout: 20000,
   }).should("be.visible");
 
-  cy.wait(1000);
+  // cy.wait(1000);
 
   cy.contains(name, { timeout: 10000 }).should("be.visible");
-  cy.wait(1000);
+  // cy.wait(1000);
+
+  //wait for the snackbar saying 'saved successfully!' to dissappear by making sure it's not visible
+  cy.contains('"' + name + '"' + " saved successfully!").should("not.exist", { timeout: 10000 });
 });
 
 Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
   cy.contains("Delete view", { timeout: 40000 }).click();
-  cy.wait(3000);
+  // cy.wait(3000);
   cy.contains("button", "Remove", { timeout: 45000 }).click();
-  cy.wait(3000);
+  // cy.wait(3000);
   cy.reload();
-  cy.wait(3000);
+  // cy.wait(3000);
 });
 
-Cypress.Commands.add("validateGtmEvent", (eventName, expectedPayload, consoleMessages) => {
+Cypress.Commands.add(
+  "validateGtmEvent",
+  (eventName, expectedPayload, consoleMessages) => {
     cy.log(`Waiting for [GTM Event]: ${eventName}`);
 
     cy.wrap(null, { timeout: 15000 }).should(() => {

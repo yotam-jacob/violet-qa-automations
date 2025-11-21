@@ -32,12 +32,12 @@ const ghRun = () =>
 
 module.exports = defineConfig({
   video: true,
-  screenshotsFolder: "cypress/screenshots",
+  // screenshotsFolder: "cypress/screenshots",
   videosFolder: "cypress/videos",
   e2e: {
     baseUrl: "https://staging.violetgrowth.com",
     retries: {
-      runMode: 2,
+      runMode: 0,
       openMode: 0,
     },
     specPattern: "cypress/tests/**/*.js",

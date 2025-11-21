@@ -45,8 +45,8 @@ jobs:
         run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/errors.cy.js"
 
       # 6. regression
-      # - name: Run regression
-      #   run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression.cy.js"
+      - name: Run regression
+        run: npx cypress run --browser chrome --spec "cypress/tests/violet_app/regression/regression.cy.js"
 
       # 7. security
       - name: Run regression-security
