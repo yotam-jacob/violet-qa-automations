@@ -37,9 +37,7 @@ describe("analytics Test Suite", () => {
   describe("GTM Events Validation", () => {
     it("tests copy_button_click event payload", () => {
       cy.visit("https://staging.violetgrowth.com/partners/qa/reports/insights");
-      cy.wait(1000);
-      cy.get(".cursor-pointer.bg-gray-60").first().click();
-      cy.wait(1000);
+      cy.get(".cursor-pointer.bg-gray-60", { timeout: 40000 }).first().click();
 
       cy.validateGtmEvent(
         "copy_button_click",
@@ -70,12 +68,9 @@ describe("analytics Test Suite", () => {
     });
 
     it("tests help_menu_item_click event payload", () => {
-      cy.wait(3000);
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(3000);
 
       cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(3000);
 
       cy.validateGtmEvent(
         "help_menu_item_click",
@@ -86,9 +81,7 @@ describe("analytics Test Suite", () => {
 
     it("tests drawer_close_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(1000);
       cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.get('svg[aria-hidden="true"][viewBox="0 0 20 20"]')
         .should("exist")
@@ -96,7 +89,6 @@ describe("analytics Test Suite", () => {
         .first()
         .should("be.visible")
         .click();
-      cy.wait(1000);
 
       cy.validateGtmEvent(
         "drawer_close_click",
@@ -151,12 +143,9 @@ describe("analytics Test Suite", () => {
 
     it("tests expand_collection_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(1000);
       cy.contains("Lexicon", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Sourced Metrics", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.validateGtmEvent(
         "expand_collection_click",
@@ -167,16 +156,12 @@ describe("analytics Test Suite", () => {
 
     it("tests expand_term_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Lexicon", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Sourced Metrics", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("12M Active HH Orders", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.validateGtmEvent(
         "expand_term_click",
@@ -187,18 +172,14 @@ describe("analytics Test Suite", () => {
 
     it("tests category_article_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Dashboard Overviews", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Ad Performance Overview", { timeout: 40000 }).click({
         force: true,
       });
-      cy.wait(1000);
 
       cy.validateGtmEvent(
         "category_article_click",
@@ -209,13 +190,10 @@ describe("analytics Test Suite", () => {
 
     it("tests category_click event payload", () => {
       cy.contains("Help", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Help Center", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("Dashboard Overviews", { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.validateGtmEvent(
         "category_click",
@@ -230,24 +208,17 @@ describe("analytics Test Suite", () => {
 
       //Cancel the view
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-      cy.wait(1000);
       cy.clickVisibleThreeDots();
-      cy.wait(1000);
 
       cy.contains("Delete view", { timeout: 40000 }).click();
-      cy.wait(1000);
       cy.contains("button:visible", "Cancel", { timeout: 15000 }).click({
         scrollBehavior: "center",
       });
 
-      cy.wait(1000);
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-      cy.wait(1000);
       cy.clickVisibleThreeDots();
-      cy.wait(1000);
       cy.clickOnDeleteViewAndVerify();
 
       cy.validateGtmEvent(
@@ -260,19 +231,15 @@ describe("analytics Test Suite", () => {
     it("tests remove_view_modal_click_remove event payload", () => {
       //Create new view
       cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
-      cy.wait(1000); //necessary for elements loading
 
       cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-      cy.wait(1000);
 
       cy.contains("div.w-full", AUTOMATION_VIEW_NAME)
         .find("div.group\\/item.relative")
         .realHover();
 
-      cy.wait(1000); //necessary for elements loading
 
       cy.clickVisibleThreeDots();
-      cy.wait(1000); //necessary for elements loading
 
       cy.clickOnDeleteViewAndVerify();
 

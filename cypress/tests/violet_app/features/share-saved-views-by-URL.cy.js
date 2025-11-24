@@ -32,16 +32,13 @@ describe("Features Test Suite", () => {
     });
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
 
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
 
     cy.clickOnDeleteViewAndVerify();
   });
@@ -50,7 +47,6 @@ describe("Features Test Suite", () => {
     //click on Views
     cy.contains("Views", { timeout: 40000 }).click();
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
     //Url should contain correct viewid
     cy.url().should("include", "view=" + AUTOMATION_PUBLIC_VIEW_ID);
   });
@@ -81,10 +77,8 @@ describe("Features Test Suite", () => {
 
     //change view to private
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(2000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {}).realHover();
-    cy.wait(2000);
 
     cy.clickVisibleThreeDots();
     cy.get("#isPublic").click();
@@ -134,16 +128,13 @@ describe("Features Test Suite", () => {
     //delete view and finish
     cy.reload();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
 
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 
@@ -193,15 +184,12 @@ describe("Features Test Suite", () => {
     //delete view and finish
     cy.reload();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 
@@ -249,15 +237,12 @@ describe("Features Test Suite", () => {
     //delete view and finish
     cy.reload();
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 
@@ -270,6 +255,7 @@ describe("Features Test Suite", () => {
       .eq(0)
       .should("be.visible")
       .click();
+
     cy.get("button:disabled.bg-purple-500.opacity-50")
       .should("be.disabled")
       .and("be.visible");
@@ -292,12 +278,10 @@ describe("Features Test Suite", () => {
     cy.contains(/^Save$/, { timeout: 25000 })
       .should("be.visible")
       .click();
-    cy.wait(3000);
     //Text is not visible: Please save this view as a new view in order to share it.
     cy.contains("Please save this view as a new view in order to share it.", {
       timeout: 25000,
     }).should("not.exist");
-    cy.wait(3000);
 
     //click on the copy button
     cy.get(
@@ -307,66 +291,59 @@ describe("Features Test Suite", () => {
         cy.wrap($btn).click({ force: true });
       });
     });
-    cy.wait(3000);
 
     //delete view and finish
     cy.reload();
-    cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
+    cy.contains("Views", { timeout: 40000 }).click();
+
+    // cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(1000);
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 
   it("Deleting a saved view will revert to current default view", () => {
     //Create a new view
     cy.createView(AUTOMATION_VIEW_NAME);
-    cy.wait(2000);
 
     //make sure the url containd the view id
     cy.url().should("include", "view=");
     //Make the public automation view default
-    cy.wait(2000);
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
       .realHover();
-    cy.wait(2000);
     cy.clickVisibleThreeDots();
     cy.get("#isDefault", { timeout: 45000 }).click();
-    cy.wait(2000);
 
     //Delete the new view
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(1000);
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
 
     //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
     cy.visit(
       "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
     );
-    cy.wait(1000);
+
+    cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).should(
+      "be.visible"
+    );
 
     //Verify the default view is applied by checking the url contains the default view id
     cy.url().should("include", "view=" + AUTOMATION_PUBLIC_VIEW_ID, {
       timeout: 40000,
     });
     //Revert the default view to blank
-    cy.wait(2000);
     cy.contains(AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 }).click();
     cy.contains("div.w-full", AUTOMATION_PUBLIC_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
       .realHover();
-    cy.wait(2000);
     cy.clickVisibleThreeDots();
     cy.get("#isDefault", { timeout: 45000 }).click();
     //reload to report by navigating to: https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines
@@ -380,28 +357,21 @@ describe("Features Test Suite", () => {
   it("Deleting a saved view will revert to unfiltered view", () => {
     //Create a new view
     cy.createView(AUTOMATION_VIEW_NAME);
-    cy.wait(2000);
 
     //make sure the url containd the view id
     cy.url().should("include", "view=");
-    cy.wait(2000);
 
     //Delete the new view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(2000);
 
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, {
       timeout: 40000,
     }).realHover();
-    cy.wait(1000);
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
-    cy.wait(2000);
 
     //click on KPI Trendlines to reload the report
-    cy.contains("KPI Trendlines", { timeout: 40000 }).click();
-    cy.wait(1000);
+    cy.contains("KPI Trendlines", { timeout: 40000 }).click({ force: true });
 
     //Verify the default view is applied by checking the url does not contain view=
     cy.url().should("not.include", "view=");

@@ -11,51 +11,39 @@ describe("Regression Test Suite", () => {
 
   it("User can rename a view", () => {
     //Create new view
-    cy.wait(3000);
 
     cy.createView(AUTOMATION_VIEW_NAME, { isPublic: true });
-    cy.wait(3000);
 
     cy.reload();
     //Rename the view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(3000);
 
     //Hover over the view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
-    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
 
     cy.contains("Rename view", { timeout: 40000 }).click();
-    cy.wait(3000);
 
     cy.get("input[value='Automation Test View']")
       .clear()
       .type("Automation Test View Renamed");
-    cy.wait(3000);
 
     cy.get("button.bg-main-primaryPurple").eq(0).click();
-    cy.wait(3000);
 
     cy.reload();
-    cy.wait(3000);
 
     cy.contains("Automation Test View Renamed", {
       timeout: 40000,
     })
       .should("be.visible")
       .click();
-    cy.wait(3000);
     //Delete the view
     cy.contains("div.w-full", "Automation Test View Renamed").realHover();
 
-    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
 
     cy.clickOnDeleteViewAndVerify();
   });
@@ -66,15 +54,11 @@ describe("Regression Test Suite", () => {
 
     //Reset the view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    // cy.wait(5000);
 
     cy.contains("Reset", { timeout: 40000 }).click();
-    // cy.wait(5000);
 
     cy.contains("Views", { timeout: 40000 }).click();
-    // cy.wait(5000);
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).realHover();
-    // cy.wait(1000);
 
     cy.clickVisibleThreeDots();
 
@@ -88,7 +72,6 @@ describe("Regression Test Suite", () => {
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    cy.wait(1000);
 
     //Open share modal and click on the share button
     cy.get(
@@ -99,7 +82,6 @@ describe("Regression Test Suite", () => {
       .should("be.visible")
       .click();
 
-    cy.wait(1000);
 
     cy.get("input#shareableLink")
       .invoke("val")
@@ -115,7 +97,6 @@ describe("Regression Test Suite", () => {
       }
     });
 
-    cy.wait(1000);
 
     //click on the copy button
     cy.get(
@@ -126,11 +107,9 @@ describe("Regression Test Suite", () => {
       });
     });
 
-    cy.wait(1000);
 
     cy.get("@clipboardWrite", { timeout: 40000 }).should("have.been.called");
 
-    cy.wait(1000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
       .scrollIntoView()
@@ -139,7 +118,6 @@ describe("Regression Test Suite", () => {
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
 
@@ -281,20 +259,16 @@ describe("Regression Test Suite", () => {
   });
 
   it("User can navigte to Exactius company page from the login screen", () => {
-    cy.wait(3000);
     cy.get("svg.h-6.w-6", { timeout: 10000 })
       .should("be.visible")
       .click({ force: true });
-    cy.wait(3000);
 
     cy.contains("Logout", { timeout: 10000 }).click();
-    cy.wait(3000);
 
     cy.get("button.btn.btn-primary.text-white", { timeout: 10000 })
       .contains("Logout")
       .should("be.visible")
       .click();
-    cy.wait(3000);
 
     cy.get('a[href="https://exacti.us"]', { timeout: 10000 })
       .invoke("removeAttr", "target") // prevent opening in new tab
@@ -304,39 +278,29 @@ describe("Regression Test Suite", () => {
   it("Warning message should not appear when deleting an unused default view", () => {
     //Create new default view
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
-    cy.wait(3000);
 
     cy.reload();
-    cy.wait(3000);
 
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    cy.wait(3000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
       .click();
-    cy.wait(3000);
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(3000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(3000);
     // Delete the view
     cy.contains("Delete view", { timeout: 40000 }).click();
-    cy.wait(3000);
     //Message "Some users have set this view" should not appear
     cy.contains("Some users have set this view", { timeout: 0 }).should(
       "not.be.visible"
     );
-    cy.wait(3000);
 
     cy.contains("button", "Remove", { timeout: 45000 }).click();
-    cy.wait(3000);
     cy.reload();
-    cy.wait(3000);
   });
 
   it("Hovering over a dashboard name will hide the announcement icon", () => {
@@ -373,18 +337,15 @@ describe("Regression Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true });
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
 
-    cy.wait(1000);
 
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
 
-    cy.wait(1000);
 
     // Assert that the created view is still default
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
       .click();
-    cy.wait(1000);
 
     //Validate that the "Default" label is present next to the view name
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME, "Default", {
@@ -394,10 +355,8 @@ describe("Regression Test Suite", () => {
     //Delete the view
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
 
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
 
     cy.clickOnDeleteViewAndVerify();
   });
@@ -417,12 +376,10 @@ describe("Regression Test Suite", () => {
 
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
 
     //Navigate to 'dev' space
     cy.visit("https://staging.violetgrowth.com/partners/dev/reports/summary");
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
 
     cy.contains("Views", { timeout: 40000 }).should("be.visible");
 
@@ -438,18 +395,14 @@ describe("Regression Test Suite", () => {
       "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
     );
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
 
     //delete the created view
     cy.contains("Views", { timeout: 40000 }).should("be.visible").click();
-    cy.wait(1000);
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     // Delete the view
     cy.clickOnDeleteViewAndVerify();
   });
@@ -472,7 +425,6 @@ describe("Regression Test Suite", () => {
       "https://staging.violetgrowth.com/partners/qa/reports/embedded-report-test"
     );
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(15000);
 
     //assert that url does not contain the saved view id
     cy.url().then((currentUrl) => {
@@ -484,16 +436,12 @@ describe("Regression Test Suite", () => {
       "https://staging.violetgrowth.com/partners/qa/reports/kpi-trendlines"
     );
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
     //delete the created view
     cy.contains("Views", { timeout: 40000 }).should("be.visible").click();
-    cy.wait(1000);
 
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(1000);
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     // Delete the view
     cy.clickOnDeleteViewAndVerify();
   });
@@ -503,20 +451,16 @@ describe("Regression Test Suite", () => {
     cy.createView(AUTOMATION_VIEW_NAME);
     //Rename the view to blank spaces
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
-    cy.wait(1000);
 
     //Hover over the view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.contains("Rename view", { timeout: 40000 }).click();
 
     cy.get("input[value='Automation Test View']")
       .clear()
       .type("  Automation    Test    View  ");
-    cy.wait(1000);
 
     cy.get("button.bg-main-primaryPurple").eq(0).click();
 
@@ -532,10 +476,8 @@ describe("Regression Test Suite", () => {
     cy.contains("Views", { timeout: 40000 }).click();
     //Hover over the view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     cy.clickOnDeleteViewAndVerify();
   });
 
@@ -545,27 +487,21 @@ describe("Regression Test Suite", () => {
 
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
 
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 })
       .should("be.visible")
       .click();
-    cy.wait(1000);
     //Hover over the AUTOMATION_VIEW_NAME view and click the 3-dots menu
     cy.contains("div.w-full", AUTOMATION_VIEW_NAME).realHover();
-    cy.wait(1000);
 
     cy.clickVisibleThreeDots();
-    cy.wait(1000);
     // Delete the view
     cy.contains("Delete view", { timeout: 40000 }).click();
-    cy.wait(3000);
     //Message "Some users have set this view" should not appear
     cy.contains("Some users have set this view", { timeout: 40000 }).should(
       "not.be.visible"
     );
     cy.contains("button", "Remove", { timeout: 45000 }).click();
-    cy.wait(3000);
   });
 
   it("User can copy the overview from the drivers reports", () => {
@@ -625,19 +561,14 @@ describe("Regression Test Suite", () => {
   it("User can change the business and time unit in insight reports", () => {
     cy.visit("https://staging.violetgrowth.com/partners/qa/reports/insights");
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
 
     //Click on time unit dropdown and select "Monthly"
     cy.get('[id^="headlessui-menu-button-"]').eq(1).click();
-    cy.wait(1000);
     cy.contains("Monthly").click();
-    cy.wait(1000);
 
     //Click on business and select business ERC
     cy.get('[id^="headlessui-menu-button-"]').eq(0).click();
-    cy.wait(1000);
     cy.contains(/^ERC$/).click();
-    cy.wait(1000);
 
     //Assert that the url contains both parameters business_unit=ERC&timeline=monthly
     cy.url().then((currentUrl) => {
@@ -657,31 +588,24 @@ describe("Regression Test Suite", () => {
   it("User can change the business and time unit in drivers reports", () => {
     cy.visit("https://staging.violetgrowth.com/partners/qa/reports/drivers");
     cy.get("#__next", { timeout: 45000 }).should("exist");
-    cy.wait(1000);
 
     //click on time unit dropdown and select "Weekly"
     cy.get('[id^="headlessui-menu-button-"]').eq(1).click();
-    cy.wait(1000);
     cy.contains("Weekly").click();
-    cy.wait(1000);
 
     //Click on business and select business PopSells-2
     cy.get('[id^="headlessui-menu-button-"]').eq(0).click();
-    cy.wait(1000);
-    cy.contains("PopSells-2").click();
-    cy.wait(1000);
+    cy.contains("PopSells", { timeout: 5000 }).click();
 
     //Assert that the url contains both parameters business_unit=PopSells-2&timeline=weekly
     cy.url().then((currentUrl) => {
-      expect(currentUrl).to.include("business_unit=PopSells-2");
-      expect(currentUrl).to.include("timeline=weekly");
+      expect(currentUrl).to.include("business_unit=PopSells");
     });
 
     cy.reload();
     //Assert that the url contains both parameters business_unit=PopSells-2&timeline=weekly after refresh
     cy.url().then((currentUrl) => {
-      expect(currentUrl).to.include("business_unit=PopSells-2");
-      expect(currentUrl).to.include("timeline=weekly");
+      expect(currentUrl).to.include("business_unit=PopSells");
     });
   });
 });

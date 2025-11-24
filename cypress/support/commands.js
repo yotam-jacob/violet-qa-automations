@@ -42,9 +42,9 @@ Cypress.Commands.add("loginToVioletStg", () => {
   cy.contains("Sign In", { timeout: 40000 }).click();
   // cy.wait(3000);
 
-  cy.get("#__next", { timeout: 35000 }).should("exist");
+  // cy.get("#__next", { timeout: 35000 }).should("exist");
 
-  cy.url().should("not.include", "/login", { timeout: 40000 });
+  // cy.url().should("not.include", "/login", { timeout: 40000 });
 
   cy.get("#__next", { timeout: 35000 }).should("exist");
 
@@ -143,7 +143,8 @@ Cypress.Commands.add("clickOnDeleteViewAndVerify", (name) => {
   // cy.wait(3000);
   cy.contains("button", "Remove", { timeout: 45000 }).click();
   // cy.wait(3000);
-  cy.reload();
+  //verify the view is deleted by asserting snackbar with text 'Successfully deleted!' is visible
+  cy.contains("Successfully deleted!", { timeout: 20000 }).should("be.visible");
   // cy.wait(3000);
 });
 

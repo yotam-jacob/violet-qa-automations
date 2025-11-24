@@ -37,84 +37,89 @@ describe("Sanity Test Suite", () => {
     cy.url().should("include", "/reports/appointments-tracker");
   });
 
-  it("should set KPI Trendlines as Homepage, Verify, revert to original homepage, And verify", function () {
+  it("should set KPI Trendlines as Homepage, Verify, revert to summary as homepage, And verify", function () {
     if (Cypress.isBrowser("firefox")) {
       this.skip(); // Firefox fails to drag/hover reliably in CI, so skip entirely
     }
-    cy.wait(2000); //necessary for the page to load
 
     cy.contains("KPI Trendlines", { timeout: 40000 })
       .closest("div")
       .realHover();
-    cy.wait(2000); //necessary for the page to load
 
     cy.clickVisibleThreeDots();
-    cy.wait(2000); //necessary for the page to load
 
     cy.contains("Set as Homepage", { timeout: 40000 }).click();
-    cy.wait(2000); //necessary for the page to load
 
-    cy.wait(2000); //necessary for the page to load
+    cy.get(
+      'div.-ml-3\\.5 > svg[width="15"][height="14"][viewBox="0 0 15 14"]',
+      {
+        timeout: 45000,
+      }
+    ).should("be.visible");
+
+    cy.reload();
+    cy.contains("Views", { timeout: 40000 }).should("be.visible");
 
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
       .first()
       .click({ force: true });
 
-    cy.wait(2000); //necessary for the page to load
+    //Make sure "Views" is visible to ensure page is loaded
+    cy.contains("Views", { timeout: 40000 }).should("be.visible");
 
-    cy.url().should("include", "partners/qa/reports/kpi-trendlines", {
-      timeout: 40000,
-    });
+    cy.url().should("include", "partners/qa/reports/kpi-trendlines");
 
-    cy.wait(2000); //necessary for the page to load
-
-    cy.get("#__next", { timeout: 15000 }).should("exist");
-    cy.wait(2000); //necessary for the page to load
     cy.contains("Summary", { timeout: 40000 }).closest("div").realHover();
-    cy.wait(2000); //necessary for the page to load
 
     cy.clickVisibleThreeDots();
-    cy.wait(2000); //necessary for the page to load
 
     cy.contains("Set as Homepage", { timeout: 40000 }).click();
-    cy.wait(2000); //necessary for the page to load
+
+    cy.get(
+      'div.-ml-3\\.5 > svg[width="15"][height="14"][viewBox="0 0 15 14"]',
+      {
+        timeout: 45000,
+      }
+    ).should("be.visible");
+
+    cy.reload();
+    cy.contains("Views", { timeout: 40000 }).should("be.visible");
 
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
       .first()
       .click({ force: true });
 
-    cy.wait(2000); //necessary for the page to load
+    //Make sure "Views" is visible to ensure page is loaded
+    cy.contains("Views", { timeout: 40000 }).should("be.visible");
 
-    cy.url().should("include", "partners/qa/reports/summary", {
-      timeout: 40000,
-    });
-    cy.wait(2000); //necessary for the page to load
+    cy.url().should("include", "partners/qa/reports/summary");
 
-    //revert to original homepage
-    cy.get("#__next", { timeout: 15000 }).should("exist");
-    cy.wait(2000); //necessary for the page to load
     cy.contains("KPI Trendlines", { timeout: 40000 })
       .closest("div")
       .realHover();
-    cy.wait(2000); //necessary for the page to load
 
     cy.clickVisibleThreeDots();
-    cy.wait(2000); //necessary for the page to load
 
     cy.contains("Set as Homepage", { timeout: 40000 }).click();
-    cy.wait(2000); //necessary for the page to load
+
+    cy.get(
+      'div.-ml-3\\.5 > svg[width="15"][height="14"][viewBox="0 0 15 14"]',
+      {
+        timeout: 45000,
+      }
+    ).should("be.visible");
+
+    cy.reload();
+    cy.contains("Views", { timeout: 40000 }).should("be.visible");
 
     cy.get("button", { timeout: 40000 })
       .filter(':has(img[alt="Logo"])')
       .first()
       .click({ force: true });
-    cy.wait(2000); //necessary for the page to load
 
-    cy.url().should("include", "partners/qa/reports/kpi-trendlines", {
-      timeout: 40000,
-    });
+    cy.url().should("include", "partners/qa/reports/kpi-trendlines");
   });
 
   it("User can open and close the sidebar menu", () => {
@@ -165,7 +170,7 @@ describe("Sanity Test Suite", () => {
     if (Cypress.isBrowser("firefox")) {
       this.skip(); // Firefox fails to drag/hover reliably in CI, so skip entirely
     }
-    
+
     //Create new view and set as default
     cy.createView(AUTOMATION_VIEW_NAME, { isDefault: true, isPublic: true });
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).should("be.visible");
@@ -177,11 +182,9 @@ describe("Sanity Test Suite", () => {
     //Hover over the "Default" view and click the 3-dots menu
     cy.contains("Default", { timeout: 40000 }).closest("div").realHover();
     cy.clickVisibleThreeDots();
-    cy.wait(1000); //necessary for elements loading
 
     //uncheck the default view
     cy.get("#isDefault", { timeout: 45000 }).click();
-    cy.wait(1000); //necessary for elements loading
 
     cy.reload({ timeout: 45000 });
     cy.get("#__next", { timeout: 45000 }).should("exist");
@@ -199,7 +202,6 @@ describe("Sanity Test Suite", () => {
     cy.reload();
     cy.get("#__next", { timeout: 45000 }).should("exist");
     // Verify it is set as public
-    cy.wait(1000); //necessary for elements loading
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
 
     cy.get("button.flex.items-center.w-full")
@@ -229,7 +231,6 @@ describe("Sanity Test Suite", () => {
     });
 
     cy.reload();
-    cy.wait(1000); //necessary for elements loading
 
     //Delete the view
     cy.contains(AUTOMATION_VIEW_NAME, { timeout: 40000 }).click();
