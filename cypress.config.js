@@ -2,7 +2,7 @@ const { defineConfig } = require("cypress");
 const fs = require("fs");
 const path = require("path");
 const SLACK_WEBHOOK_URL =
-  "https://hooks.slack.com/services/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"; //delete me later
+  "https://hooks.slack.com/services/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"; //deprecated, use inly on ci
 const SEP = "────────────────────────────────";
 const envLabel = (u) =>
   ((h) =>
